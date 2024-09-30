@@ -14,7 +14,7 @@ wp_enqueue_script('__script-upgrade-js', TAGEMBED_PLUGIN_URL . '/assets/js/upgra
 	<div class="__tagembed__fourplan" id="__tagembed__plan"></div>
 	<!--Start--All Feature Section -->
 	<div id="__tagembed__all_feacture_section" class="__tagembed__planfeatures" style="display:none;"></div>
-	<div  class="__tagembed__showallfeatures">
+	<div class="__tagembed__showallfeatures">
 		<button id="__tagembed__all_feacture_button" onclick="__tagembed__manageAllFeactureHideShow();" class="__tagembed__btn">Show All Features</button>
 	</div>
 	<!--End--All Feature Section -->

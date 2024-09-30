@@ -5,7 +5,7 @@ Tags: Instagram, LinkedIn, Facebook, Twitter, Google Reviews.
 Requires at least: 3.0
 Tested up to: 6.5.2
 Requires PHP: 5.6
-Stable tag: 6.0
+Stable tag: 6.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -324,9 +324,11 @@ No, we don’t ask for Google API, you just need to enter your location and your
 
 == Changelog ==
 
+= 6.1 =
+  * Updated API for more faster experience.
 = 6.0 =
   * Performance and Security Enhancement.
-= 5.9 =
+= 5.9=
   * Performance and Security Enhancement.
 = 5.8 =
   * Bug Fixes & some changes in code.
@@ -345,11 +347,11 @@ No, we don’t ask for Google API, you just need to enter your location and your
 = 5.1 =
   * New: Inherit feature - to automatically align your website font style & colors with widget.
 = 5.0 =
-  * New: Major chnages in the chat support widget for our users.
+  * New: Major changes in the chat support widget for our users.
 = 4.9 =
   * Bugs Fix for Instagram Feed, Facebook Feed, Twitter Feed, Google Reviews, Rss Feed, YouTube Gallery, & more.
 = 4.8 =
-  * Fix Security Nounce - for Instagram Feed, Facebook Feed, Twitter Feed, Google Reviews, Rss Feed, YouTube Gallery, & more.
+  * Fix Security Nounce - for Instagram Feed, Facebook Feed, Twitter Feed, Google Reviews, RSS Feed, YouTube Gallery, & more.
 = 4.7 =
   * New: Instagram Handle Feed - Now you can collect public Instagram Profile posts & then embed Instagram Handle Feed on website.
   * New: Facebook Page Feed - Now you can collect public Facebook Page posts & then embed Facebook Page Feed on website.
@@ -456,7 +458,7 @@ No, we don’t ask for Google API, you just need to enter your location and your
   Tested Instagram Feed, Facebook feed, Twitter Feed, YouTube video, Pinterest Feed & all other with current wordpress version.
 = 2.7 =
   Fixed PHP warnings & notices & tested upto wordpress 2.9 version.
-  Fixed bugs for Instagram Slider, Facebook Feed, Youtube Gallery,  Twitter Feed, Instagram Stories, Google Reviews & Pinterest.
+  Fixed bugs for Network like Facebook
 		Instagram feed: Now connect Instgaram account easily.
 		Tested Instagram Feed, Facebook feed, Twitter Feed, YouTube video, Pinterest Feed & all other with current wordpress version.
 = 2.6 =
@@ -535,9 +537,11 @@ No, we don’t ask for Google API, you just need to enter your location and your
 
 == Upgrade Notice ==
 
+= 6.1 =
+  * Updated API for more faster experience.
 = 6.0 =
   * Performance and Security Enhancement.
-= 5.9 =
+= 5.9=
   * Performance and Security Enhancement.
 = 5.8 =
   * Bug Fixes & some changes in code.
@@ -552,11 +556,11 @@ No, we don’t ask for Google API, you just need to enter your location and your
 = 5.3 =
   * Bug Fixes & some changes in code.
 = 5.2 =
-  *Users need to signup now instead of auto account creation.
+  * Users need to signup now instead of auto account creation.
 = 5.1 =
   * New: Inherit feature - to automatically align your website font style & colors with widget.
 = 5.0 =
-  * New: Major chnages in the chat support widget for our users.
+  * New: Major changes in the chat support widget for our users.
 = 4.9 =
   * Bugs Fix for Instagram Feed, Facebook Feed, Twitter Feed, Google Reviews, Rss Feed, YouTube Gallery, & more.
 = 4.8 =
@@ -667,7 +671,7 @@ No, we don’t ask for Google API, you just need to enter your location and your
   Tested Instagram Feed, Facebook feed, Twitter Feed, YouTube video, Pinterest Feed & all other with current wordpress version.
 = 2.7 =
   Fixed PHP warnings & notices & tested upto wordpress 2.9 version.
-  Fixed bugs for Instagram Slider, Facebook Feed, Youtube Gallery,  Twitter Feed, Instagram Stories, Google Reviews & Pinterest.
+  Fixed bugs for Network like Facebook
 Instagram feed: Now connect Instgaram account easily.
 Tested Instagram Feed, Facebook feed, Twitter Feed, YouTube video, Pinterest Feed & all other with current wordpress version.
 = 2.6 =

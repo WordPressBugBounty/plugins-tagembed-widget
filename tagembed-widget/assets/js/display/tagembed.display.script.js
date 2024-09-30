@@ -36,7 +36,7 @@ function __tagembed__manageEmbedCode() {
     if (widgetData) {
         let __tagembed__widgetId = widgetData.selectedOptions[0].value.split('#')[0];
         /*__tagembed__html_embed_code.value = `<div class="tagembed-container" style=" width:100%;height:100%;overflow: auto;"><div class="tagembed-socialwall" data-wall-id="${__tagembed__widgetId}"></div><script src="//widget.tagembed.com/embed.min.js" type="text/javascript"></script></div>`;*/
-        __tagembed__html_embed_code.value = `<div class="tagembed-widget" style="width:100%;height:100%" data-widget-id="${__tagembed__widgetId}" view-url="https://widget.tagembed.com/152921"></div>`;
+        __tagembed__html_embed_code.value = `<div class="tagembed-widget" style="width:100%;height:100%" data-widget-id="${__tagembed__widgetId}" view-url="https://widget.tagembed.com/${__tagembed__widgetId}"></div>`;
         __tagembed__iframe_embed_code.value = `<iframe src="${__tagembed__plugin_react_url + __tagembed__widgetId}?view" style=" width:100%;height:500px;overflow: auto;" frameborder="0" allowtransparency="true"></iframe>`;
     }
 }
