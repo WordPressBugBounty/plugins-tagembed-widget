@@ -52,8 +52,8 @@ function __tagembed__manageSelectPlanPrice(timePeriod) {
 window.addEventListener ? window.addEventListener("load", __tagembed__get_account_details, false) : window.attachEvent && window.attachEvent("onload", __tagembed__get_account_details);
 function __tagembed__get_account_details() {
 	let __tagembed__all_feacture_section = document.querySelector("#__tagembed__all_feacture_section");
-	let allFeactureRemovableKeys = ['id', 'created', 'modified', 'webEmbed', 'status', 'collaborator', 'collaboratorStatus', 'themes', 'updatesIntervalCron', 'unitCron', 'retainPost'];
-	let allFeactureIcons = ['apiLimit', 'name', 'retainPostCount', 'support', 'walls', 'feeds', 'linkedinFeed', 'linkedinFeed', 'twitterFeed', 'viewCount']
+	let allFeactureRemovableKeys = ['id', 'created', 'modified', 'webEmbed', 'status', 'collaborator', 'collaboratorStatus', 'themes', 'updatesIntervalCron', 'unit_cron', 'retainPost'];
+	let allFeactureIcons = ['apiLimit', 'name', 'retainPostCount', 'support', 'walls', 'feeds', 'linkedInFeedLimit', 'linkedInFeedLimit', 'twitterFeedLimit', 'viewCount']
 	let freeTrialPlanIds = ['1'];
 	let __tagembed__plan = document.querySelector("#__tagembed__plan");
 	let __tagembed__toast = new TagembedToast;
@@ -147,15 +147,15 @@ function __tagembed__get_account_details() {
 						elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />${response.data.Product[indexx][indexxx].PlanRule.feeds} ${response.data.Product[indexx][indexxx].Plan.id == 67 ? `Feed` : `Feeds`}</li>`;
 						elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />${response.data.Product[indexx][indexxx].PlanRule.viewCount} Views/Month</li>`;
 						if (response.data.Product[indexx][indexxx].Plan.id != 67) {
-							if (response.data.Product[indexx][indexxx].PlanRule.linkedinFeed != 0) {
-								elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />LinkedIn Auto Update (Max 2 Feeds)</li>`;
+							if (response.data.Product[indexx][indexxx].PlanRule.linkedInFeedLimit != 0) {
+								elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />LinkedIn Auto Update (Max ${response.data.Product[indexx][indexxx].PlanRule.linkedInFeedLimit} Feeds)</li>`;
 							} else {
 								elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />LinkedIn Manual</li>`;
 							}
 						} else {
 							elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-cross.svg" alt="no-access" />LinkedIn Feed</li>`;
 						}
-						elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />${response.data.Product[indexx][indexxx].PlanRule.updatesIntervalCron} ${(response.data.Product[indexx][indexxx].PlanRule.unitCron == 3600) ? "Hours" : "Mins"}  Update Time</li>`;
+						elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />${response.data.Product[indexx][indexxx].PlanRule.updatesIntervalCron} ${(response.data.Product[indexx][indexxx].PlanRule.unit_cron == 3600) ? "Hours" : "Mins"}  Update Time</li>`;
 						if (response.data.Product[indexx][indexxx].PlanRule.customCss == 0) {
 							elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-cross.svg" alt="no-access" />No Custom CSS</li>`;
 						} else {

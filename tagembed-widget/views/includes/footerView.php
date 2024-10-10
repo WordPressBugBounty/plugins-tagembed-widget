@@ -3,12 +3,18 @@
 	<script type="text/javascript">
 		/*--Start-- Manage Intercom Chat And Setting Data */
 		window.addEventListener ? window.addEventListener("load", __tagembed__getAndManageIntercomSetting, false) : window.attachEvent && window.attachEvent("onload", __tagembed__getAndManageIntercomSetting);
-		function __tagembed__getAndManageIntercomSetting() { 
+
+		function __tagembed__getAndManageIntercomSetting() {
 			let formData = new FormData();
 			formData.append('action', 'data');
 			formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 			formData.append('__tagembed__ajax_action', '__tagembed__get_and_manage_intercom_chat_setting');
-			fetch(__tagembed__ajax_url, {method: 'POST', headers: {'x-requested-with': 'XMLHttpRequest'}, body: formData,
+			fetch(__tagembed__ajax_url, {
+				method: 'POST',
+				headers: {
+					'x-requested-with': 'XMLHttpRequest'
+				},
+				body: formData,
 			}).then(response => {
 				return response.json();
 			}).then(response => {
@@ -38,15 +44,15 @@
 						ic('update', w.intercomSettings);
 					} else {
 						var d = document;
-						var i = function () {
+						var i = function() {
 							i.c(arguments);
 						};
 						i.q = [];
-						i.c = function (args) {
+						i.c = function(args) {
 							i.q.push(args);
 						};
 						w.Intercom = i;
-						var l = function () {
+						var l = function() {
 							var s = d.createElement('script');
 							s.type = 'text/javascript';
 							s.async = true;
@@ -71,6 +77,7 @@
 		/*--End-- Manage Intercom Chat And Setting Data */
 		/*--Start-- Manage Hide And Show plugin Upgrade Message*/
 		window.addEventListener ? window.addEventListener("load", __tagembed__plugin_version, false) : window.attachEvent && window.attachEvent("onload", __tagembed__plugin_version);
+
 		function __tagembed__plugin_version() {
 			let __tagembed__toast = new TagembedToast;
 			let formData = new FormData();
@@ -103,13 +110,20 @@
 						document.getElementById("__tagembed__plugin_upgrade_message").innerHTML = elemHTML;
 					}
 				} else {
-					__tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+					__tagembed__toast.danger({
+						message: "Something went wrong. Please try after sometime",
+						position: '__tagembed__is-top-right'
+					});
 				}
 			}).catch((error) => {
 				console.log(error);
-				__tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+				__tagembed__toast.danger({
+					message: "Something went wrong. Please try after sometime",
+					position: '__tagembed__is-top-right'
+				});
 			});
 		}
+
 		function __tagembed__hide_plugin_upgrade_message() {
 			let __tagembed__plugin_upgrade_message = document.querySelector("#__tagembed__plugin_upgrade_message")
 			__tagembed__plugin_upgrade_message.style.display = "none";
@@ -126,9 +140,17 @@
 </div>
 </div>
 <!-- Other Default WordPress Css -->
-<style> #footer-thankyou {font-style: normal !important;}</style>
+<style>
+	#footer-thankyou {
+		font-style: normal !important;
+	}
+</style>
 <?php if (4	!=	$__tagembed__active_menue_id) : ?>
-	<style> body{min-height: auto!important;} </style>
+	<style>
+		body {
+			min-height: auto !important;
+		}
+	</style>
 <?php endif; ?>
 <?php if (6	==	$__tagembed__active_menue_id) : ?>
 	<script>
@@ -137,6 +159,7 @@
 		let __tagembed__accordionItemHeading = document.getElementsByClassName('__tagembed__accordionItemHeading');
 		for (i = 0; i < __tagembed__accordionItemHeading.length; i++)
 			__tagembed__accordionItemHeading[i].addEventListener('click', __tagembed__toggleAccodionSection, false);
+
 		function __tagembed__toggleAccodionSection() {
 			let __tagembed__accordionSectionClass = this.parentNode.className;
 			for (i = 0; i < __tagembed__accordionItem.length; i++)
@@ -156,34 +179,34 @@
 		let __tagembed__next_and_back_link_main_section = document.querySelector("#__tagembed__next_and_back_link_main_section");
 		__tagembed__next_and_back_link_main_section.innerHTML = "";
 		let __tagembed__nextAndBackLinkSectionStyle = "block";
-		let __tagembed__widgets_count = "<?php	echo	esc_html($__tagembed__widgets_count);	?>";
-		let __tagembed__active_menue_id = "<?php	echo	esc_html($__tagembed__active_menue_id);	?>";
+		let __tagembed__widgets_count = "<?php echo	esc_html($__tagembed__widgets_count);	?>";
+		let __tagembed__active_menue_id = "<?php echo	esc_html($__tagembed__active_menue_id);	?>";
 		if (__tagembed__widgets_count == 0) {
 			__tagembed__nextAndBackLinkSectionStyle = "none";
 		}
 		switch (__tagembed__active_menue_id) {
-			case "1" :
+			case "1":
 				__tagembed__nextLink = "2";
 				__tagembed__backLink = null;
 				break;
-			case "2" :
+			case "2":
 				__tagembed__nextLink = "3";
 				__tagembed__backLink = "1";
 				__tagembed__nextAndBackLinkSectionStyle = "none"; /* Show In tagembed.feed.script.js */
 				break;
-			case "3" :
+			case "3":
 				__tagembed__nextLink = "4";
 				__tagembed__backLink = "2";
 				break;
-			case "4" :
+			case "4":
 				__tagembed__nextLink = "5";
 				__tagembed__backLink = "3";
 				break;
-			case "5" :
+			case "5":
 				__tagembed__nextLink = "6";
 				__tagembed__backLink = "4";
 				break;
-			case "6" :
+			case "6":
 				__tagembed__nextLink = null;
 				__tagembed__backLink = "5";
 				break;
@@ -207,9 +230,9 @@
 </script>
 <!--Start--Clarity Tracking Code -->
 <script type="text/javascript">
-	document.addEventListener('DOMContentLoaded', function () {
-		(function (c, l, a, r, i, t, y) {
-			c[a] = c[a] || function () {
+	document.addEventListener('DOMContentLoaded', function() {
+		(function(c, l, a, r, i, t, y) {
+			c[a] = c[a] || function() {
 				(c[a].q = c[a].q || []).push(arguments)
 			};
 			t = l.createElement(r);
@@ -218,7 +241,7 @@
 			y = l.getElementsByTagName(r)[0];
 			y.parentNode.insertBefore(t, y);
 		})(window, document, "clarity", "script", "jz1bviq7un");
-		var __tagembed__userEmailIdForClarity = "<?php	echo	esc_html($__tagembed__active_widget_user_email_id);	?>";
+		var __tagembed__userEmailIdForClarity = "<?php echo	esc_html($__tagembed__active_widget_user_email_id);	?>";
 		clarity("set", "userEmail", __tagembed__userEmailIdForClarity);
 		clarity("set", "type", "wordpress");
 	});

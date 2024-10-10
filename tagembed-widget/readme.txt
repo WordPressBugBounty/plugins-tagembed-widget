@@ -5,7 +5,7 @@ Tags: Instagram, LinkedIn, Facebook, Twitter, Google Reviews.
 Requires at least: 3.0
 Tested up to: 6.5.2
 Requires PHP: 5.6
-Stable tag: 6.1
+Stable tag: 6.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -324,6 +324,8 @@ No, we don’t ask for Google API, you just need to enter your location and your
 
 == Changelog ==
 
+= 6.2 =
+Server Optimization
 = 6.1 =
   * Updated API for more faster experience.
 = 6.0 =
@@ -537,6 +539,8 @@ No, we don’t ask for Google API, you just need to enter your location and your
 
 == Upgrade Notice ==
 
+= 6.2 =
+Server Optimization
 = 6.1 =
   * Updated API for more faster experience.
 = 6.0 =
