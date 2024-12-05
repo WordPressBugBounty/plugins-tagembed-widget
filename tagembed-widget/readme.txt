@@ -5,7 +5,7 @@ Tags: Instagram, LinkedIn, Facebook, Twitter, Google Reviews.
 Requires at least: 3.0
 Tested up to: 6.5.2
 Requires PHP: 5.6
-Stable tag: 6.2
+Stable tag: 6.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -323,7 +323,8 @@ To collect more Google reviews, simply add reviews us button on the banner of th
 No, we don’t ask for Google API, you just need to enter your location and your reviews will fetch.
 
 == Changelog ==
-
+= 6.3 =
+  * Meta API update for Instagram users.
 = 6.2 =
 Server Optimization
 = 6.1 =
@@ -538,7 +539,8 @@ Server Optimization
   * First Release - This is the first release of Tagembed Social Media Feeds WordPress Plugin. If you find any issues, please contact us on [tagembed.com](https://tagembed.com/contact-us/)
 
 == Upgrade Notice ==
-
+= 6.3 =
+  * Meta API update for Instagram users.
 = 6.2 =
 Server Optimization
 = 6.1 =

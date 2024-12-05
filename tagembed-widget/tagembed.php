@@ -4,7 +4,7 @@
  * Plugin Name:       Tagembed Widget
  * Plugin URI:        https://tagembed.com/
  * Description:       Display Facebook feed, Instagram feed, Twitter feed, YouTube Videos and more social feeds from 15+ social networks on any page, posts or widgets using shortcode. Beautifully clean, customizable, and responsive Social Media Feed Widget Plugin for WordPress.
- * Version:           6.2
+ * Version:           6.3
  * Author:            Tagembed
  * Author URI:        https://tagembed.com/
  */
@@ -12,7 +12,7 @@ if (!defined('WPINC')) :
 	die;
 endif;
 /* --Start-- Create Constant */
-!defined('TAGEMBED_PLUGIN_VERSION') && define('TAGEMBED_PLUGIN_VERSION', '6.2');
+!defined('TAGEMBED_PLUGIN_VERSION') && define('TAGEMBED_PLUGIN_VERSION', '6.3');
 !defined('TAGEMBED_PLUGIN_DIR_PATH') && define('TAGEMBED_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 !defined('TAGEMBED_PLUGIN_URL') && define('TAGEMBED_PLUGIN_URL', plugin_dir_url(__FILE__));
 !defined('TAGEMBED_PLUGIN_REDIRECT_URL') && define('TAGEMBED_PLUGIN_REDIRECT_URL', get_admin_url(null, 'admin.php?page='));

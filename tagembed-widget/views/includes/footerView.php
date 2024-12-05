@@ -26,14 +26,7 @@
 						email: response.data.email,
 						user_id: response.data.userId,
 						user_hash: response.data.userHash,
-						billing_email: response.data.billingEmail,
 						name: response.data.name,
-						created_at: response.data.created,
-						user_type: response.data.type,
-						plan: response.data.plan,
-						active_plan: response.data.activePlan,
-						product: response.data.product,
-						active_product: response.data.activeProduct
 					};
 					/*--End--Manage Intercom Setting Data*/
 					/*--Start--Manage Intercom Calling Script*/
