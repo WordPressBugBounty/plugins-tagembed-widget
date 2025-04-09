@@ -22,7 +22,7 @@
 					/*--Start--Manage Intercom Setting Data*/
 					window.intercomSettings = {
 						api_base: "https://api-iam.intercom.io",
-						app_id: "t8e1b7uq",
+						app_id: "veiaqij8",
 						email: response.data.email,
 						user_id: response.data.userId,
 						user_hash: response.data.userHash,
@@ -49,7 +49,7 @@
 							var s = d.createElement('script');
 							s.type = 'text/javascript';
 							s.async = true;
-							s.src = 'https://widget.intercom.io/widget/t8e1b7uq';
+							s.src = 'https://widget.intercom.io/widget/veiaqij8';
 							var x = d.getElementsByTagName('script')[0];
 							x.parentNode.insertBefore(s, x);
 						};

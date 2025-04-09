@@ -1,11 +1,12 @@
+
 === Tagembed: Embed Twitter Feed, Google Reviews, YouTube Videos, TikTok, RSS Feed & More Social Media Feeds ===
 Donate link: https://tagembed.com/
 Plugin Name: Tagembed: Embed Twitter Feed, Google Reviews, YouTube Videos, TikTok, RSS Feed & More Social Media Feeds
 Tags: Instagram, LinkedIn, Facebook, Twitter, Google Reviews.
 Requires at least: 3.0
-Tested up to: 6.5.2
+Tested up to: 6.7.2
 Requires PHP: 5.6
-Stable tag: 6.3
+Stable tag: 6.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -81,7 +82,7 @@ https://www.youtube.com/watch?v=svEiOzrvMQg
 
 We give 14-days free trial. So that the user can explore every feature before buying.
 
-Lite Plan: **Forever Free** includes
+Free Plan: **Forever Free** includes
 
 * 1 Feed (like Instagram Feed, Facebook feed)
 * 500 Views/Month
@@ -187,7 +188,7 @@ Lite Plan: **Forever Free** includes
 * Click on the Display tab & preview the LinkedIn Posts & Copy Shortcode to [Embed LinkedIn Feed on WordPress](https://tagembed.com/support/embed-linkedin-feeds-on-wordpress/).
 * Paste the code on your desired page or post & update it to embed LinkedIn Feed Widget successfully.
 
-**Note:** Company Page URL, Profile & Hashtag – For LinkedIn Widget users this method is only available with the **Plus Plan**.
+**Note:** Company Page URL, Profile & Hashtag – For LinkedIn Widget users this method is only available with the **Advance Plan**.
 
 == Review Feeds: ==
 
@@ -323,6 +324,8 @@ To collect more Google reviews, simply add reviews us button on the banner of th
 No, we don’t ask for Google API, you just need to enter your location and your reviews will fetch.
 
 == Changelog ==
+= 6.4 =
+  * Bug Fixes & some changes in code.
 = 6.3 =
   * Meta API update for Instagram users.
 = 6.2 =
@@ -539,6 +542,9 @@ Server Optimization
   * First Release - This is the first release of Tagembed Social Media Feeds WordPress Plugin. If you find any issues, please contact us on [tagembed.com](https://tagembed.com/contact-us/)
 
 == Upgrade Notice ==
+= 6.4 =
+  * Bug Fixes & some changes in code.
+= 6.3 =
 = 6.3 =
   * Meta API update for Instagram users.
 = 6.2 =
@@ -753,3 +759,6 @@ Tested Instagram Feed, Facebook feed, Twitter Feed, YouTube video, Pinterest Fee
   Fix - Fixed Bugs for Linkedin Post, Instagram Feed & Facebook Feed also Improved Design for the better view of the plugin.
 = 1.0 =
   * First Release - This is the first release of Tagembed Social Media Feeds WordPress Plugin. If you find any issues, please contact us on [tagembed.com](https://tagembed.com/contact-us/)
+apps-fileview.texmex_20250326.09_p1
+readme.txt
+Displaying readme.txt.
