@@ -2,14 +2,15 @@
 function __tagembed__create_feed(__tagembed__feed_data, useCommonInput = true) {
     let __tagembed__toast = new TagembedToast;
     if (Object.keys(__tagembed__feed_data).length === 0)
-        __tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+        __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
     /*
      if (useCommonInput)
      __tagembed__feed_data.inputs = __tagembed__feed_data.inputs.concat([{label: 'Manually approve posts before making them public?', type: 'checkbox', name: 'moderation'}]);
      */
     __tagembed__feed_data.networkName = __tagembed__feed_data.networkId == 2 ? 'Instagram' : __tagembed__feed_data.networkName;
-    __tagembed__dialog_form({popupSize: '__tagembed__popup_md', title: 'Create ' + __tagembed__feed_data.networkName + ' ' + __tagembed__feed_data.filterName + ' Feed',
-        form: {method: 'post', buttonText: 'Create'},
+    __tagembed__dialog_form({
+        popupSize: '__tagembed__popup_md', title: 'Create ' + __tagembed__feed_data.networkName + ' ' + __tagembed__feed_data.filterName + ' Feed',
+        form: { method: 'post', buttonText: 'Create' },
         inputs: __tagembed__feed_data.inputs,
         cancelAction: function () {
             document.querySelector("#__tagembed__feed_filters").selectedIndex = 0;
@@ -65,13 +66,14 @@ function __tagembed__create_feed(__tagembed__feed_data, useCommonInput = true) {
                 if (response.status == true) {
                     document.querySelector('#__tagembed__dialog_form_id_').remove();
                     /* window.open(response.data.redirectUrl + '?__tagembed__feedData=' + response.data.__tagembed__feedData + '&__tagembed__requestCallBackUrl=' + response.data.__tagembed__requestCallBackUrl, '_self');*/
-                    let  __tagembed__Url = response.data.redirectUrl + '?__tagembed__feedData=' + response.data.__tagembed__feedData + '&__tagembed__requestCallBackUrl=' + response.data.__tagembed__requestCallBackUrl;
+                    let __tagembed__Url = response.data.redirectUrl + '?__tagembed__feedData=' + response.data.__tagembed__feedData + '&__tagembed__requestCallBackUrl=' + response.data.__tagembed__requestCallBackUrl;
                     /*__tagmebed__openWindowPopup(__tagembed__Url);*/
                     if (!response.data.byapiCall) {
                         __tagmebed__openWindowPopup(__tagembed__Url);
                     } else {
                         /*--Start-- Feed Create By Api Call*/
-                        fetch(__tagembed__Url, {method: 'GET', /*headers: {'x-requested-with': 'XMLHttpRequest'},*/
+                        fetch(__tagembed__Url, {
+                            method: 'GET', /*headers: {'x-requested-with': 'XMLHttpRequest'},*/
                         }).then(response => {
                             return response.json();
                         }).then(response => {
@@ -100,16 +102,16 @@ function __tagembed__create_feed(__tagembed__feed_data, useCommonInput = true) {
                         }
                     } else {
                         if (response.hasOwnProperty("message")) {
-                            __tagembed__toast.danger({message: response.message, position: '__tagembed__is-top-right'});
+                            __tagembed__toast.danger({ message: response.message, position: '__tagembed__is-top-right' });
                         } else {
-                            __tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+                            __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
                         }
                     }
                 }
             }).catch((error) => {
                 console.log(error);
                 __tagembed__close_loader();
-                __tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+                __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
             });
         }
     });

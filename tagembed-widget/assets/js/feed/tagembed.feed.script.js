@@ -63,9 +63,9 @@ if (__tagembed__feed_filters) {
 			case "23":
 				__tagembed__createAirbnbFeed(__tagembed__feed_data);
 				break;
-			//	    case"28":
-			//		__tagembed__createCapeterraFeed(__tagembed__feed_data);
-			//		break;
+			/*case"28":
+			__tagembed__createCapeterraFeed(__tagembed__feed_data);
+			break;*/
 			case "36":
 				__tagembed__createEtsyFeed(__tagembed__feed_data);
 				break;

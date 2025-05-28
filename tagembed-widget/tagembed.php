@@ -4,28 +4,29 @@
  * Plugin Name:       Tagembed Widget
  * Plugin URI:        https://tagembed.com/
  * Description:       Display Facebook feed, Instagram feed, Twitter feed, YouTube Videos and more social feeds from 15+ social networks on any page, posts or widgets using shortcode. Beautifully clean, customizable, and responsive Social Media Feed Widget Plugin for WordPress.
- * Version:           6.4
+ * Version:           6.5
  * Author:            Tagembed
  * Author URI:        https://tagembed.com/
  */
 if (!defined('WPINC')) :
 	die;
 endif;
+
 /* --Start-- Create Constant */
-!defined('TAGEMBED_PLUGIN_VERSION') && define('TAGEMBED_PLUGIN_VERSION', '6.4');
+!defined('TAGEMBED_PLUGIN_VERSION') && define('TAGEMBED_PLUGIN_VERSION', '6.5');
 !defined('TAGEMBED_PLUGIN_DIR_PATH') && define('TAGEMBED_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 !defined('TAGEMBED_PLUGIN_URL') && define('TAGEMBED_PLUGIN_URL', plugin_dir_url(__FILE__));
 !defined('TAGEMBED_PLUGIN_REDIRECT_URL') && define('TAGEMBED_PLUGIN_REDIRECT_URL', get_admin_url(null, 'admin.php?page='));
-
 !defined('TAGEMBED_PLUGIN_API_URL') && define('TAGEMBED_PLUGIN_API_URL', 'https://api.tagembed.com/app/');
 !defined('TAGEMBED_PLUGIN_SERVER_URL') && define('TAGEMBED_PLUGIN_SERVER_URL', 'https://api.tagembed.com/app/');
-
 !defined('TAGEMBED_PLUGIN_REACT_URL') && define('TAGEMBED_PLUGIN_REACT_URL', 'https://widget.tagembed.com/');
 !defined('TAGEMBED_PLUGIN_CALL_BACK_URL') && define('TAGEMBED_PLUGIN_CALL_BACK_URL', admin_url() . 'admin.php?page=tagembed');
 /* --End-- Create Constant */
+
 /* --Start--Include Files */
 require_once TAGEMBED_PLUGIN_DIR_PATH . 'helper/helper.php';
 /* --End--Include Files */
+
 /* --Start-- Add Js And Css */
 function tagembed_plugin_scripts_css()
 {
@@ -64,13 +65,14 @@ add_filter(
 		if ('embbedJs' !== $handle) :
 			return $tag;
 		else :
-			return str_replace(' src', ' defer src', $tag);
+			return str_replace('src', 'defer src', $tag);
 		endif;
 	},
 	10,
 	2
 );
 /* --End-- Add Js And Css */
+
 /* --Start-- Add Menus */
 function ___tagembed__plugin_menus()
 {
@@ -106,11 +108,11 @@ function ___tagembed__plugin_menus()
 }
 add_action('admin_menu', '___tagembed__plugin_menus');
 /* --End-- Add Menus */
+
 /* --Start-- Add & Manage Views */
 function ___tagembed__view()
 {
 	if (!empty(___tagembed__user()->isLogin) && ___tagembed__user()->isLogin == 'yes') :
-		/* Remove This */ /* $__tagembed__menus = ___tagembed__menus(['__tagembed__menu_condation' => 'STATUS = 1']); */
 		$__tagembed__menus = ___tagembed__menus(['__tagembed__menu_condation' => 1]);
 		if (empty($__tagembed__menus)) :
 			include_once TAGEMBED_PLUGIN_DIR_PATH . 'views/widget/widgetView.php';
@@ -122,6 +124,7 @@ function ___tagembed__view()
 	endif;
 }
 /* --End-- Add & Manage Views */
+
 /* --Start-- Feed Count For First Time Create */
 function ___tagembed__get_feed_count_information($userDetails, $networkId)
 {
@@ -133,6 +136,7 @@ function ___tagembed__get_feed_count_information($userDetails, $networkId)
 	endif;
 }
 /* --End-- Feed Count For First Time Create */
+
 /* --Start-- Manage Ajax Calls */
 add_action('wp_ajax_data', '___tagembed__dataAjaxHandler');
 function ___tagembed__dataAjaxHandler()
@@ -267,9 +271,6 @@ function ___tagembed__dataAjaxHandler()
 			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiwidget/edit', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
-			echo '<pre>';
-			print_r($response);
-			die;
 			unset($param);
 			$response = ___tagembed__manageApiResponse($response);
 			$response = !empty($response->message) ? $response->message : 'Done';
@@ -1181,6 +1182,7 @@ function ___tagembed__dataAjaxHandler()
 	endswitch;
 }
 /* --End-- Manage Ajax Calls */
+
 /* --Start-- Manage Login And Register On Plugin Activate */
 function ___tagembed__manageLoginAndRegisterOnPluginActivate()
 {
@@ -1211,6 +1213,7 @@ function ___tagembed__manageLoginAndRegisterOnPluginActivate()
 	endif;
 }
 /* --End-- Manage Login And Register On Plugin Activate */
+
 /* --Start-- Login */
 function ___tagembed__login($response)
 {
@@ -1233,6 +1236,7 @@ function ___tagembed__login($response)
 	return $return;
 }
 /* --End-- Login */
+
 /* --Start-- Manage Active Options */
 function ___tagembed__manageActiveOptions($email = null, $other = null)
 {
@@ -1249,6 +1253,7 @@ function ___tagembed__manageActiveOptions($email = null, $other = null)
 	endif;
 }
 /* --End-- Manage Active Options */
+
 /* --Start--Get User Last Login Email Id */
 function ___tagembed__getActiveOptions()
 {
@@ -1257,6 +1262,7 @@ function ___tagembed__getActiveOptions()
 	return $__tagembed__activeOptions;
 }
 /* --End--Get User last Login Email Id */
+
 /* --Start-- Logout */
 function tagembed_logout()
 {
@@ -1268,6 +1274,7 @@ function tagembed_logout()
 	return false;
 }
 /* --End-- Logout */
+
 /* --Start--Manage Menues */
 function ___tagembed__menus($__tagembed__menu_condatation = [])
 {
@@ -1287,6 +1294,7 @@ function ___tagembed__menus($__tagembed__menu_condatation = [])
 	endif;
 }
 /* --End--Manage Menues */
+
 /* --Start-- Get User Details */
 function ___tagembed__user($email = null)
 {
@@ -1315,6 +1323,7 @@ function ___tagembed__userData()
 	endif;
 }
 /* --End-- Get User Details */
+
 /* --Start-- Get Widget */
 function ___tagembed__widgets()
 {
@@ -1333,6 +1342,7 @@ function ___tagembed__widgets()
 	return $returnWidgetData;
 }
 /* --End-- Get Widget */
+
 /* --Start-- Get Active Widget */
 function ___tagembed__activeWidget()
 {
@@ -1346,6 +1356,7 @@ function ___tagembed__activeWidget()
 	endif;
 }
 /* --End-- Get Active Widget */
+
 /* --Start-- Manage Active Widget User */
 function ___tagembed__manageActiveWidget($widgetId)
 {
@@ -1365,6 +1376,7 @@ function ___tagembed__manageActiveWidget($widgetId)
 	return false;
 }
 /* --End-- Manage Active Widget User */
+
 /* --Start-- Get Active Widget User */
 function ___tagembed__activeWidgetUser()
 {
@@ -1377,6 +1389,7 @@ function ___tagembed__activeWidgetUser()
 	return;
 }
 /* --End-- Get Active Widget User */
+
 /* --Start-- Manage Active Widget User */
 function ___tagembed__manageActiveWidgetsUser($userId)
 {
@@ -1396,6 +1409,7 @@ function ___tagembed__manageActiveWidgetsUser($userId)
 	return false;
 }
 /* --End-- Manage Active Widget User */
+
 /* * ** DATABASE *** */
 /* --Start-- Manage Database */
 function ___tagembed__createDatabaseTableForPlugin()
@@ -1425,6 +1439,7 @@ function ___tagembed__dropDatabaseTablesForPlugin()
 	$wpdb->query('DROP table IF EXISTS  wp_tagembed_menus');
 }
 /* --End-- Manage Database */
+
 /* --Start-- Manage Active Deactive And Uninstall Webhook */
 register_activation_hook(__FILE__, '___tagembed__pluginActivate');
 function ___tagembed__pluginActivate()
@@ -1441,12 +1456,8 @@ function ___tagembed__pluginUnistall()
 	$wpdb->query('DROP table IF EXISTS  wp_tagembed_active_options');
 	$wpdb->query('DROP table IF EXISTS  wp_tagembed_user');
 }
-/* register_deactivation_hook(__FILE__,	'__tagembed__pluginDeactivate');
-  function	__tagembed__pluginDeactivate()	{
-  ___tagembed__dropDatabaseTablesForPlugin();
-  $wpdb->query('DROP table IF EXISTS  wp_tagembed_user');
-  } */
 /* --End-- Manage Active Deactive And Uninstall Webhook */
+
 /* --Start--Manage Redirect After Plugin Activate */
 function ___tagembed__plginActivationRedirect()
 {
@@ -1460,6 +1471,7 @@ function ___tagembed__plginActivationRedirect()
 	/* exit(wp_redirect(TAGEMBED_PLUGIN_CALL_BACK_URL)); */
 }
 /* --End--Manage Redirect After Plugin Activate */
+
 /* --Start--Manage Setting Link */
 function ___tagembed__settingsLink($links)
 {
@@ -1468,6 +1480,7 @@ function ___tagembed__settingsLink($links)
 }
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), '___tagembed__settingsLink');
 /* --End--Manage Setting Link */
+
 /* --Start--Manage Database On Plugin Update Time */
 function ___tagembed__manageDatabaseOnPluginUpdateTime()
 {
@@ -1478,6 +1491,7 @@ function ___tagembed__manageDatabaseOnPluginUpdateTime()
 }
 add_action('upgrader_process_complete', '___tagembed__manageDatabaseOnPluginUpdateTime', 10, 2);
 /* --End--Manage Database On Plugin Update Time */
+
 /* --Sart--Get And Manage Social Accout Id */
 function ___tagembed__get_user_social_account_id()
 {
@@ -1495,6 +1509,7 @@ function ___tagembed__get_user_social_account_id()
 	return false;
 }
 /* --End--Get And Manage Social Accout Id */
+
 /* --Start-- Show Admin General Notification After Login And Register */
 function ___tagembed__generalAdminNotice()
 {
@@ -1546,11 +1561,10 @@ function ___tagembed__hideGeneralAdminNotice()
 }
 /* --End-- Show Admin General Notification After Login And Register */
 /* --End-- Drop Database Table */
+
 /* --Start-- Create Short Code */
 function ___tagembed__PluginShortCode($__tagembed__shortCodeAttr)
 {
-	/* extract(shortcode_atts(['width' => '', 'height' => '',], $attr, 'tagembed'));
-      $widgetId = isset($attr[1]) ? $attr[1] : ''; */
 	$__tagembed__shortCodeDefaultAttr = ['width' => '', 'height' => '', 1 => ''];
 	$__tagembed__shortCodeAttr = shortcode_atts($__tagembed__shortCodeDefaultAttr, $__tagembed__shortCodeAttr, 'tagembed');
 	$width = isset($__tagembed__shortCodeAttr['width']) ? sanitize_text_field($__tagembed__shortCodeAttr['width']) : '';
