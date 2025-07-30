@@ -4,9 +4,9 @@ Donate link: https://tagembed.com/
 Plugin Name: Tagembed: Embed Twitter Feed, Google Reviews, YouTube Videos, TikTok, RSS Feed & More Social Media Feeds
 Tags: Instagram, LinkedIn, Facebook, Twitter, Google Reviews.
 Requires at least: 3.0
-Tested up to: 6.7.2
+Tested up to: 6.8.2
 Requires PHP: 5.6
-Stable tag: 6.5
+Stable tag: 6.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -324,8 +324,12 @@ To collect more Google reviews, simply add reviews us button on the banner of th
 No, we don’t ask for Google API, you just need to enter your location and your reviews will fetch.
 
 == Changelog ==
+= 6.7 =
+  * Added new field in registration form.
+= 6.6 =
+  * Bug Fixes & some changes in code.
 = 6.5 =
-  * Database Optimization.
+  * Bug Fixes & some changes in code.
 = 6.4 =
   * Bug Fixes & some changes in code.
 = 6.3 =
@@ -544,15 +548,18 @@ Server Optimization
   * First Release - This is the first release of Tagembed Social Media Feeds WordPress Plugin. If you find any issues, please contact us on [tagembed.com](https://tagembed.com/contact-us/)
 
 == Upgrade Notice ==
+= 6.7 =
+  * Added new field in registration form
+= 6.6 =
+  * Bug Fixes & some changes in code.
 = 6.5 =
-  * Database Optimization.
+  * Bug Fixes & some changes in code.
 = 6.4 =
   * Bug Fixes & some changes in code.
 = 6.3 =
-= 6.3 =
   * Meta API update for Instagram users.
 = 6.2 =
-Server Optimization
+  * Server Optimization
 = 6.1 =
   * Updated API for more faster experience.
 = 6.0 =

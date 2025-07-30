@@ -21,15 +21,15 @@ wp_enqueue_script('__script-account-js', TAGEMBED_PLUGIN_URL . '/assets/js/accou
 			<p>Enter your email and password</p>
 			<form action="javascript:void(0);" id="__tagembed__login_form">
 				<div class="__tagembed__form_row">
-					<input type="email" name="emailId" value=""  placeholder="Email" required autofocus>
+					<input type="email" name="emailId" value="" placeholder="Email" required autofocus>
 					<span id="__tagembed__login_email_id_error"></span>
 				</div>
 				<div class="__tagembed__form_row">
-					<input type="password" name="password"  value=""   placeholder="Password" required>
+					<input type="password" name="password" value="" placeholder="Password" required>
 					<span id="__tagembed__login_password_error"></span>
 				</div>
 				<div class="__tagembed__submit_sec">
-					<a href="https://app.tagembed.com/accounts/forgotpassword/" target="_blank" >Forgot Password</a>
+					<a href="https://app.tagembed.com/accounts/forgotpassword/" target="_blank">Forgot Password</a>
 					<a href="javascript:void(0);" onclick="__tagembed__manage_account_view('forgotPassword')"></a>
 					<button type="submit" class="__tagembed__btn">Sign In</button>
 				</div>
@@ -44,17 +44,21 @@ wp_enqueue_script('__script-account-js', TAGEMBED_PLUGIN_URL . '/assets/js/accou
 			<p>Enter your details to create your account</p>
 			<form action="javascript:void(0);" id="__tagembed__register_form">
 				<div class="__tagembed__form_row">
-					<input type="text" name="fullName"  value=""  placeholder="Full Name" required>
+					<input type="text" name="fullName" value="" placeholder="Full Name" required>
 					<span id="__tagembed__register_full_name_error"></span>
 				</div>
 				<div class="__tagembed__form_row">
-					<input type="email" name="emailId"  value=""  placeholder="Email" required>
+					<input type="email" name="emailId" value="" placeholder="Email" required>
 					<span id="__tagembed__register_email_id_error"></span>
 				</div>
 				<div class="__tagembed__form_row">
-					<input type="password" name="password" value=""  placeholder="Password" required>
+					<input type="number" name="contact_no" value="" placeholder="Contact Number">
+					<span id="__tagembed__register_contact_no_error"></span>
+				</div>
+				<div class="__tagembed__form_row">
+					<input type="password" name="password" value="" placeholder="Password" required>
 					<span id="__tagembed__register_password_error"></span>
-					<p style="font-size: 12px;color: #b5b5c3;font-weight: 400;max-width: 300px;margin-top: 10px;line-height: normal;">By clicking Create Account, you agree to our <a href="https://tagembed.com/terms-of-service/" target="_blank" style="cursor: pointer;">Terms of Service</a> and <a  href="https://tagembed.com/privacy-policy/" target="_blank" style="cursor: pointer;">Privacy Policy</a></p>
+					<p style="font-size: 12px;color: #b5b5c3;font-weight: 400;max-width: 300px;margin-top: 10px;line-height: normal;">By clicking Create Account, you agree to our <a href="https://tagembed.com/terms-of-service/" target="_blank" style="cursor: pointer;">Terms of Service</a> and <a href="https://tagembed.com/privacy-policy/" target="_blank" style="cursor: pointer;">Privacy Policy</a></p>
 				</div>
 				<div class="__tagembed__submit_sec __tagembed__flexend">
 					<button type="submit" class="__tagembed__btn">Create Account</button>
