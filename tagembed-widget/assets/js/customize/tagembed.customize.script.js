@@ -1,20 +1,3 @@
-/*--Start-- Manage Custom Font Family Dropdown*/
-const mainEl = document.querySelector('.__tagembed__ff_dropdwon .__tagembed__dd_first');
-const liEls = document.querySelectorAll('.__tagembed__ff_dropdwon > ul > li.__tagembed__dd_inputoption');
-mainEl.addEventListener("click", () => {
-	for (let liEl of liEls)
-		liEl.style.display = 'list-item';
-});
-for (let liEl of liEls) {
-	liEl.addEventListener("click", () => {
-		mainEl.innerHTML = liEl.innerHTML;
-		document.getElementById('__tagembed__font_family').value = liEl.getAttribute('data-value');
-		for (let liEle of liEls)
-			liEle.style.display = 'none';
-	});
-}
-/*--End-- Manage Custom Font Family Dropdown*/
-/*--Start--Get Customization Option*/
 window.addEventListener ? window.addEventListener("load", __tagembed__getCustomizationOption, false) : window.attachEvent && window.attachEvent("onload", __tagembed__getCustomizationOption);
 function __tagembed__getCustomizationOption() {
 	/*Manage Customizaton Section Hide Show*/
@@ -57,13 +40,11 @@ function __tagembed__getCustomizationOption() {
 /*--Start-- Manage Inherit Styles Customize Options */
 function __tagembed__manageBlockAndUnblockSection(inheritStylesValue) {
 	if (inheritStylesValue == "1") {
-		document.querySelector("#__tagembed__inherit_styles_font_family").classList.add("__tagembed__inherit_styles_font_family");
 		document.querySelector("#__tagembed__inherit_styles_auther_font_color").classList.add("__tagembed__inherit_styles_font_color");
 		document.querySelector("#__tagembed__inherit_styles_font_color").classList.add("__tagembed__inherit_styles_font_color");
 		document.querySelector("#__tagembed__inherit_styles_font_size").classList.add("__tagembed__inherit_styles_font_size");
 	}
 	if (inheritStylesValue == "0") {
-		document.querySelector("#__tagembed__inherit_styles_font_family").classList.remove("__tagembed__inherit_styles_font_family");
 		document.querySelector("#__tagembed__inherit_styles_auther_font_color").classList.remove("__tagembed__inherit_styles_font_color");
 		document.querySelector("#__tagembed__inherit_styles_font_color").classList.remove("__tagembed__inherit_styles_font_color");
 		document.querySelector("#__tagembed__inherit_styles_font_size").classList.remove("__tagembed__inherit_styles_font_size");
@@ -129,8 +110,6 @@ function __tagembed__manageCustomizationOptions(__tagembed__customizationsOption
 	document.querySelector("#__tagembed__show_date_ck").checked = false;
 	if (__tagembed__customizationsOptions.Personalization.postTime == 1)
 		document.querySelector("#__tagembed__show_date_ck").checked = true;
-	document.querySelector("#__tagembed__font_family").value = __tagembed__customizationsOptions.ThemeRule.font;
-	document.querySelector(".__tagembed__dd_first").innerHTML = `<img src="${__tagembed__plugin_url_for_js}assets/images/fonts/${__tagembed__customizationsOptions.ThemeRule.font}.png" alt="">`;
 	document.querySelector("#__tagembed__linetrim").value = (__tagembed__customizationsOptions.ThemeRule.lineTrim == null) ? 0 : __tagembed__customizationsOptions.ThemeRule.lineTrim
 	document.querySelector("#__tagembed__aspectimageratio").value = __tagembed__customizationsOptions.ThemeRule.aspectImageRatio;
 	document.querySelector("#__tagembed__left_alignment").checked = false;
@@ -161,18 +140,12 @@ function __tagembed__manageCustomizationOptions(__tagembed__customizationsOption
 	document.querySelector("#__tagembed__show_more").checked = false;
 	document.querySelector("#__tagembed__auto_load").checked = false;
 	document.querySelector("#__tagembed__showmore_autoload_none").checked = false;
-	document.querySelector("#__tagembed__show_more_txt").value = __tagembed__customizationsOptions.Personalization.custom_lan_data.showMore;
 	if (__tagembed__customizationsOptions.Personalization.loadMoreStatus == 1)
 		document.querySelector("#__tagembed__show_more").checked = true;
 	if (__tagembed__customizationsOptions.Personalization.autoScrollStatus == 1)
 		document.querySelector("#__tagembed__auto_load").checked = true;
 	if (__tagembed__customizationsOptions.Personalization.loadMoreStatus == 0 && __tagembed__customizationsOptions.Personalization.autoScrollStatus == 0)
 		document.querySelector("#__tagembed__showmore_autoload_none").checked = true;
-	if (__tagembed__customizationsOptions.Personalization.loadMoreStatus == 1) {
-		document.querySelector("#__tagembed__show_more_text_sectction").style.display = "block";
-	} else {
-		document.querySelector("#__tagembed__show_more_text_sectction").style.display = "none";
-	}
 	/*--End-- Manage Footer Setting*/
 
 	/*Manage Customizaton Section Hide Show*/
@@ -189,7 +162,6 @@ function __tagembed__updateCustomizationOption(__tagembed__optionType) {
 	formData.append('themeRuleId', document.querySelector("#__tagembed__themeRule_id").value);
 	switch (__tagembed__optionType) {
 		case 'footer':
-			let __tagembed__show_more_txt = document.querySelector("#__tagembed__show_more_txt").value;
 			let __tagembed__autoScrollStatusValue = 0;
 			let __tagembed__showMoreValue = 0;
 			if (document.querySelector("#__tagembed__show_more").checked) {
@@ -207,7 +179,6 @@ function __tagembed__updateCustomizationOption(__tagembed__optionType) {
 			/*Manage Form Data*/
 			formData.append('loadMoreStatus', __tagembed__showMoreValue);
 			formData.append('autoScrollStatus', __tagembed__autoScrollStatusValue);
-			formData.append('showMoreTxt', __tagembed__show_more_txt);
 			break;
 		case 'layout':
 			let __tagembed__total_numberOFPostToDisplay = document.querySelector("#__tagembed__total_noptd").value;
@@ -244,7 +215,6 @@ function __tagembed__updateCustomizationOption(__tagembed__optionType) {
 			let __tagembed__authorFontColor = document.querySelector("#__tagembed__authorFontColor").value;
 			let __tagembed__cardColor = document.querySelector("#__tagembed__cardColor").value;
 			let __tagembed__fontSize = document.querySelector("#__tagembed__post_font_size").value;
-			let __tagembed__font_family = document.querySelector("#__tagembed__font_family").value;
 			let __tagembed__inheritStylesOptionCheckBoxValue = 0;
 			let __tagembed__show_is_ck = document.querySelector("#__tagembed__show_is_ck");
 			if (__tagembed__show_is_ck.checked)
@@ -281,17 +251,12 @@ function __tagembed__updateCustomizationOption(__tagembed__optionType) {
 				__tagembed__cardCurve = 8;
 			if (document.querySelector("#__tagembed__circular_corner").checked)
 				__tagembed__cardCurve = 24;
-			//	    if (document.querySelector("#__tagembed__light_theme").checked)
-			//		__tagembed__themeOption = 0;
-			//	    if (document.querySelector("#__tagembed__dark_theme").checked)
-			//		__tagembed__themeOption = 1;
 			/*Manage Form Data*/
 			formData.append('inheritStyles', __tagembed__inheritStylesOptionCheckBoxValue);
 			formData.append('fontColor', __tagembed__fontColor);
 			formData.append('authorColor', __tagembed__authorFontColor);
 			formData.append('cardColor', __tagembed__cardColor);
 			formData.append('fontSize', __tagembed__fontSize);
-			formData.append('font', __tagembed__font_family);
 			formData.append('shareOption', __tagembed__showShareOptionCheckBoxValue);
 			formData.append('hideContent', __tagembed__hideContentCheckBoxValue);
 			formData.append('postAuthor', __tagembed__showAuthorDetailsCheckBoxValue);
@@ -300,7 +265,6 @@ function __tagembed__updateCustomizationOption(__tagembed__optionType) {
 			formData.append('aspectImageRatio', __tagembed__aspectImageRatio);
 			formData.append('textAlignment', __tagembed__textAlignment);
 			formData.append('borderRadius', __tagembed__cardCurve);
-			//	    formData.append('colorType', __tagembed__themeOption);
 			break;
 		case 'other':
 			let __tagembed__customCss = document.querySelector("#__tagembed__custom_css").value;
@@ -432,10 +396,3 @@ function __tagembed__showColorInputValue(__tagembed__color_val, __tagembed__colo
 		__tagembed__colorValueShowSection.innerHTML = __tagembed__color_val;
 }
 /*--End-- Show Range Input Value*/
-/*--Start-- Mange Show More Text Section Hide Show*/
-function __tagembed__manageShowMoreTextSectionHideShow(status) {
-	document.querySelector("#__tagembed__show_more_text_sectction").style.display = "none";
-	if (status == "show")
-		document.querySelector("#__tagembed__show_more_text_sectction").style.display = "block";
-}
-/*--End-- Mange Show More Text Section Hide Show*/

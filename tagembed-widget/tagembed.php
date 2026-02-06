@@ -4,7 +4,7 @@
  * Plugin Name:       Tagembed Widget
  * Plugin URI:        https://tagembed.com/
  * Description:       Display Facebook feed, Instagram feed, Twitter feed, YouTube Videos and more social feeds from 15+ social networks on any page, posts or widgets using shortcode. Beautifully clean, customizable, and responsive Social Media Feed Widget Plugin for WordPress.
- * Version:           6.7
+ * Version:           6.8
  * Author:            Tagembed
  * Author URI:        https://tagembed.com/
  */
@@ -13,7 +13,7 @@ if (!defined('WPINC')) :
 endif;
 
 /* --Start-- Create Constant */
-!defined('TAGEMBED_PLUGIN_VERSION') && define('TAGEMBED_PLUGIN_VERSION', '6.7');
+!defined('TAGEMBED_PLUGIN_VERSION') && define('TAGEMBED_PLUGIN_VERSION', '6.8');
 !defined('TAGEMBED_PLUGIN_DIR_PATH') && define('TAGEMBED_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 !defined('TAGEMBED_PLUGIN_URL') && define('TAGEMBED_PLUGIN_URL', plugin_dir_url(__FILE__));
 !defined('TAGEMBED_PLUGIN_REDIRECT_URL') && define('TAGEMBED_PLUGIN_REDIRECT_URL', get_admin_url(null, 'admin.php?page='));
@@ -1099,7 +1099,6 @@ function ___tagembed__dataAjaxHandler()
 			$param['themeRuleId'] = sanitize_key($data->themeRuleId);
 			$param['loadMoreStatus'] = sanitize_key($data->loadMoreStatus);
 			$param['autoScrollStatus'] = sanitize_key($data->autoScrollStatus);
-			$param['showMoreTxt'] = $data->showMoreTxt;
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apicustomization/footer', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -1137,7 +1136,6 @@ function ___tagembed__dataAjaxHandler()
 			$param['authorColor'] = $data->authorColor;
 			$param['cardColor'] = $data->cardColor;
 			$param['fontSize'] = sanitize_key($data->fontSize);
-			$param['font'] = sanitize_key($data->font);
 			$param['shareOption'] = sanitize_key($data->shareOption);
 			$param['hideContent'] = sanitize_key($data->hideContent);
 			$param['postAuthor'] = sanitize_key($data->postAuthor);
@@ -1146,7 +1144,6 @@ function ___tagembed__dataAjaxHandler()
 			$param['aspectImageRatio'] = $data->aspectImageRatio;
 			$param['textAlignment'] = $data->textAlignment;
 			$param['borderRadius'] = $data->borderRadius;
-			//	    $param['colorType'] = $data->colorType;
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apicustomization/card', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -1417,11 +1414,11 @@ function ___tagembed__createDatabaseTableForPlugin()
 {
 	global $wpdb;
 	include_once ABSPATH . 'wp-admin/includes/upgrade.php';
-	$wpdb->query('CREATE TABLE  IF NOT EXISTS `wp_tagembed_user` (`id` int(11) NOT NULL AUTO_INCREMENT,`userId` varchar(100) NOT NULL,`name` varchar(100) NOT NULL,`email` varchar(100) NOT NULL,`accessToken` varchar(255) NOT NULL,`isLogin` enum(\'no\', \'yes\') NOT NULL,PRIMARY KEY(`id`)) ENGINE = InnoDB DEFAULT CHARSET = latin1');
-	$wpdb->query('CREATE TABLE  IF NOT EXISTS `wp_tagembed_active_widget_user` (`id` int(11) NOT NULL AUTO_INCREMENT,`userId` varchar(100) NOT NULL,PRIMARY KEY(`id`)) ENGINE = InnoDB DEFAULT CHARSET = latin1');
-	$wpdb->query('CREATE TABLE  IF NOT EXISTS `wp_tagembed_menus` (`id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(100) NOT NULL,`status` tinyint(2) NOT NULL,`path` varchar(255) NOT NULL,PRIMARY KEY(`id`)) ENGINE = InnoDB DEFAULT CHARSET = latin1');
-	$wpdb->query('CREATE TABLE  IF NOT EXISTS `wp_tagembed_active_widget` (`id` int(11) NOT NULL AUTO_INCREMENT,`widgetId` varchar(100) NOT NULL,PRIMARY KEY(`id`)) ENGINE = InnoDB DEFAULT CHARSET = latin1');
-	$wpdb->query('CREATE TABLE  IF NOT EXISTS `wp_tagembed_active_options` (`id` int(11) NOT NULL AUTO_INCREMENT,`email` varchar(500) NOT NULL,`isLogin` enum(\'no\', \'yes\'),PRIMARY KEY(`id`)) ENGINE = InnoDB DEFAULT CHARSET = latin1');
+	$wpdb->query('CREATE TABLE  IF NOT EXISTS `wp_tagembed_user` (`id` int(11) NOT NULL AUTO_INCREMENT,`userId` varchar(100) NOT NULL,`name` varchar(100) NOT NULL,`email` varchar(100) NOT NULL,`accessToken` varchar(255) NOT NULL,`isLogin` enum(\'no\', \'yes\') NOT NULL,PRIMARY KEY(`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
+	$wpdb->query('CREATE TABLE  IF NOT EXISTS `wp_tagembed_active_widget_user` (`id` int(11) NOT NULL AUTO_INCREMENT,`userId` varchar(100) NOT NULL,PRIMARY KEY(`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
+	$wpdb->query('CREATE TABLE  IF NOT EXISTS `wp_tagembed_menus` (`id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(100) NOT NULL,`status` tinyint(2) NOT NULL,`path` varchar(255) NOT NULL,PRIMARY KEY(`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
+	$wpdb->query('CREATE TABLE  IF NOT EXISTS `wp_tagembed_active_widget` (`id` int(11) NOT NULL AUTO_INCREMENT,`widgetId` varchar(100) NOT NULL,PRIMARY KEY(`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
+	$wpdb->query('CREATE TABLE  IF NOT EXISTS `wp_tagembed_active_options` (`id` int(11) NOT NULL AUTO_INCREMENT,`email` varchar(500) NOT NULL,`isLogin` enum(\'no\', \'yes\'),PRIMARY KEY(`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
 	/* --Start-- Manage Tagembed Plugin Menus */
 	$__tagembed__checkAlreadyExistMenusDataExistOrNot = $wpdb->get_results('SELECT id FROM wp_tagembed_menus');
 	if (empty($__tagembed__checkAlreadyExistMenusDataExistOrNot)) :

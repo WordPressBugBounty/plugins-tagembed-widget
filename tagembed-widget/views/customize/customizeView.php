@@ -36,24 +36,6 @@ wp_enqueue_script('__script-customize-js', TAGEMBED_PLUGIN_URL . '/assets/js/cus
 		cursor: no-drop
 	}
 
-	.__tagembed__inherit_styles_font_family .__tagembed__ff_dropdwon {
-		cursor: no-drop
-	}
-
-	.__tagembed__inherit_styles_font_family .__tagembed__ff_dropdwon .__tagembed__dd_first {
-		background: #f2f2f2 !important;
-		border-color: #f2f2f2 !important;
-		pointer-events: none
-	}
-
-	.__tagembed__inherit_styles_font_family .__tagembed__ff_dropdwon .__tagembed__dd_first img {
-		opacity: .2
-	}
-
-	.__tagembed__inherit_styles_font_family .__tagembed__ff_dropdwon .__tagembed__dd_first~ul {
-		border-color: #f2f2f2 !important
-	}
-
 	.__tagembed_inherit_styles_setting {
 		width: 100% !important;
 		background: #f4f9ff;
@@ -221,29 +203,6 @@ wp_enqueue_script('__script-customize-js', TAGEMBED_PLUGIN_URL . '/assets/js/cus
 						<div class="__tagembed__colorWrap">
 							<input id="__tagembed__fontColor" value="#1f1b1b" class="__tagembed__colorSelector" type="color" onchange="__tagembed__showColorInputValue(this.value, '__tagembed__post_font_color_value_section');" style="border:">
 							<span id="__tagembed__post_font_color_value_section" class="__tagembed_selected_color_code"></span>
-						</div>
-					</div>
-					<div class="__tagembed__col" id="__tagembed__inherit_styles_font_family">
-						<label class="__tagembed__lablename">Font Family</label>
-						<div class="__tagembed__ff_dropdwon">
-							<div class="__tagembed__dd_first">
-								Select Font Family
-							</div>
-							<ul>
-								<?php
-								for ($i = 0; $i < 26; $i++) :
-									if (in_array($i, [6, 8, 20, 21, 22, 23])) :
-										continue;
-									endif;
-								?>
-									<li class="__tagembed__dd_inputoption" data-value="<?php echo esc_html($i); ?>">
-										<img src="<?php echo esc_html(TAGEMBED_PLUGIN_URL); ?>assets/images/fonts/<?php echo esc_html($i); ?>.png" alt="" />
-									</li>
-								<?php
-								endfor;
-								?>
-							</ul>
-							<input type="hidden" id="__tagembed__font_family" value="" />
 						</div>
 					</div>
 					<div class="__tagembed__col" id="__tagembed__inherit_styles_auther_font_color">
@@ -414,27 +373,6 @@ wp_enqueue_script('__script-customize-js', TAGEMBED_PLUGIN_URL . '/assets/js/cus
 						</div>
 					</div>
 				</div>
-				<!--
-		    <div class="__tagembed__row">
-			    <div class="__tagembed__col">
-				    <div class="__tagmebed__layoutQuick_settings __tagembed__mt_zero">
-					    <label class="__tagembed__lablename __tagembed__mt_zero">Theme Type</label>
-					    <ul>
-						    <li>
-							    <input type="radio" id="__tagembed__light_theme" name="__tagembed__theme_option" value="0" />
-							    <img src="< ?php echo esc_html(TAGEMBED_PLUGIN_URL);?>assets/images/customization/light-theme.svg" alt="Featured Popup" />
-							    <span>Light Theme</span>
-						    </li>
-						    <li>
-							    <input type="radio" id="__tagembed__dark_theme" name="__tagembed__theme_option" value="1" />
-							    <img src="< ?php echo esc_html(TAGEMBED_PLUGIN_URL);?>assets/images/customization/dark-theme.svg" alt="Direct to Source" />
-							    <span>Dark Theme</span>
-						    </li>
-					    </ul>
-				    </div>
-			    </div>
-		    </div>
-		-->
 				<div class="__tagembed__row">
 					<div class="__tagembed__col __tagembed__applyBtn">
 						<a class="__tagembed__btn" href="javascript:void(0);" onclick="__tagembed__updateCustomizationOption('card');">Apply Settings</a>
@@ -465,28 +403,22 @@ wp_enqueue_script('__script-customize-js', TAGEMBED_PLUGIN_URL . '/assets/js/cus
 							<label class="__tagembed__lablename">Show More</label>
 							<ul>
 								<li>
-									<input type="radio" id="__tagembed__show_more" name="__tagembed__show_option" onclick="__tagembed__manageShowMoreTextSectionHideShow('show');" value="showMore" />
+									<input type="radio" id="__tagembed__show_more" name="__tagembed__show_option" value="showMore" />
 									<img src="<?php echo esc_html(TAGEMBED_PLUGIN_URL); ?>assets/images/customization/showMore.svg" alt="Show More" />
 									<span>Show More</span>
 								</li>
 								<li>
-									<input type="radio" id="__tagembed__auto_load" name="__tagembed__show_option" onclick="__tagembed__manageShowMoreTextSectionHideShow('hide');" value="autoScrollStatus" />
+									<input type="radio" id="__tagembed__auto_load" name="__tagembed__show_option" value="autoScrollStatus" />
 									<img src="<?php echo esc_html(TAGEMBED_PLUGIN_URL); ?>assets/images/customization/autoScroll.svg" alt="Auto Load" />
 									<span>Auto Load</span>
 								</li>
 								<li>
-									<input type="radio" id="__tagembed__showmore_autoload_none" onclick="__tagembed__manageShowMoreTextSectionHideShow('hide');" name="__tagembed__show_option" value="none" />
+									<input type="radio" id="__tagembed__showmore_autoload_none" name="__tagembed__show_option" value="none" />
 									<img src="<?php echo esc_html(TAGEMBED_PLUGIN_URL); ?>assets/images/customization/showMoreAutoLoadNone.svg" alt="None" />
 									<span>None</span>
 								</li>
 							</ul>
 						</div>
-					</div>
-				</div>
-				<div class="__tagembed__row" id="__tagembed__show_more_text_sectction" style="display: none;">
-					<div class="__tagembed__col">
-						<label class="__tagembed__lablename">Show More Text</label>
-						<input id="__tagembed__show_more_txt" class="__tagembed__input" type="text" placeholder="Show More" />
 					</div>
 				</div>
 				<div class="__tagembed__row">
