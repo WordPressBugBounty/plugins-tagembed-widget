@@ -1,5 +1,5 @@
-function __tagembed__dialog_form(option = {popupSize:"__tagembed__popup_sm", title:"Action", form:{method:'', cancelButtonText:'', cancelButtonClass:'', buttonText:'', buttonClass:''}, inputs:[], action:null, cancelAction:null}){
-    let  elemId = '__tagembed__dialog_form_id_';
+function __tagembed__dialog_form(option = { popupSize: "__tagembed__popup_sm", title: "Action", form: { method: '', cancelButtonText: '', cancelButtonClass: '', buttonText: '', buttonClass: '' }, inputs: [], action: null, cancelAction: null }) {
+    let elemId = '__tagembed__dialog_form_id_';
     let id = (option.form.id) ? option.form.id : '';
     let name = (option.form.name) ? option.form.name : '';
     let method = (option.form.method) ? option.form.method : 'post';

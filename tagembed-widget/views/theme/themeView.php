@@ -5,7 +5,7 @@ wp_enqueue_script('__script-theme-js', TAGEMBED_PLUGIN_URL . '/assets/js/theme/t
 /* Lazy Loader Script */
 wp_enqueue_script('__script-lazy-loading-js', TAGEMBED_PLUGIN_URL . '/assets/js/lazyload.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
 if (!empty($__tagembed__widgets)) :
-	?>
+?>
 	<div id="__tagembed__choosetheme" class="__tagembed__tabcontent">
 		<div class="__tagembed__sourcerow">
 			<div class="__tagembed__tabheading">

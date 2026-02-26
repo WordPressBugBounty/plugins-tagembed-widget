@@ -2,6 +2,15 @@
 include_once TAGEMBED_PLUGIN_DIR_PATH . 'views/includes/headView.php';
 wp_enqueue_script('__script-account-js', TAGEMBED_PLUGIN_URL . '/assets/js/account/tagembed.account.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
 ?>
+<!--Start-- Other Plugin Popup-->
+<style>
+	.__tagembed__okaybtn:hover {
+		color: #fff !important;
+	}
+</style>
+<div id="__tagembed__other_plugin_popup" class="__tagembed__other_plugin_popup"></div>
+<!--End-- Other Plugin Popup-->
+
 <div class="__tagembed__row">
 	<div class="__tagembed__col __tagembed__col_12 __tagembed__login_account">
 		<!--Error-->

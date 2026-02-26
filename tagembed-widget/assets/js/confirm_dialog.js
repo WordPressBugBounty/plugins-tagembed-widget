@@ -21,8 +21,8 @@ function confirmDialog(option, action) {
         typeClass = '__tagembed__bg-danger';
         icon = "fa-times";
     }
-    
-    let  elemId = 'tagembedConfirmDialog';
+
+    let elemId = 'tagembedConfirmDialog';
     let elemHTML = '<div id="' + elemId + '" class="__tagembed__overlay"><div class="__tagembed__popupwrap">';
     elemHTML = elemHTML + '<div class="__tagembed__iconarea ' + typeClass + '"><i class="fa ' + icon + '" aria-hidden="true"></i></div>';
     elemHTML = elemHTML + '<hr class="__tagembed__horizontaborder" />';

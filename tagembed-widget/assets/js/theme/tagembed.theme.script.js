@@ -44,15 +44,15 @@ function __tagembed__get_theme() {
             __tagembed__image__lazy_loading()/*Image Lazy Loader*/
         } else {
             if (response.hasOwnProperty("message")) {
-                __tagembed__toast.danger({message: response.message, position: '__tagembed__is-top-right'});
+                __tagembed__toast.danger({ message: response.message, position: '__tagembed__is-top-right' });
             } else {
-                __tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+                __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
             }
         }
     }).catch((error) => {
         console.log(error);
         __tagembed__close_loader();
-        __tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+        __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
     });
 }
 /*--End-- Get Social Accounts*/
@@ -68,7 +68,7 @@ function __tagembed__editTheme(__tagembed__theme_id) {
     __tagembed__widget_id = __tagembed__widget_id.value.split('#')[0];
     let __tagembed__toast = new TagembedToast;
     if (!__tagembed__widget_id || !__tagembed__theme_id)
-        return __tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+        return __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
     let formData = new FormData();
     formData.append('action', 'data');
     formData.append('widgetId', __tagembed__widget_id);
@@ -87,18 +87,18 @@ function __tagembed__editTheme(__tagembed__theme_id) {
     }).then(response => {
         __tagembed__close_loader();
         if (response.status == true) {
-            __tagembed__toast.success({message: "Theme Updated.", position: '__tagembed__is-top-right'});
+            __tagembed__toast.success({ message: "Theme Updated.", position: '__tagembed__is-top-right' });
         } else {
             if (response.hasOwnProperty("message")) {
-                __tagembed__toast.danger({message: response.message, position: '__tagembed__is-top-right'});
+                __tagembed__toast.danger({ message: response.message, position: '__tagembed__is-top-right' });
             } else {
-                __tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+                __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
             }
         }
     }).catch((error) => {
         console.log(error);
         __tagembed__close_loader();
-        __tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+        __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
     });
 
 }

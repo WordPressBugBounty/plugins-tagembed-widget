@@ -1,12 +1,11 @@
-
 === Tagembed: Embed Twitter Feed, Google Reviews, YouTube Videos, TikTok, RSS Feed & More Social Media Feeds ===
 Donate link: https://tagembed.com/
 Plugin Name: Tagembed: Embed Twitter Feed, Google Reviews, YouTube Videos, TikTok, RSS Feed & More Social Media Feeds
 Tags: Instagram, LinkedIn, Facebook, Twitter, Google Reviews.
 Requires at least: 3.0
-Tested up to: 6.8.2
+Tested up to: 6.9.1
 Requires PHP: 5.6
-Stable tag: 6.8
+Stable tag: 6.9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,9 +13,9 @@ Collect & Embed Instagram Feed, Embed Facebook Feed, Embed YouTube Videos, Embed
 
 == Description ==
 
-= Collect. Curate. Embed. =
+= Collect. Curate. Publish. =
 
-Tagembed - The best social media & review plugin to collect reviews (like **Google reviews**), stories, social media feeds (like **Instagram Feed**), photos, & embed them on any website. Automatically!
+Tagembed (A Taggbox Company) - The best social media & review plugin to collect reviews (like **Google reviews**), stories, social media feeds (like **Instagram Feed**), photos, & embed them on any website. Automatically!
 
 = Top Social Media Feed Network: =
 
@@ -25,7 +24,7 @@ Tagembed - The best social media & review plugin to collect reviews (like **Goog
 * TikTok Feed (Handle, Hashtag)
 * YouTube Feed (Shorts, playlist channels)
 * Twitter Feed (Hashtag, handle, mention)
-* Linkedin feed (Company Page URL, Profile URL, Post URL)
+* LinkedIn feed (Company Page URL, Profile URL, Post URL)
 
 = Top Review Feed Network: =
 
@@ -38,7 +37,7 @@ Showcasing social media feed & reviews on your site is a simple yet powerful str
 
 == 4 Simple Step Process to Use Tagembed Social Media Plugin ==
 
-* **Collect:** Select your favorite source (like Instagram feed, Facebook Feed, Google reviews etc)
+* **Collect:** Select your source (like Instagram feed, Facebook Feed, Google reviews etc)
 * **Customize:** Select the theme & layout as per your brand appearance
 * **Moderate:** Choose the post you want to embed.
 * **Publish:** Copy the short code **[tagembed widgetid XXXXX]** and paste on your WordPress editor.
@@ -46,6 +45,7 @@ Showcasing social media feed & reviews on your site is a simple yet powerful str
 = Powerful Plugin to Embed social media feed like pro =
 
 Create and customize your Instagram feed plugin and showcase stunning Instagram widget on your website. Check the video tutorial:
+
 https://www.youtube.com/watch?v=svEiOzrvMQg
 
 == Why Tagembed is the Best Plugin to embed social Media Content ==
@@ -59,7 +59,7 @@ https://www.youtube.com/watch?v=svEiOzrvMQg
 * **Unlimited Widgets** – Showcase your reviews from various sources in one place. Combine your Google reviews, Facebook reviews, & other business reviews into a single widget.
 * **Embed Anywhere**: We support Elementor, Gutenberg block, WordPress widget etc.
 
-== EASY DESIGN TOOLS ==
+== Easy Design Tools ==
 
 * **Quickly customize your website to make it stand out — **no coding needed**.
 * **Pre-built templates** to embed Google reviews, Instagram reels, or Instagram feed widgets etc. To get started easily.
@@ -146,7 +146,7 @@ Free Plan: **Forever Free** includes
 * Click on the Display tab and preview the Instagram Reel widget & Copy code to [Embed Instagram Reels](https://tagembed.com/blog/embed-instagram-reels-on-website/) on WordPress.
 * Paste the shortcode on your desired page or post & update it to embed Instagram Reels Widget successfully.
 
-== How to embed Facebook feed on website? ==
+== How to Embed Facebook feed on website? ==
 
 * Go to Add Feed & select network as Facebook to collect Facebook feeds.
 * Select your Facebook feed filter connection type from: Facebook Page, Facebook Page Reviews, Facebook Album etc to fetch Facebook feeds as per your preference.
@@ -164,7 +164,7 @@ Free Plan: **Forever Free** includes
 * Click on Display & copy the short code
 * Paste it on the backend of the website where you want to display the TikTok widget.
 
-== How to embed a youtube feed on your website? ==
+== How to embed a YouTube feed on your website? ==
 
 * Select network as YouTube to collect YouTube Videos.
 * Select your YouTube feed filter connection type from: YouTube Channel, YouTube Playlist, YouTube Shorts etc. to fetch YouTube Videos as per your preference.
@@ -172,7 +172,7 @@ Free Plan: **Forever Free** includes
 * Click on the Display tab Section to preview the YouTube Gallery & Copy ShortCode to Embed YouTube Video Gallery on WordPress.
 * Paste the code on your desired page or post & update it to [embed YouTube Video Gallery](https://tagembed.com/blog/embed-youtube-videos-on-website/) successfully.
 
-== How to add a twitter feed on a website? ==
+== How to add a Twitter feed on a website? ==
 
 * Click on Add Feed & select network as Twitter to collect Twitter feeds.
 * Select your Twitter feed filter connection type from: Twitter handle, Twitter hashtag, Twitter List, Twitter Favorites, Twitter Advanced (Query), etc. to fetch Twitter feeds as per your preference.
@@ -237,13 +237,13 @@ Note: For free plan users, the Google Review Widget will not automatically updat
 
 We're known for quick, helpful support. With 24/5 customer service, we promptly resolve any issues to meet customer expectations.
 Check topics or ask a new question here: [Support Forum](https://wordpress.org/support/plugin/tagembed-widget/)
-If you still can’t find the answer, feel free to email us **support@tagemebd.com**
+If you still can’t find the answer, feel free to email us **support@tagembed.com**
 "★★★★★ As mentioned, Fantastic support. They took the time & went the extra mile to assist me & set me in the right direction on the implementation of the plugin.
 Tagembed is a best alternative to smash balloon, WPZoom social feed widget, Feed Them Social – Photo Galleries, 10websocial, spotlight social feeds, feedzy RSS Aggregator, Social Feed Gallery, Easy Social Feed – social photos gallery, Social Slider Feed, BlossomThemes Social Feed etc.
 To find out more about who we are & what we do, here are some useful links:
 [Tagembed official website](https://tagembed.com/)
 [Blogs](https://tagembed.com/blog)
-[Inspiration Gallery](https://tagembed.com/inspiration-gallery/)
+[Inspiration Gallery](https://tagembed.com/themes/)
 You can read our [Terms of Service](https://tagembed.com/terms-of-service/) & [Privacy Policy](https://tagembed.com/privacy-policy/) here.
 
  == Installation ==
@@ -324,6 +324,9 @@ To collect more Google reviews, simply add reviews us button on the banner of th
 No, we don’t ask for Google API, you just need to enter your location and your reviews will fetch.
 
 == Changelog ==
+
+= 6.9 =
+  * Created support page to help user.
 = 6.8 =
   * Bug Fixes & some changes in code.
 = 6.7 =
@@ -342,7 +345,7 @@ No, we don’t ask for Google API, you just need to enter your location and your
   * Updated API for more faster experience.
 = 6.0 =
   * Performance and Security Enhancement.
-= 5.9=
+= 5.9 =
   * Performance and Security Enhancement.
 = 5.8 =
   * Bug Fixes & some changes in code.
@@ -362,10 +365,7 @@ No, we don’t ask for Google API, you just need to enter your location and your
   * New: Inherit feature - to automatically align your website font style & colors with widget.
 = 5.0 =
   * New: Major changes in the chat support widget for our users.
-= 4.9 =
-  * Bugs Fix for Instagram Feed, Facebook Feed, Twitter Feed, Google Reviews, Rss Feed, YouTube Gallery, & more.
-= 4.8 =
-  * Fix Security Nounce - for Instagram Feed, Facebook Feed, Twitter Feed, Google Reviews, RSS Feed, YouTube Gallery, & more.
+
 = 4.7 =
   * New: Instagram Handle Feed - Now you can collect public Instagram Profile posts & then embed Instagram Handle Feed on website.
   * New: Facebook Page Feed - Now you can collect public Facebook Page posts & then embed Facebook Page Feed on website.
@@ -550,10 +550,12 @@ No, we don’t ask for Google API, you just need to enter your location and your
   * First Release - This is the first release of Tagembed Social Media Feeds WordPress Plugin. If you find any issues, please contact us on [tagembed.com](https://tagembed.com/contact-us/)
 
 == Upgrade Notice ==
+= 6.9 =
+  * Created support page to help user.
 = 6.8 =
   * Bug Fixes & some changes in code.
 = 6.7 =
-  * Added new field in registration form
+  * Added new field in registration form.
 = 6.6 =
   * Bug Fixes & some changes in code.
 = 6.5 =
@@ -588,10 +590,6 @@ No, we don’t ask for Google API, you just need to enter your location and your
   * New: Inherit feature - to automatically align your website font style & colors with widget.
 = 5.0 =
   * New: Major changes in the chat support widget for our users.
-= 4.9 =
-  * Bugs Fix for Instagram Feed, Facebook Feed, Twitter Feed, Google Reviews, Rss Feed, YouTube Gallery, & more.
-= 4.8 =
-  * Fix Security Nounce - for Instagram Feed, Facebook Feed, Twitter Feed, Google Reviews, Rss Feed, YouTube Gallery, & more.
 = 4.7 =
   * New: Instagram Handle Feed - Now you can collect public Instagram Profile posts & then embed Instagram Handle Feed on website.
   * New: Facebook Page Feed - Now you can collect public Facebook Page posts & then embed Facebook Page Feed on website.
@@ -629,7 +627,7 @@ No, we don’t ask for Google API, you just need to enter your location and your
 = 4.1 =
   * Fix: Now easily embed on Elementor, Vamtam etc themes using Iframe Code or Short Code.
   * New: Introducing full-flash JS Code so that you can easily embed widget on your website for making the social media widget plugin SEO friendly.
-  * Fix: Fixed Tagembed Block Issue for wordpress themes. Tagembed block was not visible when users try to embed Instagram Feed, mastodon feed, Twitter Feed, Facebook Feed, Google Reviews, YouTube Video, RSS Feed, Instagram Slider, Facebook Page, Twitter Widget, social media wall, Instagram Gallery, Insta widget etc.
+  * Fix: Fixed Tagembed Block Issue for Wordpress themes. Tagembed block was not visible when users try to embed Instagram Feed, mastodon feed, Twitter Feed, Facebook Feed, Google Reviews, YouTube Video, RSS Feed, Instagram Slider, Facebook Page, Twitter Widget, social media wall, Instagram Gallery, Insta widget etc.
 = 4.0 =
   * New: Introducing Lite Code (JS Code Beta).
 = 3.10 =

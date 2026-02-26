@@ -1,11 +1,11 @@
-<?php 
+<?php
 include_once TAGEMBED_PLUGIN_DIR_PATH . 'views/includes/headView.php';
 include_once TAGEMBED_PLUGIN_DIR_PATH . 'views/includes/headerView.php';
 if (!empty($__tagembed__widgets)) :
 	wp_enqueue_script('__script-networks-js', TAGEMBED_PLUGIN_URL . '/assets/js/network/tagembed.networks.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
 	wp_enqueue_script('__script-feed-create-js', TAGEMBED_PLUGIN_URL . '/assets/js/feed/tagembed.feed.create.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
 	wp_enqueue_script('__script-feed-js', TAGEMBED_PLUGIN_URL . '/assets/js/feed/tagembed.feed.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
-	?>
+?>
 	<div style="" id="__tagembed__addfeed" class="__tagembed__tabcontent">
 		<!--Start-- Network View-->
 		<div class="__tagembed__sourcerow">

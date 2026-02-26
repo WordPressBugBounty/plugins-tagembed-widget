@@ -1,3 +1,8 @@
+<!--Start-- Upgrade Plan Overlay And Message-->
+<div id="__tagembed__upgrade_plan_overlay" style="position:fixed;width:100%;height:100%;background:rgba(0,0,0,0.1);z-index:999;display:none;"></div>
+<div id="__tagembed__plan_upgrade_message" class="__tagembed__plan_upgrade_message"></div>
+<!--End-- Upgrade Plan Overlay And Message-->
+
 <!--Start-- Call Tagembed Chat And Plugin Version Script After Login And Register-->
 <?php if (!empty($__tagembed__user_details)) : ?>
 	<script type="text/javascript">
@@ -67,6 +72,18 @@
 				console.log(error);
 			});
 		}
+		/*--Start-- Open Intercom Chat*/
+		document.addEventListener('click', function(e) {
+			if (e.target.closest('.__tagembed__intercom_chat_btn')) {
+				e.preventDefault();
+				if (typeof window.Intercom === "function") {
+					window.Intercom('show');
+				} else {
+					console.log('Intercom not loaded yet');
+				}
+			}
+		});
+		/*--End-- Open Intercom Chat*/
 		/*--End-- Manage Intercom Chat And Setting Data */
 		/*--Start-- Manage Hide And Show plugin Upgrade Message*/
 		window.addEventListener ? window.addEventListener("load", __tagembed__plugin_version, false) : window.attachEvent && window.attachEvent("onload", __tagembed__plugin_version);

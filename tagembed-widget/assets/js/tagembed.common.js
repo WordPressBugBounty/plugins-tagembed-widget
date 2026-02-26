@@ -427,10 +427,13 @@ function __tagembed__manageShotrCode() {
 	}
 }
 /*--Start--Copy Short Code*/
-function __tagembed__copyCodeEmbed(__tagembed__codeType, __tagembed__copyEmbedId) {
+async function __tagembed__copyCodeEmbed(__tagembed__codeType, __tagembed__copyEmbedId) {
+
+	let ___tagembed__shouldStop = await __tagembed__upgradePlan();
+	if (___tagembed__shouldStop) return;
+
 	let __tagembed__toast = new TagembedToast;
 	let __tagembed__copyEmbedCode = "";
-	console.log(__tagembed__copyEmbedId);
 	switch (__tagembed__codeType) {
 		case "shortCode":
 			__tagembed__copyEmbedCode = document.querySelector(`#${__tagembed__copyEmbedId}`).innerHTML;

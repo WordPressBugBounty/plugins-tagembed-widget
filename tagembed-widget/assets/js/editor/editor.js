@@ -1,11 +1,11 @@
 jQuery(function (editor, blocks, element, components, i18n, data, compose) {
     var El = element.createElement;
-    const {RichText, InspectorControls} = editor;
-    const {registerBlockType} = blocks;
-    const {Fragment} = element;
-    const {IconButton, TextControl, ToggleControl, Panel, PanelBody, PanelRow} = components;
-    const {select, withSelect, withDispatch} = data;
-    const {compos} = compose;
+    const { RichText, InspectorControls } = editor;
+    const { registerBlockType } = blocks;
+    const { Fragment } = element;
+    const { IconButton, TextControl, ToggleControl, Panel, PanelBody, PanelRow } = components;
+    const { select, withSelect, withDispatch } = data;
+    const { compos } = compose;
     const iconEl = El("div", {
         className: "__tagembed__editor_logo"
     }, El("img", {
@@ -20,109 +20,120 @@ jQuery(function (editor, blocks, element, components, i18n, data, compose) {
         category: 'widgets',
         icon: iconEl,
         keywords: ['tagembed widget'],
-        supports: {align: true},
+        supports: { align: true },
         attributes: {
-            __shortCode: {default: null},
-            __widgetId: {default: null},
-            __height: {default: '500px'},
-            __width: {default: '100%'},
-            __url: {default: 'https://widget.tagembed.com/'},
-            __preview: {default: 'hide'},
-            __shortCodeErrorMsg: {default: 'hide'}
+            __shortCode: { default: null },
+            __widgetId: { default: null },
+            __height: { default: '500px' },
+            __width: { default: '100%' },
+            __url: { default: 'https://widget.tagembed.com/' },
+            __preview: { default: 'hide' },
+            __shortCodeErrorMsg: { default: 'hide' }
         },
         edit:
-                function (props) {
-                    function __updateShortCode(event) {
-                        var __tagembed__short_code = document.getElementById("__tagembed__short_code");
-                        var __tagembed__shortCodeData = __tagembed__short_code.value.trim();
-                        props.setAttributes({__shortCode: __tagembed__shortCodeData});
-                        var widgetData = event.target.value;
-                        widgetData = widgetData.trim();
-                        widgetData = widgetData.replace('[', "");
-                        widgetData = widgetData.replace(']', "");
-                        widgetData = widgetData.split(' ');
-                        var __widgetId = widgetData[2];
-                        props.setAttributes({__widgetId: __widgetId});
-                        if (widgetData[3]) {
-                            var ___height = widgetData[3].replace('height=', "");
-                            props.setAttributes({__height: ___height});
-                        }
-                        if (widgetData[4]) {
-                            var ___width = widgetData[4].replace('width=', "");
-                            props.setAttributes({___width: ___width});
-                        }
-                        props.setAttributes({__shortCodeErrorMsg: "hide"});
-                        /*var __widgetId = event.target.value.slice(19, -1);*/
+            function (props) {
+                function __updateShortCode(event) {
+                    var __tagembed__short_code = document.getElementById("__tagembed__short_code");
+                    var __tagembed__shortCodeData = __tagembed__short_code.value.trim();
+                    props.setAttributes({ __shortCode: __tagembed__shortCodeData });
+                    var widgetData = event.target.value;
+                    widgetData = widgetData.trim();
+                    widgetData = widgetData.replace('[', "");
+                    widgetData = widgetData.replace(']', "");
+                    widgetData = widgetData.split(' ');
+                    var __widgetId = widgetData[2];
+                    props.setAttributes({ __widgetId: __widgetId });
+                    if (widgetData[3]) {
+                        var ___height = widgetData[3].replace('height=', "");
+                        props.setAttributes({ __height: ___height });
                     }
-                    function __hidePreview() {
+                    if (widgetData[4]) {
+                        var ___width = widgetData[4].replace('width=', "");
+                        props.setAttributes({ ___width: ___width });
+                    }
+                    props.setAttributes({ __shortCodeErrorMsg: "hide" });
+                    /*var __widgetId = event.target.value.slice(19, -1);*/
+                }
+                function __hidePreview() {
+                    var parent = jQuery(event.target).closest(".is-selected");
+                    parent.children(".__tagembed__tagembed-preview").hide();
+                    parent.children(".__tagembed__tagembed-editor-main-div").show();
+                    props.setAttributes({ __preview: "hide" });
+                    props.setAttributes({ __shortCodeErrorMsg: "hide" });
+                }
+                function __showPreview(event) {
+                    let regex = /^\d+(px|%|)$/;
+                    let extraParameter = (props.attributes.__width !== '' && !regex.test(props.attributes.__width)) || (props.attributes.__height !== '' && !regex.test(props.attributes.__height));
+                    if (!extraParameter && props.attributes.__widgetId !== '' && props.attributes.__widgetId !== null && typeof (props.attributes.__widgetId) != "undefined" && !isNaN(props.attributes.__widgetId)) {
                         var parent = jQuery(event.target).closest(".is-selected");
-                        parent.children(".__tagembed__tagembed-preview").hide();
-                        parent.children(".__tagembed__tagembed-editor-main-div").show();
-                        props.setAttributes({__preview: "hide"});
-                        props.setAttributes({__shortCodeErrorMsg: "hide"});
+                        parent.children(".__tagembed__tagembed-preview").show();
+                        parent.children(".__tagembed__tagembed-editor-main-div").hide();
+                        props.setAttributes({ __preview: "show" });
+                        props.setAttributes({ __shortCodeErrorMsg: "hide" });
+                    } else {
+                        props.setAttributes({ __shortCodeErrorMsg: "show" });
                     }
-                    function __showPreview(event) {
-                        let regex = /^\d+(px|%|)$/;
-                        let extraParameter = (props.attributes.__width !== '' && !regex.test(props.attributes.__width)) || (props.attributes.__height !== '' && !regex.test(props.attributes.__height));
-                        if (!extraParameter && props.attributes.__widgetId !== '' && props.attributes.__widgetId !== null && typeof (props.attributes.__widgetId) != "undefined" && !isNaN(props.attributes.__widgetId)) {
-                            var parent = jQuery(event.target).closest(".is-selected");
-                            parent.children(".__tagembed__tagembed-preview").show();
-                            parent.children(".__tagembed__tagembed-editor-main-div").hide();
-                            props.setAttributes({__preview: "show"});
-                            props.setAttributes({__shortCodeErrorMsg: "hide"});
-                        } else {
-                            props.setAttributes({__shortCodeErrorMsg: "show"});
-                        }
-                    }
-                    return [
-                        El(Fragment, {},
-                                El(InspectorControls, {},
-                                        El(PanelBody, {title: 'Widget Settings', initialOpen: true},
-                                                El(PanelRow, {}, El(TextControl, {label: 'Height Px (Format : 500px)', type: 'text', onChange: (value) => {
-                                                        props.setAttributes({__height: value});
-                                                    }, value: props.attributes.__height})),
-                                                El(PanelRow, {}, El(TextControl, {label: 'Width % (Format : 100%)', type: 'text', onChange: (value) => {
-                                                        props.setAttributes({__width: value});
-                                                    }, value: props.attributes.__width})),
-                                                ),
+                }
+                return [
+                    El(Fragment, {},
+                        El(InspectorControls, {},
+                            El(PanelBody, { title: 'Widget Settings', initialOpen: true },
+                                El(PanelRow, {}, El(TextControl, {
+                                    label: 'Height Px (Format : 500px)', type: 'text', onChange: (value) => {
+                                        props.setAttributes({ __height: value });
+                                    }, value: props.attributes.__height
+                                })),
+                                El(PanelRow, {}, El(TextControl, {
+                                    label: 'Width % (Format : 100%)', type: 'text', onChange: (value) => {
+                                        props.setAttributes({ __width: value });
+                                    }, value: props.attributes.__width
+                                })),
+                            ),
+                        ),
+                    ),
+                    El("div", { className: ((props.attributes.__preview == "hide") ? "__tagembed__tagembed-preview-show" : "__tagembed__tagembed-preview-hide") + " container-fluid __tagembed__tagembed-editor-main-div" },
+                        El("div", { className: "tagembed-row __tagembed__tagembed-editor-widget-main-div" },
+                            El("div", { className: "tagembed-md-12" },
+                                El("div", { className: "tagembed-row" },
+                                    El("div", { className: "tagembed-md-12 __tagembed__tagembed-editor-heading" },
+                                        El("strong", null, "Tagembed Widget")),
+                                    El("div", { className: "tagembed-md-12 __tagembed__tagembed-editor-size-section" },
+                                        El("div", { className: "__tagembed__form-size-input" },
+                                            El(TextControl, {
+                                                label: 'Height px (Format : 500px)', class: "__tagembed__form-input", type: 'text', onChange: (value) => {
+                                                    props.setAttributes({ __height: value });
+                                                }, value: props.attributes.__height
+                                            })
                                         ),
-                                ),
-                        El("div", {className: ((props.attributes.__preview == "hide") ? "__tagembed__tagembed-preview-show" : "__tagembed__tagembed-preview-hide") + " container-fluid __tagembed__tagembed-editor-main-div"},
-                                El("div", {className: "tagembed-row __tagembed__tagembed-editor-widget-main-div"},
-                                        El("div", {className: "tagembed-md-12"},
-                                                El("div", {className: "tagembed-row"},
-                                                        El("div", {className: "tagembed-md-12 __tagembed__tagembed-editor-heading"},
-                                                                El("strong", null, "Tagembed Widget")),
-                                                        El("div", {className: "tagembed-md-12 __tagembed__tagembed-editor-size-section"},
-                                                                El("div", {className: "__tagembed__form-size-input"},
-                                                                        El(TextControl, {label: 'Height px (Format : 500px)', class: "__tagembed__form-input", type: 'text', onChange: (value) => {
-                                                                                props.setAttributes({__height: value});
-                                                                            }, value: props.attributes.__height})
-                                                                        ),
-                                                                El("div", {className: "__tagembed__form-size-input"},
-                                                                        El(TextControl, {label: 'Width % (Format : 100%)', class: "__tagembed__form-input", type: 'text', onChange: (value) => {
-                                                                                props.setAttributes({__width: value});
-                                                                            }, value: props.attributes.__width})
-                                                                        )),
-                                                        El("div", {className: "tagembed-12 __tagembed__form-wrap __tagembed__form-inline"},
-                                                                El("input", {type: "text", id: "__tagembed__short_code", className: "__tagembed__form-input __tagembed__b-0 z-index10", placeholder: "Enter Widget Shortcode", value: props.attributes.__shortCode, onChange: __updateShortCode}),
-                                                                El("button", {className: "__tagembed__btnStyle __tagembed__tagembed-preview-btn h100", onClick: __showPreview, }, "</> Embed"),
-                                                                El("span", {className: ((props.attributes.__shortCodeErrorMsg == "hide") ? "__tagembed__short-code-error-hide" : "__tagembed__short-code-error-show")}, "Please Enter Valid Short Code.", ),
-                                                                ),
-                                                        )))),
-                        El("button", {className: ((props.attributes.__preview == "show") ? "__tagembed__tagembed-preview-show" : "__tagembed__tagembed-preview-hide") + " __tagembed__tagembed-close-preview-btn tagembed-preview", onClick: __hidePreview},
-                                El("svg", {height: '18px', width: '18px', viewBox: '0 0 24 24', fill: 'none', xmlns: 'http://www.w3.org/2000/svg'},
-                                        El("path", {d: 'M20.7457 3.32851C20.3552 2.93798 19.722 2.93798 19.3315 3.32851L12.0371 10.6229L4.74275 3.32851C4.35223 2.93798 3.71906 2.93798 3.32854 3.32851C2.93801 3.71903 2.93801 4.3522 3.32854 4.74272L10.6229 12.0371L3.32856 19.3314C2.93803 19.722 2.93803 20.3551 3.32856 20.7457C3.71908 21.1362 4.35225 21.1362 4.74277 20.7457L12.0371 13.4513L19.3315 20.7457C19.722 21.1362 20.3552 21.1362 20.7457 20.7457C21.1362 20.3551 21.1362 19.722 20.7457 19.3315L13.4513 12.0371L20.7457 4.74272C21.1362 4.3522 21.1362 3.71903 20.7457 3.32851Z', fill: '#ffffff'
-                                        }))),
-                        El("div", {className: ((props.attributes.__preview == "show") ? "__tagembed__tagembed-preview-show" : "__tagembed__tagembed-preview-hide") + " row __tagembed__tagembed-preview",
-                        }, El("div", {className: "tagembed-md-12"
-                        }, El("iframe", {className: "__tagembed__tagembed-editor-iframe", src: props.attributes.__url + props.attributes.__widgetId, allowfullscreen: "allowfullscreen", frameborder: "0", title: "Tagembed-widget", border: "0", height: props.attributes.__height, width: props.attributes.__width}
-                        ))),
-                    ]
-                },
+                                        El("div", { className: "__tagembed__form-size-input" },
+                                            El(TextControl, {
+                                                label: 'Width % (Format : 100%)', class: "__tagembed__form-input", type: 'text', onChange: (value) => {
+                                                    props.setAttributes({ __width: value });
+                                                }, value: props.attributes.__width
+                                            })
+                                        )),
+                                    El("div", { className: "tagembed-12 __tagembed__form-wrap __tagembed__form-inline" },
+                                        El("input", { type: "text", id: "__tagembed__short_code", className: "__tagembed__form-input __tagembed__b-0 z-index10", placeholder: "Enter Widget Shortcode", value: props.attributes.__shortCode, onChange: __updateShortCode }),
+                                        El("button", { className: "__tagembed__btnStyle __tagembed__tagembed-preview-btn h100", onClick: __showPreview, }, "</> Embed"),
+                                        El("span", { className: ((props.attributes.__shortCodeErrorMsg == "hide") ? "__tagembed__short-code-error-hide" : "__tagembed__short-code-error-show") }, "Please Enter Valid Short Code.",),
+                                    ),
+                                )))),
+                    El("button", { className: ((props.attributes.__preview == "show") ? "__tagembed__tagembed-preview-show" : "__tagembed__tagembed-preview-hide") + " __tagembed__tagembed-close-preview-btn tagembed-preview", onClick: __hidePreview },
+                        El("svg", { height: '18px', width: '18px', viewBox: '0 0 24 24', fill: 'none', xmlns: 'http://www.w3.org/2000/svg' },
+                            El("path", {
+                                d: 'M20.7457 3.32851C20.3552 2.93798 19.722 2.93798 19.3315 3.32851L12.0371 10.6229L4.74275 3.32851C4.35223 2.93798 3.71906 2.93798 3.32854 3.32851C2.93801 3.71903 2.93801 4.3522 3.32854 4.74272L10.6229 12.0371L3.32856 19.3314C2.93803 19.722 2.93803 20.3551 3.32856 20.7457C3.71908 21.1362 4.35225 21.1362 4.74277 20.7457L12.0371 13.4513L19.3315 20.7457C19.722 21.1362 20.3552 21.1362 20.7457 20.7457C21.1362 20.3551 21.1362 19.722 20.7457 19.3315L13.4513 12.0371L20.7457 4.74272C21.1362 4.3522 21.1362 3.71903 20.7457 3.32851Z', fill: '#ffffff'
+                            }))),
+                    El("div", {
+                        className: ((props.attributes.__preview == "show") ? "__tagembed__tagembed-preview-show" : "__tagembed__tagembed-preview-hide") + " row __tagembed__tagembed-preview",
+                    }, El("div", {
+                        className: "tagembed-md-12"
+                    }, El("iframe", { className: "__tagembed__tagembed-editor-iframe", src: props.attributes.__url + props.attributes.__widgetId, allowfullscreen: "allowfullscreen", frameborder: "0", title: "Tagembed-widget", border: "0", height: props.attributes.__height, width: props.attributes.__width }
+                    ))),
+                ]
+            },
         save: function (props) {
             if (props.attributes.__widgetId !== '' && props.attributes.__widgetId !== null && typeof (props.attributes.__widgetId) != "undefined") {
-                return El("div", {className: "tagembed-widget", style: "width:" + props.attributes.__width + ";height:" + props.attributes.__height + ";overflow: auto;", "data-widget-id": props.attributes.__widgetId, "view-url": "https://widget.tagembed.com/" + props.attributes.__widgetId});
+                return El("div", { className: "tagembed-widget", style: "width:" + props.attributes.__width + ";height:" + props.attributes.__height + ";overflow: auto;", "data-widget-id": props.attributes.__widgetId, "view-url": "https://widget.tagembed.com/" + props.attributes.__widgetId });
                 /*return El("div", {className: "tagembed-container", style: "width:" + props.attributes.__width + ";height:" + props.attributes.__height + " !important;overflow: auto;"},
                  *El("div", {className: "tagembed-socialwall tagembed-analystic", style: "width:100%;height:100%;", "data-wall-id": props.attributes.__widgetId}));
                  */

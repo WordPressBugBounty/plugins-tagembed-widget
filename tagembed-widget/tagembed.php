@@ -4,7 +4,7 @@
  * Plugin Name:       Tagembed Widget
  * Plugin URI:        https://tagembed.com/
  * Description:       Display Facebook feed, Instagram feed, Twitter feed, YouTube Videos and more social feeds from 15+ social networks on any page, posts or widgets using shortcode. Beautifully clean, customizable, and responsive Social Media Feed Widget Plugin for WordPress.
- * Version:           6.8
+ * Version:           6.9
  * Author:            Tagembed
  * Author URI:        https://tagembed.com/
  */
@@ -13,14 +13,17 @@ if (!defined('WPINC')) :
 endif;
 
 /* --Start-- Create Constant */
-!defined('TAGEMBED_PLUGIN_VERSION') && define('TAGEMBED_PLUGIN_VERSION', '6.8');
-!defined('TAGEMBED_PLUGIN_DIR_PATH') && define('TAGEMBED_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
-!defined('TAGEMBED_PLUGIN_URL') && define('TAGEMBED_PLUGIN_URL', plugin_dir_url(__FILE__));
-!defined('TAGEMBED_PLUGIN_REDIRECT_URL') && define('TAGEMBED_PLUGIN_REDIRECT_URL', get_admin_url(null, 'admin.php?page='));
-!defined('TAGEMBED_PLUGIN_API_URL') && define('TAGEMBED_PLUGIN_API_URL', 'https://api.tagembed.com/app/');
-!defined('TAGEMBED_PLUGIN_SERVER_URL') && define('TAGEMBED_PLUGIN_SERVER_URL', 'https://api.tagembed.com/app/');
-!defined('TAGEMBED_PLUGIN_REACT_URL') && define('TAGEMBED_PLUGIN_REACT_URL', 'https://widget.tagembed.com/');
-!defined('TAGEMBED_PLUGIN_CALL_BACK_URL') && define('TAGEMBED_PLUGIN_CALL_BACK_URL', admin_url() . 'admin.php?page=tagembed');
+!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '6.9');
+!defined('TAGEMBED_PLUGIN_DIR_PATH')         && define('TAGEMBED_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
+!defined('TAGEMBED_PLUGIN_URL')              && define('TAGEMBED_PLUGIN_URL', plugin_dir_url(__FILE__));
+!defined('TAGEMBED_PLUGIN_REDIRECT_URL')     && define('TAGEMBED_PLUGIN_REDIRECT_URL', get_admin_url(null, 'admin.php?page='));
+!defined('TAGEMBED_PLUGIN_API_URL')          && define('TAGEMBED_PLUGIN_API_URL', 'https://api.tagembed.com/app/');
+!defined('TAGEMBED_PLUGIN_SERVER_URL')       && define('TAGEMBED_PLUGIN_SERVER_URL', 'https://api.tagembed.com/app/');
+!defined('TAGEMBED_PLUGIN_REACT_URL')        && define('TAGEMBED_PLUGIN_REACT_URL', 'https://widget.tagembed.com/');
+!defined('TAGEMBED_PLUGIN_CALL_BACK_URL')    && define('TAGEMBED_PLUGIN_CALL_BACK_URL', admin_url() . 'admin.php?page=tagembed');
+!defined('TAGEMBED_PLUGIN_PLATFORM')         && define('TAGEMBED_PLUGIN_PLATFORM', 'tagembed');
+!defined('TAGEMBED_PLUGIN_OTHER_PLUGIN')     && define('TAGEMBED_PLUGIN_OTHER_PLUGIN', 'taggbox-widget/taggbox.php');
+!defined('TAGEMBED_PLUGIN_OTHER_PLUGIN_URL') && define('TAGEMBED_PLUGIN_OTHER_PLUGIN_URL', admin_url() . 'admin.php?page=taggbox');
 /* --End-- Create Constant */
 
 /* --Start--Include Files */
@@ -38,7 +41,6 @@ function tagembed_plugin_scripts_css()
 		wp_enqueue_style('__tagembed__confirmDialogCss', TAGEMBED_PLUGIN_URL . '/assets/css/confirm_dialog.css', '', TAGEMBED_PLUGIN_VERSION);
 		wp_enqueue_style('__tagembed__tagembedloaderCss', TAGEMBED_PLUGIN_URL . '/assets/css/loader.css', '', TAGEMBED_PLUGIN_VERSION);
 		wp_enqueue_style('__tagembed__popupCss', TAGEMBED_PLUGIN_URL . '/assets/css/styles.css', '', TAGEMBED_PLUGIN_VERSION);
-		wp_enqueue_style('__tagembed__editorCss', TAGEMBED_PLUGIN_URL . '/assets/css/editor/editor.css', '', TAGEMBED_PLUGIN_VERSION);
 		/* JS */
 		wp_enqueue_script('__tagembed__toastJs', TAGEMBED_PLUGIN_URL . '/assets/js/toast.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
 		wp_enqueue_script('__tagembed__confirmDialogJs', TAGEMBED_PLUGIN_URL . '/assets/js/confirm_dialog.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
@@ -52,8 +54,9 @@ function tagembed_plugin_scripts_css()
 		if (!function_exists('register_block_type')) :
 			return;
 		else :
-			wp_register_script('__editor-js', TAGEMBED_PLUGIN_URL . '/assets/js/editor/editor.js', ['wp-block-editor', 'wp-blocks', 'wp-element', 'wp-components', 'wp-i18n', 'wp-data', 'wp-compose'], TAGEMBED_PLUGIN_VERSION);
-			register_block_type('tagembed-block/tagembed', ['editor_script' => '__editor-js', 'editor_style' => '__editor-css', 'style' => '__editor-style-css']);
+			wp_enqueue_style('__tagembed__editorCss', TAGEMBED_PLUGIN_URL . '/assets/css/editor/editor.css', '', TAGEMBED_PLUGIN_VERSION);
+			wp_register_script('__tagembed__editor-js', TAGEMBED_PLUGIN_URL . '/assets/js/editor/editor.js', ['wp-block-editor', 'wp-blocks', 'wp-element', 'wp-components', 'wp-i18n', 'wp-data', 'wp-compose'], TAGEMBED_PLUGIN_VERSION);
+			register_block_type('tagembed-block/tagembed', ['editor_script' => '__tagembed__editor-js', 'editor_style' => '__tagembed__editorCss', 'style' => '']);
 		endif;
 	/* --End-- Gutenberge */
 	endif;
@@ -129,8 +132,8 @@ function ___tagembed__view()
 function ___tagembed__get_feed_count_information($userDetails, $networkId)
 {
 	$param['networkId'] = sanitize_key($networkId);
-	$param['userId'] = sanitize_key($userDetails->userId);
-	$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifeed/getFeedCountForFirstTimeFeed', $param, ['Authorization:' . $userDetails->accessToken]);
+	$param['userId']    = sanitize_key($userDetails->userId);
+	$response           = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifeed/getFeedCountForFirstTimeFeed', $param, ['Authorization:' . $userDetails->accessToken]);
 	if (200 == $response->head->code || !empty($response->body) || $response->body || $response->head->status) :
 		return $response->body;
 	endif;
@@ -162,6 +165,7 @@ function ___tagembed__dataAjaxHandler()
 		endif;
 	endforeach;
 	/* --End__ Sanetize All Input */
+
 	$param = [];
 	global $wpdb;
 	$action = $data->__tagembed__ajax_action;
@@ -176,10 +180,26 @@ function ___tagembed__dataAjaxHandler()
 			$param['emailId']    = sanitize_email($data->emailId);
 			$param['password']   = $data->password;
 			$param['contact_no'] = $data->contact_no;
+			$param['platform']   = TAGEMBED_PLUGIN_PLATFORM;
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/register', $param, []);
 			$response = ___tagembed__manageApiResponse($response);
 			unset($param);
+
+			/*Mange Other Plugin Login*/
+			if (isset($response->accountAlreadyOtherPluginStatus)):
+				$___tagembed__other_plugin_install_status = false;
+				if (function_exists('is_plugin_active') && is_plugin_active(TAGEMBED_PLUGIN_OTHER_PLUGIN))
+					$___tagembed__other_plugin_install_status = true;
+				return ___tagembed__exitWithSuccess([
+					'accountAlreadyOtherPluginStatus' => $response->accountAlreadyOtherPluginStatus,
+					'pluginUrl'                       => $response->pluginUrl,
+					'existingPluginUser'              => $response->existingPluginUser,
+					'otherPluginInstallStatus'        => $___tagembed__other_plugin_install_status,
+					'otherPluginInstallUrl'           => TAGEMBED_PLUGIN_OTHER_PLUGIN_URL,
+				]);
+			endif;
+
 			$param = ['userId' => sanitize_key($response->userId), 'inheritStyles' => 1];
 			___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiwidget/create', $param, ['Authorization:' . $response->access_token]);
 			if (___tagembed__login($response) == true) :
@@ -193,12 +213,28 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['emailId'] = sanitize_email($data->emailId);
+			$param['emailId']  = sanitize_email($data->emailId);
 			$param['password'] = $data->password;
+			$param['platform'] = TAGEMBED_PLUGIN_PLATFORM;
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/login', $param, []);
 			unset($param);
 			$response = ___tagembed__manageApiResponse($response);
+
+			/*Mange Other Plugin Login*/
+			if (isset($response->accountAlreadyOtherPluginStatus)):
+				$___tagembed__other_plugin_install_status = false;
+				if (function_exists('is_plugin_active') && is_plugin_active(TAGEMBED_PLUGIN_OTHER_PLUGIN))
+					$___tagembed__other_plugin_install_status = true;
+				return ___tagembed__exitWithSuccess([
+					'accountAlreadyOtherPluginStatus' => $response->accountAlreadyOtherPluginStatus,
+					'pluginUrl'                       => $response->pluginUrl,
+					'existingPluginUser'              => $response->existingPluginUser,
+					'otherPluginInstallStatus'        => $___tagembed__other_plugin_install_status,
+					'otherPluginInstallUrl'           => TAGEMBED_PLUGIN_OTHER_PLUGIN_URL,
+				]);
+			endif;
+
 			if (___tagembed__login($response) == true) :
 				return ___tagembed__exitWithSuccess(['redirectUrl' => TAGEMBED_PLUGIN_CALL_BACK_URL]);
 			else :
@@ -212,19 +248,45 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			break;
-		case '__tagembed__get_account_details':
-			$data->auth = !empty($data->auth) ? 1 : 0;
+		case '__tagembed__check_plan_premium_feature':
+			if (empty($__tagembed__user_details)) :
+				return ___tagembed__exitWithDanger();
+			endif;
+			/* --Start-- Manage Param Data */
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
+			/* --End-- Manage Param Data */
+			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/checkPlanPremiumFeature', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
+			unset($param);
+			$response = ___tagembed__manageApiResponse($response);
+			return ___tagembed__exitWithSuccess($response);
+			break;
+		case '__tagembed__check_user_accout_status':
 			if (empty($__tagembed__user_details)) :
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
 			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
+			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/checkUserAccountStatus', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
+			unset($param);
+			$response = ___tagembed__manageApiResponse($response);
+			return ___tagembed__exitWithSuccess($response);
+			break;
+		case '__tagembed__get_account_details':
+			$data->auth = !empty($data->auth) ? 1 : 0;
+			if (empty($__tagembed__user_details)) :
+				return ___tagembed__exitWithDanger();
+			endif;
+			/* --Start-- Manage Param Data */
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
+			$param['platform'] = TAGEMBED_PLUGIN_PLATFORM;
+			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/getdetails', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
 			$response = ___tagembed__manageApiResponse($response);
 			return ___tagembed__exitWithSuccess($response);
 			break;
+
 		case '__tagembed__manage_active_widget':
 			if (empty($data->widgetId)) :
 				return ___tagembed__exitWithDanger();
@@ -251,9 +313,9 @@ function ___tagembed__dataAjaxHandler()
 			endif;
 			$data->profanity = (isset($data->profanity)) ? 0 : 1;
 			/* --Start-- Manage Param Data */
-			$param['name'] = sanitize_text_field($data->name);
-			$param['profanity'] = sanitize_key($data->profanity);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['name']          = sanitize_text_field($data->name);
+			$param['profanity']     = sanitize_key($data->profanity);
+			$param['userId']        = sanitize_key($__tagembed__user_details->userId);
 			$param['inheritStyles'] = 1;
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiwidget/create', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
@@ -267,9 +329,9 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger('Validation Error', ['name' => 'Widget name is required']);
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['name'] = sanitize_text_field($data->name);
+			$param['name']     = sanitize_text_field($data->name);
 			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiwidget/edit', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -282,9 +344,9 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['status'] = sanitize_key($data->status);
+			$param['status']   = sanitize_key($data->status);
 			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiwidget/status', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -298,7 +360,7 @@ function ___tagembed__dataAjaxHandler()
 			endif;
 			/* --Start-- Manage Param Data */
 			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiwidget/delete', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -312,7 +374,7 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['auth'] = sanitize_key($data->auth);
+			$param['auth']   = sanitize_key($data->auth);
 			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apinetwork/get', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
@@ -326,7 +388,7 @@ function ___tagembed__dataAjaxHandler()
 			endif;
 			/* --Start-- Manage Param Data */
 			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'Apitheme/get', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -338,9 +400,9 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['themeId'] = sanitize_key($data->themeId);
+			$param['themeId']  = sanitize_key($data->themeId);
 			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'Apitheme/edit', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -353,7 +415,7 @@ function ___tagembed__dataAjaxHandler()
 			endif;
 			/* --Start-- Manage Param Data */
 			$param['networkId'] = sanitize_key($data->networkId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']    = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apinetwork/filter', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -378,12 +440,12 @@ function ___tagembed__dataAjaxHandler()
 			endif;
 			/* --Start-- Manage Param Data */
 			$param['connectedAccountId'] = $data->connectedAccountId;
-			$param['feedId'] = sanitize_key($data->feedId);
-			$param['type'] = sanitize_text_field($data->type);
-			$param['networkId'] = sanitize_key($data->networkId);
-			$param['filterId'] = sanitize_key($data->filterId);
-			$param['otherData'] = $data->otherData;
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['feedId']             = sanitize_key($data->feedId);
+			$param['type']               = sanitize_text_field($data->type);
+			$param['networkId']          = sanitize_key($data->networkId);
+			$param['filterId']           = sanitize_key($data->filterId);
+			$param['otherData']          = $data->otherData;
+			$param['userId']             = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiauth/addorupdate', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -395,9 +457,9 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['parentId'] = sanitize_key($data->parentId);
+			$param['parentId']  = sanitize_key($data->parentId);
 			$param['networkId'] = sanitize_key($data->networkId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']    = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiauth/delete', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -424,7 +486,7 @@ function ___tagembed__dataAjaxHandler()
 			endif;
 			/* --Start-- Manage Param Data */
 			$param['googleLocationName'] = $data->googleLocationName;
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']             = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifeed/searchgooglelocation', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -437,7 +499,7 @@ function ___tagembed__dataAjaxHandler()
 			endif;
 			/* --Start-- Manage Param Data */
 			$param['vkCommunitiesName'] = $data->vkCommunitiesName;
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']            = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifeed/searchVkCommunities', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -450,7 +512,7 @@ function ___tagembed__dataAjaxHandler()
 			endif;
 			/* --Start-- Manage Param Data */
 			$param['facebookPageData'] = $data->facebookPageData;
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']           = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			/* --Start-- Call And Manage Api Call */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifeed/searchfacebookpage', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
@@ -464,7 +526,7 @@ function ___tagembed__dataAjaxHandler()
 			endif;
 			/* --Start-- Manage Param Data */
 			$param['connectedAccountsId'] = sanitize_key($data->connectedAccountsId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']              = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiauth/apiauthfacebookpagealbums', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -490,7 +552,7 @@ function ___tagembed__dataAjaxHandler()
 			endif;
 			/* --Start-- Manage Param Data */
 			$param['youtubeId'] = $data->youtubeId;
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']    = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifeed/getyoutubeplaylist', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -528,10 +590,10 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['feedId'] = sanitize_key($data->feedId);
-			$param['status'] = sanitize_key($data->status);
+			$param['feedId']   = sanitize_key($data->feedId);
+			$param['status']   = sanitize_key($data->status);
 			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifeed/status', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -544,9 +606,9 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['feedId'] = sanitize_key($data->feedId);
+			$param['feedId']   = sanitize_key($data->feedId);
 			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifeed/delete', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -563,8 +625,8 @@ function ___tagembed__dataAjaxHandler()
 			$__tagembed__feed_filter_id = $data->filterId;
 			switch ($__tagembed__feed_input_data['networkId']):
 				case 1:
-					$__tagembed__feed_input_data['auth'] = 1;
-					$__tagembed__feed_input_data['multiplePhoto'] = sanitize_key(isset($data->multiplePhoto) ? 1 : 0);
+					$__tagembed__feed_input_data['auth']           = 1;
+					$__tagembed__feed_input_data['multiplePhoto']  = sanitize_key(isset($data->multiplePhoto) ? 1 : 0);
 					$__tagembed__feed_input_data['excludeRetweet'] = sanitize_key(isset($data->excludeRetweet) ? 1 : 0);
 					if (!empty($data->list)) :
 						$__tagembed__feed_input_data['list'] = sanitize_key($data->list);
@@ -586,7 +648,7 @@ function ___tagembed__dataAjaxHandler()
 					if ($__tagembed__feed_filter_id == 29) :
 						$__tagembed__feed_input_data['auth'] = 1;
 					else :
-						$__tagembed__feed_input_data['placeId'] = $data->placeId;
+						$__tagembed__feed_input_data['placeId']   = $data->placeId;
 						$__tagembed__feed_input_data['placeName'] = $data->placeName;
 					endif;
 					break;
@@ -599,7 +661,7 @@ function ___tagembed__dataAjaxHandler()
 							if (!preg_match('/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i', $data->feed)) :
 								return ___tagembed__exitWithDanger('Validation Error', ['feed' => 'Enter Valid URL']);
 							endif;
-							$pintrestHeaders = explode('/', parse_url($data->feed)['path']);
+							$pintrestHeaders                       = explode('/', parse_url($data->feed)['path']);
 							$__tagembed__feed_input_data['value1'] = strtolower($pintrestHeaders[1]);
 							$__tagembed__feed_input_data['value2'] = strtolower($pintrestHeaders[2]);
 							break;
@@ -623,8 +685,8 @@ function ___tagembed__dataAjaxHandler()
 							return ___tagembed__exitWithDanger('Validation Error', ['feed' => 'Enter Valid Channel URL Or Tab On Search Icon']);
 						endif;
 						if ($isUrl) :
-							$data->youtubeId = explode('/', $data->feed);
-							$data->youtubeId = $data->youtubeId[4];
+							$data->youtubeId   = explode('/', $data->feed);
+							$data->youtubeId   = $data->youtubeId[4];
 							$data->youtubeName = 'youtube';
 							if (empty($data->youtubeId) || empty($data->youtubeName)) :
 								return ___tagembed__exitWithDanger('Validation Error', ['feed' => 'Enter Valid Channel URL']);
@@ -634,7 +696,7 @@ function ___tagembed__dataAjaxHandler()
 					switch ($__tagembed__feed_filter_id):
 						case 1:
 						case 75:
-							$__tagembed__feed_input_data['youtubeId'] = $data->youtubeId;
+							$__tagembed__feed_input_data['youtubeId']   = $data->youtubeId;
 							$__tagembed__feed_input_data['youtubeName'] = $data->youtubeName;
 							break;
 						case 11:
@@ -643,10 +705,10 @@ function ___tagembed__dataAjaxHandler()
 							elseif (empty($data->youtubePlaylist) && !empty($data->youtubeId)) :
 								return ___tagembed__exitWithDanger('Validation Error', ['feed' => 'Play List Not Found']);
 							endif;
-							$data->youtubePlaylist = explode('#', $data->youtubePlaylist);
-							$__tagembed__feed_input_data['youtubeId'] = $data->youtubePlaylist[0];
+							$data->youtubePlaylist                      = explode('#', $data->youtubePlaylist);
+							$__tagembed__feed_input_data['youtubeId']   = $data->youtubePlaylist[0];
 							$__tagembed__feed_input_data['youtubeName'] = $data->youtubePlaylist[1];
-							$__tagembed__feed_input_data['feed'] = $data->youtubePlaylist[1];
+							$__tagembed__feed_input_data['feed']        = $data->youtubePlaylist[1];
 							unset($data->youtubePlaylist);
 							break;
 					endswitch;
@@ -736,7 +798,7 @@ function ___tagembed__dataAjaxHandler()
 							break;
 						case 26:
 							$__tagembed__feed_input_data['hashtagCaption'] = sanitize_key(isset($data->hashtagCaption) ? 1 : 0);
-							$__tagembed__feed_input_data['hashtagOlder'] = sanitize_key(isset($data->hashtagOlder) ? 1 : 0);
+							$__tagembed__feed_input_data['hashtagOlder']   = sanitize_key(isset($data->hashtagOlder) ? 1 : 0);
 							break;
 					endswitch;
 					$__tagembed__feed_input_data['auth'] = 1;
@@ -804,7 +866,7 @@ function ___tagembed__dataAjaxHandler()
 							break;
 						case 75:
 							$__tagembed__feed_input_data['communitiesName'] = $data->communitiesName;
-							$__tagembed__feed_input_data['communitiesId'] = $data->communitiesId;
+							$__tagembed__feed_input_data['communitiesId']   = $data->communitiesId;
 							break;
 					endswitch;
 					if (!in_array($__tagembed__feed_filter_id, [2, 75])) :
@@ -908,7 +970,8 @@ function ___tagembed__dataAjaxHandler()
 				$byApiCall = 1;
 				$__tagembed__feed_input_data['byApiCall'] = 1;
 			endif;
-			$__tagembed__feed_input_data['appUser'] = 1;
+			$__tagembed__feed_input_data['appUser']  = 1;
+			$__tagembed__feed_input_data['platform'] = TAGEMBED_PLUGIN_PLATFORM;
 			/* --End-- Manage Api Calling */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifeed/create', ['feedData' => $__tagembed__feed_input_data], ['Authorization:' . $__tagembed__user_details->accessToken]);
 			$response = ___tagembed__manageApiResponse($response);
@@ -919,12 +982,13 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['planId'] = sanitize_key($data->planId);
+			$param['planId']    = sanitize_key($data->planId);
 			$param['priceCode'] = $data->priceCode;
 			/* --Start-- Manage Param Data */
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
-			$param['email'] = $__tagembed__user_details->email;
-			$param['name'] = $__tagembed__user_details->name;
+			$param['userId']    = sanitize_key($__tagembed__user_details->userId);
+			$param['email']     = $__tagembed__user_details->email;
+			$param['name']      = $__tagembed__user_details->name;
+			$param['platform']  = TAGEMBED_PLUGIN_PLATFORM;
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/getpaymentdetails', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -936,11 +1000,12 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['planId'] = sanitize_key($data->planId);
+			$param['planId']   = sanitize_key($data->planId);
 			/* --Start-- Manage Param Data */
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
-			$param['email'] = $__tagembed__user_details->email;
-			$param['name'] = $__tagembed__user_details->name;
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
+			$param['email']    = $__tagembed__user_details->email;
+			$param['name']     = $__tagembed__user_details->name;
+			$param['platform'] = TAGEMBED_PLUGIN_PLATFORM;
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/cancelsubscription', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -953,18 +1018,18 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
-			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['perPage'] = sanitize_key($data->perPage);
-			$param['offset'] = sanitize_key($data->offset);
-			$param['postStatus'] = sanitize_key($data->postStatus);
-			$param['feedIds'] = $data->feedIds;
-			$param['postType'] = $data->postType;
+			$param['userId']          = sanitize_key($__tagembed__user_details->userId);
+			$param['widgetId']        = sanitize_key($data->widgetId);
+			$param['perPage']         = sanitize_key($data->perPage);
+			$param['offset']          = sanitize_key($data->offset);
+			$param['postStatus']      = sanitize_key($data->postStatus);
+			$param['feedIds']         = $data->feedIds;
+			$param['postType']        = $data->postType;
 			$param['highlightFilter'] = sanitize_key($data->highlightFilter);
-			$param['pinFilter'] = sanitize_key($data->pinFilter);
-			$param['recentFilter'] = sanitize_key($data->recentFilter);
-			$param['retweetFilter'] = sanitize_key($data->retweetFilter);
-			$param['searchText'] = sanitize_text_field($data->searchText);
+			$param['pinFilter']       = sanitize_key($data->pinFilter);
+			$param['recentFilter']    = sanitize_key($data->recentFilter);
+			$param['retweetFilter']   = sanitize_key($data->retweetFilter);
+			$param['searchText']      = sanitize_text_field($data->searchText);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifilter/get', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -976,9 +1041,9 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
-			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['postIds'] = $data->postIds;
+			$param['userId']     = sanitize_key($__tagembed__user_details->userId);
+			$param['widgetId']   = sanitize_key($data->widgetId);
+			$param['postIds']    = $data->postIds;
 			$param['postStatus'] = sanitize_key($data->postStatus);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifilter/status', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
@@ -992,7 +1057,7 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
 			$param['widgetId'] = sanitize_key($data->widgetId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifilter/getfeeds', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
@@ -1005,10 +1070,10 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
 			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['postId'] = $data->postId;
-			$param['pin'] = sanitize_key($data->pin);
+			$param['postId']   = $data->postId;
+			$param['pin']      = sanitize_key($data->pin);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifilter/pin', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -1021,9 +1086,9 @@ function ___tagembed__dataAjaxHandler()
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
-			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['postId'] = $data->postId;
+			$param['userId']    = sanitize_key($__tagembed__user_details->userId);
+			$param['widgetId']  = sanitize_key($data->widgetId);
+			$param['postId']    = $data->postId;
 			$param['highlight'] = sanitize_key($data->highlight);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifilter/highlight', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
@@ -1034,15 +1099,16 @@ function ___tagembed__dataAjaxHandler()
 			break;
 		case '__tagembed__plugin_version':
 			/* --Start-- Manage Param Data */
-			$param = [];
+			$param             = [];
+			$param['platform'] = TAGEMBED_PLUGIN_PLATFORM;
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/pluginversion', $param, []);
 			$response = ___tagembed__manageApiResponse($response);
 			unset($param);
-			$installedPluginVersion = get_file_data(__FILE__, ['Version' => 'Version'], false);
-			$installedPluginVersion = $installedPluginVersion['Version'];
+			$installedPluginVersion           = get_file_data(__FILE__, ['Version' => 'Version'], false);
+			$installedPluginVersion           = $installedPluginVersion['Version'];
 			$response->installedPluginVersion = $installedPluginVersion;
-			$response->pluginUpgradeURL = admin_url() . 'plugins.php';
+			$response->pluginUpgradeURL       = admin_url() . 'plugins.php';
 			return ___tagembed__exitWithSuccess($response);
 			break;
 		case '__tagembed__check_user_token':
@@ -1063,13 +1129,14 @@ function ___tagembed__dataAjaxHandler()
 			/* --Start-- Manage Param Data */
 			$__tagembed__user_details = ___tagembed__userData();
 			$param = [];
-			$param['userId'] = !empty($__tagembed__user_details) ? sanitize_key($__tagembed__user_details->userId) : '';
-			$param['userName'] = !empty($__tagembed__user_details) ? sanitize_text_field($__tagembed__user_details->name) : '';
-			$param['userEmail'] = !empty($__tagembed__user_details) ? sanitize_email($__tagembed__user_details->email) : '';
+			$param['userId']                 = !empty($__tagembed__user_details) ? sanitize_key($__tagembed__user_details->userId) : '';
+			$param['userName']               = !empty($__tagembed__user_details) ? sanitize_text_field($__tagembed__user_details->name) : '';
+			$param['userEmail']              = !empty($__tagembed__user_details) ? sanitize_email($__tagembed__user_details->email) : '';
 			$param['pluginDeactivateReason'] = sanitize_text_field($data->pluginDeactivateReason);
-			$param['otherReason'] = sanitize_text_field($data->otherReason);
-			$param['betterPlugin'] = sanitize_text_field($data->betterPlugin);
-			$param['userWebsiteUrl'] = get_site_url();
+			$param['otherReason']            = sanitize_text_field($data->otherReason);
+			$param['betterPlugin']           = sanitize_text_field($data->betterPlugin);
+			$param['userWebsiteUrl']         = get_site_url();
+			$param['platform']               = TAGEMBED_PLUGIN_PLATFORM;
 			/* --End-- Manage Param Data */
 			___tagembed__dropDatabaseTablesForPlugin();
 			deactivate_plugins(plugin_basename(__FILE__), true);
@@ -1084,7 +1151,7 @@ function ___tagembed__dataAjaxHandler()
 			endif;
 			/* --Start-- Manage Param Data */
 			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apicustomization/get', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -1093,12 +1160,12 @@ function ___tagembed__dataAjaxHandler()
 			break;
 		case '__tagembed__update_footer_customization_option':
 			/* --Start-- Manage Param Data */
-			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['widgetId']          = sanitize_key($data->widgetId);
+			$param['userId']            = sanitize_key($__tagembed__user_details->userId);
 			$param['personalizationId'] = sanitize_key($data->personalizationId);
-			$param['themeRuleId'] = sanitize_key($data->themeRuleId);
-			$param['loadMoreStatus'] = sanitize_key($data->loadMoreStatus);
-			$param['autoScrollStatus'] = sanitize_key($data->autoScrollStatus);
+			$param['themeRuleId']       = sanitize_key($data->themeRuleId);
+			$param['loadMoreStatus']    = sanitize_key($data->loadMoreStatus);
+			$param['autoScrollStatus']  = sanitize_key($data->autoScrollStatus);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apicustomization/footer', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -1107,18 +1174,18 @@ function ___tagembed__dataAjaxHandler()
 			break;
 		case '__tagembed__update_layout_customization_option':
 			/* --Start-- Manage Param Data */
-			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['widgetId']          = sanitize_key($data->widgetId);
+			$param['userId']            = sanitize_key($__tagembed__user_details->userId);
 			$param['personalizationId'] = sanitize_key($data->personalizationId);
-			$param['themeRuleId'] = sanitize_key($data->themeRuleId);
-			$param['numberOfPosts'] = sanitize_key($data->numberOfPosts);
-			$param['padding'] = sanitize_key($data->padding);
-			$param['minimumPostWidth'] = sanitize_key($data->minimumPostWidth);
-			$param['columnCount'] = sanitize_key($data->columnCount);
+			$param['themeRuleId']       = sanitize_key($data->themeRuleId);
+			$param['numberOfPosts']     = sanitize_key($data->numberOfPosts);
+			$param['padding']           = sanitize_key($data->padding);
+			$param['minimumPostWidth']  = sanitize_key($data->minimumPostWidth);
+			$param['columnCount']       = sanitize_key($data->columnCount);
 			$param['columnCountMobile'] = sanitize_key($data->columnCountMobile);
-			$param['postText'] = sanitize_key($data->postText);
-			$param['mobilePopup'] = sanitize_key($data->mobilePopup);
-			$param['postFeatured'] = sanitize_key($data->postFeatured);
+			$param['postText']          = sanitize_key($data->postText);
+			$param['mobilePopup']       = sanitize_key($data->mobilePopup);
+			$param['postFeatured']      = sanitize_key($data->postFeatured);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apicustomization/layout', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -1127,23 +1194,23 @@ function ___tagembed__dataAjaxHandler()
 			break;
 		case '__tagembed__update_card_customization_option':
 			/* --Start-- Manage Param Data */
-			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['widgetId']          = sanitize_key($data->widgetId);
+			$param['userId']            = sanitize_key($__tagembed__user_details->userId);
 			$param['personalizationId'] = sanitize_key($data->personalizationId);
-			$param['inheritStyles'] = sanitize_key($data->inheritStyles);
-			$param['themeRuleId'] = sanitize_key($data->themeRuleId);
-			$param['fontColor'] = $data->fontColor;
-			$param['authorColor'] = $data->authorColor;
-			$param['cardColor'] = $data->cardColor;
-			$param['fontSize'] = sanitize_key($data->fontSize);
-			$param['shareOption'] = sanitize_key($data->shareOption);
-			$param['hideContent'] = sanitize_key($data->hideContent);
-			$param['postAuthor'] = sanitize_key($data->postAuthor);
-			$param['postTime'] = sanitize_key($data->postTime);
-			$param['lineTrim'] = sanitize_key($data->lineTrim);
-			$param['aspectImageRatio'] = $data->aspectImageRatio;
-			$param['textAlignment'] = $data->textAlignment;
-			$param['borderRadius'] = $data->borderRadius;
+			$param['inheritStyles']     = sanitize_key($data->inheritStyles);
+			$param['themeRuleId']       = sanitize_key($data->themeRuleId);
+			$param['fontColor']         = $data->fontColor;
+			$param['authorColor']       = $data->authorColor;
+			$param['cardColor']         = $data->cardColor;
+			$param['fontSize']          = sanitize_key($data->fontSize);
+			$param['shareOption']       = sanitize_key($data->shareOption);
+			$param['hideContent']       = sanitize_key($data->hideContent);
+			$param['postAuthor']        = sanitize_key($data->postAuthor);
+			$param['postTime']          = sanitize_key($data->postTime);
+			$param['lineTrim']          = sanitize_key($data->lineTrim);
+			$param['aspectImageRatio']  = $data->aspectImageRatio;
+			$param['textAlignment']     = $data->textAlignment;
+			$param['borderRadius']      = $data->borderRadius;
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apicustomization/card', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -1152,11 +1219,11 @@ function ___tagembed__dataAjaxHandler()
 			break;
 		case '__tagembed__update_other_customization_option':
 			/* --Start-- Manage Param Data */
-			$param['widgetId'] = sanitize_key($data->widgetId);
-			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
+			$param['widgetId']          = sanitize_key($data->widgetId);
+			$param['userId']            = sanitize_key($__tagembed__user_details->userId);
 			$param['personalizationId'] = sanitize_key($data->personalizationId);
-			$param['themeRuleId'] = sanitize_key($data->themeRuleId);
-			$param['css'] = $data->css;
+			$param['themeRuleId']       = sanitize_key($data->themeRuleId);
+			$param['css']               = $data->css;
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apicustomization/other', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
@@ -1564,10 +1631,10 @@ function ___tagembed__hideGeneralAdminNotice()
 function ___tagembed__PluginShortCode($__tagembed__shortCodeAttr)
 {
 	$__tagembed__shortCodeDefaultAttr = ['width' => '', 'height' => '', 1 => ''];
-	$__tagembed__shortCodeAttr = shortcode_atts($__tagembed__shortCodeDefaultAttr, $__tagembed__shortCodeAttr, 'tagembed');
-	$width = isset($__tagembed__shortCodeAttr['width']) ? sanitize_text_field($__tagembed__shortCodeAttr['width']) : '';
-	$height = isset($__tagembed__shortCodeAttr['height']) ? sanitize_text_field($__tagembed__shortCodeAttr['height']) : '';
-	$widgetId = isset($__tagembed__shortCodeAttr[1]) ? sanitize_text_field($__tagembed__shortCodeAttr[1]) : '';
+	$__tagembed__shortCodeAttr        = shortcode_atts($__tagembed__shortCodeDefaultAttr, $__tagembed__shortCodeAttr, 'tagembed');
+	$width                            = isset($__tagembed__shortCodeAttr['width']) ? sanitize_text_field($__tagembed__shortCodeAttr['width']) : '';
+	$height                           = isset($__tagembed__shortCodeAttr['height']) ? sanitize_text_field($__tagembed__shortCodeAttr['height']) : '';
+	$widgetId                         = isset($__tagembed__shortCodeAttr[1]) ? sanitize_text_field($__tagembed__shortCodeAttr[1]) : '';
 	if (!empty($widgetId) && is_numeric($widgetId) && (('' === $width || preg_match('/^\d+(px|%|)$/', $width)) && ('' === $height || preg_match('/^\d+(px|%|)$/', $height)))) :
 		$output = '<div class=\'tagembed-widget\' style=\'width:' . esc_attr($width) . '; height:' . esc_attr($height) . ';\' data-widget-id=\'' . esc_attr($widgetId) . '\' view-url=\'https://widget.tagembed.com/' . esc_attr($widgetId) . '\'></div>';
 	else :

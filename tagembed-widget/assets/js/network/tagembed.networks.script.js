@@ -34,15 +34,15 @@ function __tagembed__get_networks() {
             document.getElementById("__tagembed__networks").innerHTML = elemHTML;
         } else {
             if (response.hasOwnProperty("message")) {
-                __tagembed__toast.danger({message: response.message, position: '__tagembed__is-top-right'});
+                __tagembed__toast.danger({ message: response.message, position: '__tagembed__is-top-right' });
             } else {
-                __tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+                __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
             }
         }
     }).catch((error) => {
         console.log(error);
         __tagembed__close_loader();
-        __tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+        __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
     });
 }
 /*--End-- Get Network Source*/
@@ -86,19 +86,18 @@ if (__tagembed__networks) {
             } else {
                 __tagembed__account_error.style.display = 'none';
                 if (response.hasOwnProperty("message")) {
-                    __tagembed__toast.danger({message: response.message, position: '__tagembed__is-top-right'});
+                    __tagembed__toast.danger({ message: response.message, position: '__tagembed__is-top-right' });
                 } else {
-                    __tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+                    __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
                 }
             }
         }).catch((error) => {
             console.log(error);
             __tagembed__close_loader();
             __tagembed__account_error.style.display = 'none';
-            __tagembed__toast.danger({message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right'});
+            __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
         });
     });
 }
 /*--End--Get Feed Filters*/
-
 
