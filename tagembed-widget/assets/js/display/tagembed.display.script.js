@@ -20,7 +20,7 @@ function __tagembed__changeIfrmSrc() {
     let widgetData = document.querySelector("#__tagembed__widgets");
     if (widgetData) {
         let __tagembed__widgetId = widgetData.selectedOptions[0].value.split('#')[0];
-        document.querySelector("#__tagembed__widget_display_preview_id").innerHTML = `<iframe id="__tagembed__display_ifrm" width="100%" height="100%" src="${__tagembed__plugin_react_url + __tagembed__widgetId}?view" title="Tagembed" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        document.querySelector("#__tagembed__widget_display_preview_id").innerHTML = `<iframe id="__tagembed__display_ifrm" width="100%" height="100%" src="${__tagembed__plugin_react_url + __tagembed__widgetId}?editor=1" title="Tagembed" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
     }
     /*Close  Loader After 5 Second*/
     /*setTimeout(function () {__tagembed__display_preview_loader.style.display = 'none'}, 2000);*/
