@@ -80,6 +80,46 @@ function __tagembed__hide_other_plugin_account_popup_close() {
 }
 /*--End-- Manage Other Plugin Account Popup*/
 
+/*--Start-- Get Country Code For Register*/
+window.addEventListener ? window.addEventListener("load", __tagembed__getCallingCode, false) : window.attachEvent && window.attachEvent("onload", __tagembed__getCallingCode);
+function __tagembed__getCallingCode() {
+    /*Manage Customizaton Section Hide Show*/
+    let __tagembed__toast = new TagembedToast;
+    let formData = new FormData();
+    formData.append('action', 'data');
+    formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
+    formData.append('__tagembed__ajax_action', '__tagembed__getCallingCode');
+    __tagembed__open_loader();
+    fetch(__tagembed__ajax_url, {
+        method: 'POST',
+        headers: {
+            'x-requested-with': 'XMLHttpRequest',
+        },
+        body: formData,
+    }).then(response => {
+        return response.json()
+    }).then(response => {
+        __tagembed__close_loader();
+        if (response.status == true) {
+            let callingCodes = response.data.callingCode;
+            let select = document.getElementById("__tagembed__callingCode");
+            callingCodes.forEach((callingCode, index) => {
+                let option = document.createElement("option");
+                option.value = callingCode.callingCode;
+                option.textContent = `${callingCode.flag} ${callingCode.name} (${callingCode.callingCode})`;
+                if (callingCode.status == 1)
+                    option.selected = true;
+                select.appendChild(option);
+            });
+        }
+    }).catch((error) => {
+        console.log(error);
+        __tagembed__close_loader();
+        __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
+    });
+}
+/*--End-- Get Country Code For Register*/
+
 /*--Start-- Register*/
 var __tagembed__register_form = document.querySelector("#__tagembed__register_form");
 if (__tagembed__register_form) {
@@ -93,6 +133,8 @@ if (__tagembed__register_form) {
         __tagembed__register_password_error.style.display = 'none';
         let __tagembed__register_contact_no_error = document.querySelector("#__tagembed__register_contact_no_error");
         __tagembed__register_contact_no_error.style.display = 'none';
+        let __tagembed__register_calling_code_error = document.querySelector("#__tagembed__register_calling_code_error");
+        __tagembed__register_calling_code_error.style.display = 'none';
         __tagembed__open_loader();
         let __tagembed__toast = new TagembedToast;
         let formData = document.querySelector("#__tagembed__register_form")
@@ -136,6 +178,10 @@ if (__tagembed__register_form) {
                     if (response.data.hasOwnProperty("contact_no")) {
                         __tagembed__register_contact_no_error.style.display = 'block';
                         __tagembed__register_contact_no_error.textContent = response.data.contact_no;
+                    }
+                    if (response.data.hasOwnProperty("calling_code")) {
+                        __tagembed__register_calling_code_error.style.display = 'block';
+                        __tagembed__register_calling_code_error.textContent = response.data.calling_code;
                     }
                     /*--End-- Manage Validation Error*/
                 } else {
