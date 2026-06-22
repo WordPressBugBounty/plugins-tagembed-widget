@@ -73,6 +73,21 @@ function __tagembed__get_account_details() {
 	}).then(response => {
 		__tagembed__close_loader();
 		if (response.status == true) {
+
+			/*--Start-- Manage Upgrade Plan Section Hide | Show*/
+			let __tagembed__upgrade_plan_section = document.querySelector("#__tagembed__upgrade_plan_section");
+			let __tagembed__support_section = document.querySelector("#__tagembed__support_section");
+			if (response.data.upgradeSection && response.data.upgradeSection === "hide") {
+				if (__tagembed__upgrade_plan_section) {
+					__tagembed__upgrade_plan_section.style.display = "none";
+				}
+				if (__tagembed__support_section) {
+					__tagembed__support_section.style.display = "block";
+				}
+				return false;
+			}
+			/*--End-- Manage Upgrade Plan Section Hide | Show*/
+
 			/*--Start-- Manage All Feacture Section*/
 			let allFeactureHTML = "";
 			let i = 0;
@@ -188,6 +203,11 @@ function __tagembed__get_account_details() {
 			}
 			__tagembed__plan.innerHTML = elemHTML;
 			/*--End-- Manage Plan Serction Section*/
+
+			/*Manage Upgrade Plan Section Hide | Show */
+			if (__tagembed__upgrade_plan_section)
+				__tagembed__upgrade_plan_section.style.display = "block";
+
 		} else {
 			if (response.hasOwnProperty("message")) {
 				__tagembed__toast.danger({ message: response.message, position: '__tagembed__is-top-right' });

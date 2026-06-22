@@ -2,7 +2,7 @@
 function ___tagembed__wpApiCall($apiUrl, $body, $header = null, $breakResponse = false)
 {
 	$header = (null != $header ? $header : []);
-	$args = ['body' => $body, 'timeout' => '5', 'redirection' => '5', 'httpversion' => '1.0', 'blocking' => true, 'headers' => $header, 'cookies' => []];
+	$args = ['body' => $body, 'timeout' => '30', 'redirection' => '5', 'httpversion' => '1.0', 'blocking' => true, 'headers' => $header, 'cookies' => []];
 	$response = wp_remote_post($apiUrl, $args);
 	if ($breakResponse) :
 		___tagembed__dd($response);

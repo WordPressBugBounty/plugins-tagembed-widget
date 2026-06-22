@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Plugin Name:       Tagembed: Social Feeds Widget
+ * Plugin Name:       Tagembed Social Feeds Widget
  * Plugin URI:        https://tagembed.com/
  * Description:       Display social media feeds and user-generated content in an interactive widget.
- * Version:           7.2
+ * Version:           7.3
  * Author:            Tagembed
  * Author URI:        https://tagembed.com/
  * License:           GPLv3
@@ -15,12 +15,14 @@ if (!defined('WPINC')) :
 endif;
 
 /* --Start-- Create Constant */
-!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '7.2');
+!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '7.3');
 !defined('TAGEMBED_PLUGIN_DIR_PATH')         && define('TAGEMBED_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 !defined('TAGEMBED_PLUGIN_URL')              && define('TAGEMBED_PLUGIN_URL', plugin_dir_url(__FILE__));
 !defined('TAGEMBED_PLUGIN_REDIRECT_URL')     && define('TAGEMBED_PLUGIN_REDIRECT_URL', get_admin_url(null, 'admin.php?page='));
+
 !defined('TAGEMBED_PLUGIN_API_URL')          && define('TAGEMBED_PLUGIN_API_URL', 'https://api.tagembed.com/app/');
 !defined('TAGEMBED_PLUGIN_SERVER_URL')       && define('TAGEMBED_PLUGIN_SERVER_URL', 'https://api.tagembed.com/app/');
+
 !defined('TAGEMBED_PLUGIN_REACT_URL')        && define('TAGEMBED_PLUGIN_REACT_URL', 'https://widget.tagembed.com/');
 !defined('TAGEMBED_PLUGIN_CALL_BACK_URL')    && define('TAGEMBED_PLUGIN_CALL_BACK_URL', admin_url() . 'admin.php?page=tagembed');
 !defined('TAGEMBED_PLUGIN_PLATFORM')         && define('TAGEMBED_PLUGIN_PLATFORM', 'tagembed');
