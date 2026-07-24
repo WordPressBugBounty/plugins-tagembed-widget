@@ -151,7 +151,7 @@ function __tagembed__get_account_details() {
 						elemHTML = `${elemHTML}<strong>${response.data.Product[indexx][indexxx].Plan.name}</strong>`;
 						let monthelyPrice = response.data.Product[indexx][indexxx].Plan.wordpessMonthlyPrice;
 						let yearlyPrice = response.data.Product[indexx][indexxx].Plan.wordpressYearlyPrice;
-						if (response.data.Product[indexx][indexxx].Plan.id == 67) {
+						if (response.data.Product[indexx][indexxx].Plan.id == 67 || response.data.Product[indexx][indexxx].Plan.id == 53) {
 							elemHTML = `${elemHTML}<h2>Free</h2>`;
 						} else {
 							elemHTML = `${elemHTML}<h2 class="__tagembed__monthely_plan" style="display:none;">$${monthelyPrice}/Mo</h2>`;
@@ -159,9 +159,9 @@ function __tagembed__get_account_details() {
 						}
 						elemHTML = `${elemHTML}<p>${response.data.Product[indexx][indexxx].Plan.description}</p>`;
 						elemHTML = `${elemHTML}<ul>`;
-						elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />${response.data.Product[indexx][indexxx].PlanRule.feeds} ${response.data.Product[indexx][indexxx].Plan.id == 67 ? `Feed` : `Feeds`}</li>`;
+						elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />${response.data.Product[indexx][indexxx].PlanRule.feeds} ${response.data.Product[indexx][indexxx].Plan.id == 67 || response.data.Product[indexx][indexxx].Plan.id == 53 ? `Feed` : `Feeds`}</li>`;
 						elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />${response.data.Product[indexx][indexxx].PlanRule.viewCount} Views/Month</li>`;
-						if (response.data.Product[indexx][indexxx].Plan.id != 67) {
+						if (response.data.Product[indexx][indexxx].Plan.id != 67 && response.data.Product[indexx][indexxx].Plan.id != 53) {
 							if (response.data.Product[indexx][indexxx].PlanRule.linkedInFeedLimit != 0) {
 								elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />LinkedIn Auto Update (Max ${response.data.Product[indexx][indexxx].PlanRule.linkedInFeedLimit} Feeds)</li>`;
 							} else {
@@ -184,11 +184,11 @@ function __tagembed__get_account_details() {
 						elemHTML = `${elemHTML}</ul>`;
 						if (response.data.Product[indexx][indexxx].Plan.id != 1) {
 							if (response.data.Product[indexx][indexxx].Plan.id == response.data.Product.ActivePlan.id) {
-								if (response.data.Product[indexx][indexxx].Plan.id != 67) {
+								if (response.data.Product[indexx][indexxx].Plan.id != 67 && response.data.Product[indexx][indexxx].Plan.id != 53) {
 									elemHTML = `${elemHTML}<a href="javascript:void(0);" onclick="__tagembed__cancel_subscription('${response.data.Product[indexx][indexxx].Plan.id}');" class="__tagembed__selectbtn">Cancel Subscription</a>`;
 								}
 							} else {
-								if (response.data.Product[indexx][indexxx].Plan.id == 67) {
+								if (response.data.Product[indexx][indexxx].Plan.id == 67 || response.data.Product[indexx][indexxx].Plan.id == 53) {
 									elemHTML = `${elemHTML}<a href="javascript:void(0);" onclick="__tagembed__make_lite_plan_payment('${response.data.Product[indexx][indexxx].Plan.id}','${response.data.Product[indexx][indexxx].Plan.wordpressStripeMonthlyPriceCode}');" class="__tagembed__selectbtn  __tagembed__selectbtn_monthely" style="display:none;">Select</a>`;
 									elemHTML = `${elemHTML}<a href="javascript:void(0);" onclick="__tagembed__make_lite_plan_payment('${response.data.Product[indexx][indexxx].Plan.id}','${response.data.Product[indexx][indexxx].Plan.wordpressStripeYearlyPriceCode}');" class="__tagembed__selectbtn  __tagembed__selectbtn_yearly">Select</a>`;
 								} else {

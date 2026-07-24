@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Plugin Name:       Tagembed Social Feeds Widget
+ * Plugin Name:       Tagembed: Social Media Feeds and Customer Reviews Widget
  * Plugin URI:        https://tagembed.com/
  * Description:       Display social media feeds and user-generated content in an interactive widget.
- * Version:           7.3
+ * Version:           7.4
  * Author:            Tagembed
  * Author URI:        https://tagembed.com/
  * License:           GPLv3
@@ -15,7 +15,7 @@ if (!defined('WPINC')) :
 endif;
 
 /* --Start-- Create Constant */
-!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '7.3');
+!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '7.4');
 !defined('TAGEMBED_PLUGIN_DIR_PATH')         && define('TAGEMBED_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 !defined('TAGEMBED_PLUGIN_URL')              && define('TAGEMBED_PLUGIN_URL', plugin_dir_url(__FILE__));
 !defined('TAGEMBED_PLUGIN_REDIRECT_URL')     && define('TAGEMBED_PLUGIN_REDIRECT_URL', get_admin_url(null, 'admin.php?page='));

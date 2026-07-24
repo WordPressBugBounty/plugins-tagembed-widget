@@ -1,11 +1,11 @@
-=== Tagembed Social Feeds Widget ===
+=== Tagembed: Social Media Feeds and Customer Reviews Widget ===
 Contributors: tagembed
 Donate link: https://tagembed.com/
 Tags: social media feed, Instagram feed, LinkedIn, google reviews, social media aggregator
 Requires at least: 3.0
-Tested up to: 6.9.1
+Tested up to: 7.0.2
 Requires PHP: 5.6
-Stable tag: 7.3
+Stable tag: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -16,7 +16,8 @@ Collect and embed Instagram feeds, LinkedIn posts, Twitter feeds, YouTube videos
 = Collect. Curate. Publish. =
 
 Tagembed is a social media feed aggregator plugin that helps you collect, curate, and embed social media feeds, Google Reviews, photos, videos, stories, and user-generated content (UGC) on your WordPress website automatically.
-You can embed content from social media platforms like Instagram, Facebook, YouTube, TikTok, LinkedIn, X and review platforms such as Google Reviews. The plugin allows you to showcase user-generated content, social posts, and customer feedback in a customizable format.
+
+You can embed content from social media platforms like Instagram, Facebook, YouTube, TikTok, LinkedIn, Twitter (X) and review platforms such as Google Reviews. The plugin allows you to showcase user-generated content, social posts, and customer feedback in a customizable format.
 
 Watch how the Tagembed WordPress Plugin lets you easily embed social media feeds, reviews, and UGC on your WordPress website. No coding required.
 
@@ -30,6 +31,7 @@ https://www.youtube.com/watch?v=daxGho6g1ac
 * YouTube Feed (Shorts, playlist channels)
 * Twitter (X) Feed (Hashtag, handle, mention)
 * LinkedIn feed (Company Page URL, Profile URL, Post URL)
+* RSS Feed (News Websites, Blogs and other RSS Feed URL)
 
 = Top Review Feed Network: =
 
@@ -40,8 +42,10 @@ https://www.youtube.com/watch?v=daxGho6g1ac
 * Amazon Reviews
 * Tripadvisor Reviews
 * Etsy Reviews
+* AliExpress Reviews
+* Booking.com Reviews
 
-Showcasing social media feed & reviews on your site is a simple yet powerful strategy to boost customer confidence, ultimately leading to increased sales!
+Showcasing social media feed & customer reviews on your site is a simple yet powerful strategy to boost customer confidence, ultimately leading to increased sales!
 
 == 4 Simple Step Process to Use Tagembed Social Media Feed Plugin ==
 
@@ -57,19 +61,19 @@ Showcasing social media feed & reviews on your site is a simple yet powerful str
 * **Real time update**: Display posts instantly as they come on your social account.
 * **SEO friendly**: Our widgets ensure optimal speed and performance by caching social media and loading it only when needed, keeping your page lightning-fast.
 * **Boost Google Rating:** Collect fresh Google Reviews easily using a **"Review Us on Google"** button.
-* **Unlimited Widgets** – Showcase your reviews from various sources in one place. Combine your Google reviews, Facebook reviews, & other business reviews into a single widget.
+* **Unlimited Widgets** – Showcase your customer reviews from various sources in one place. Combine your Google reviews, Facebook reviews, & other business reviews into a single widget.
 * **Embed Anywhere**: We support Elementor, Gutenberg block, WordPress widget etc.
 
 == Design & Customization ==
 
 * **Quickly customize your website to make it stand out — no coding needed**.
-* **Pre-built templates** to embed Google reviews, Instagram reels, or Instagram feed widgets etc. To get started easily.
+* **Pre-built templates** to embed Google reviews widget, Instagram reels, or Instagram feed widgets etc. To get started easily.
 * **Inherit Theme**: Automatically fetch the color  font of your website.
 * **Gallery & Slideshow layouts** Image galleries, carousel slider, & slideshows for WP sites.
 * **Zero Code**: We provide short code to embed the widget. No need for technical knowledge.
 * **CTA**: Add different CTA buttons to posts to increase sales.
 * **Customization**: Edit title, size, & color; adjust image size and padding etc.
-* **Banner**: Add ready to use or add your own banner on your widget to collect reviews & grow community.
+* **Banner**: Add ready to use or add your own banner on your widget to collect customer reviews & grow community.
 * **Custom CSS** to add elements of your choices.
 * **Custom Post** to add a photo, video & text of your choice.
 
@@ -89,7 +93,7 @@ Tagembed offers a free plan and paid options.
 
 Free Plan: **Forever Free** includes
 
-* 1 Feed (like Instagram Feed, Facebook feed)
+* 1 Feed (like Instagram Feed, Facebook feed or Google Reviews Widget)
 * 500 Views/Month
 * 48 Hours Update Time
 * Tagembed Branding
@@ -104,11 +108,12 @@ Free Plan: **Forever Free** includes
 
 [**Explore Free and Paid Plans Designed for Your Growth**](https://tagembed.com/price/)
 
-== Why should you embed social media feeds on your websites? ==
+== Why Should You Embed Social Media Feeds and Review Widgets on Your Website? ==
 
 * **Increased Engagement:** Embedding social media feeds encourages interaction & boosts engagement with your audience.
+* **Build Trust with Customer Reviews:** Display authentic customer reviews from your Google reviews widget and other review platforms to build credibility and help visitors make confident purchasing decisions.
 * **Fresh Content:** It keeps the website updated with the latest posts & content from your social media profiles.
-* **Social Proof:** Displaying on your site provides social proof & builds credibility.
+* **Social Proof:** Display popular social media feeds, such as Instagram and Facebook feeds, on your website to build social proof and strengthen your brand's credibility.
 * **Brand Visibility:** Expanding your social media presence to your website increases brand visibility.
 * **Enhanced User Experience:** Visitors can easily access your social media content without leaving your website, improving their experience.
 * **Cross-Promotion:** It allows you to cross-promote social media channels and websites, driving traffic between them.
@@ -119,7 +124,7 @@ Free Plan: **Forever Free** includes
 
  == Popular Social Media Feed Widgets for Your Wordpress Website: ==
 
-*   [**Instagram Widget**](https://tagembed.com/instagram-widget/wordpress/)**:** Showcase Instagram photos from hashtags, handles, mentions, stories, reels, & more on your WordPress website.
+*   [**Instagram Widget**](https://tagembed.com/instagram-widget/wordpress/)**:** Embed Instagram feeds from hashtags, handles, mentions, stories, reels, & more on your WordPress website.
     
 *   [**Facebook Widget**](https://tagembed.com/facebook-widget/wordpress/)**:** Add Custom Facebook Feed directly on your website from the Facebook page.
     
@@ -139,7 +144,7 @@ Free Plan: **Forever Free** includes
 
 *   [**Google Reviews**](https://tagembed.com/google-reviews-widget/wordpress/)**:** Easily embed Google reviews into your WordPress site to boost SEO, build trust, & boost sales.
     
-*   [**Facebook Reviews**](https://tagembed.com/facebook-reviews-widget/wordpress/)**:** Show your reviews & rating from Facebook on your pages and increase sales.
+*   [**Facebook Reviews**](https://tagembed.com/facebook-reviews-widget/wordpress/)**:** Show your customer reviews & rating from Facebook on your pages and increase sales.
     
 *   [**Airbnb Reviews**](https://tagembed.com/airbnb-reviews-widget/wordpress/)**:** Include Airbnb widget on your website to multiple sales & build trust.
     
@@ -151,7 +156,7 @@ Free Plan: **Forever Free** includes
     
 *   **Aliexpress Reviews:** Create your AliExpress Reviews widget now! Use our easy configurator to [embed AliExpress reviews](https://tagembed.com/blog/embed-aliexpress-reviews-on-website/) on your website in just minutes.
     
-*   **Etsy Reviews:** Prove the genuineness of your brand and build a reputation in the market by exhibiting reviews using Etsy review widget.
+*   **Etsy Reviews:** Prove the genuineness of your brand and build a reputation in the market by exhibiting customer reviews using Etsy review widget.
     
 *   **All-in-one-review widget:** Add multiple reviews sites on single [review widget](https://tagembed.com/review-widget/) (For ex: Add Google review, Facebook feed reviews in one widget)
 
@@ -202,7 +207,7 @@ You can read our [Terms of Service](https://tagembed.com/terms-of-service/) & [P
 == Frequently Asked Questions ==
 
 = What is Tagembed? =
-Tagembed is a social media aggregator platform that helps you collect, manage, and embed social media feeds and customer reviews on your website. You can display content from Instagram, LinkedIn, TikTok, YouTube, Google Reviews, Facebook, and more using customizable widgets.
+Tagembed is a social media aggregator platform that helps you collect, manage, and embed social media feeds and customer reviews on your website. You can display content from Instagram, LinkedIn, Twitter ( X), TikTok, YouTube, Google Reviews, Facebook, and more using customizable widgets.
 = Is Tagembed free to use? =
 Yes. Tagembed offers a free plan with limited features and paid plans with advanced customization, moderation, higher view limits, and branding removal.
 = Which social media platforms does Tagembed support? =
@@ -242,6 +247,8 @@ Support Forum: https://wordpress.org/support/plugin/tagembed-widget/
 Email: support@tagembed.com
 
 == Changelog ==
+= 7.3 =
+* Improved widget performance.
 
 = 7.3 =
 * Improved widget performance, and enhanced content aggregation capabilities for WordPress websites.
@@ -273,6 +280,5 @@ Email: support@tagembed.com
 
 == Upgrade Notice ==
 
-= 7.3 =
+= 7.4 =
 Added support for new social media feed and review platforms, improved widget performance, and enhanced content aggregation capabilities for WordPress websites.
-
