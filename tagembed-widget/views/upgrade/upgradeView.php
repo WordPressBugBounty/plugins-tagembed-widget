@@ -1,7 +1,10 @@
 <?php
+if (!defined('ABSPATH')) :
+	exit;
+endif;
 include_once TAGEMBED_PLUGIN_DIR_PATH . 'views/includes/headView.php';
 include_once TAGEMBED_PLUGIN_DIR_PATH . 'views/includes/headerView.php';
-wp_enqueue_script('__script-upgrade-js', TAGEMBED_PLUGIN_URL . '/assets/js/upgrade/tagembed.upgrade.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
+wp_enqueue_script('__tagembed__script-upgrade-js', TAGEMBED_PLUGIN_URL . '/assets/js/upgrade/tagembed.upgrade.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
 ?>
 
 <div class="__tagembed__support" id="__tagembed__support_section" style="display: none;">

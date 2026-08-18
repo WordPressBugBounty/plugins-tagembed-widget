@@ -57,12 +57,6 @@
     cursor : pointer;
 }
 
-.TaggboxToast {
-    background  : #2271b1;
-    color       : #fff;
-    margin-right: 10px;
-}
-
 .__tagembed__title h2 {
     font-size    : 21px;
     font-weight  : 400;

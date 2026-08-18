@@ -1,3 +1,8 @@
+<?php
+if (!defined('ABSPATH')) :
+	exit;
+endif;
+?>
 <!--Start-- Upgrade Plan Overlay And Message-->
 <div id="__tagembed__upgrade_plan_overlay" style="position:fixed;width:100%;height:100%;background:rgba(0,0,0,0.1);z-index:999;display:none;"></div>
 <div id="__tagembed__plan_upgrade_message" class="__tagembed__plan_upgrade_message"></div>
@@ -11,7 +16,7 @@
 
 		function __tagembed__getAndManageIntercomSetting() {
 			let formData = new FormData();
-			formData.append('action', 'data');
+			formData.append('action', 'tagembed_data');
 			formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 			formData.append('__tagembed__ajax_action', '__tagembed__get_and_manage_intercom_chat_setting');
 			fetch(__tagembed__ajax_url, {
@@ -91,7 +96,7 @@
 		function __tagembed__plugin_version() {
 			let __tagembed__toast = new TagembedToast;
 			let formData = new FormData();
-			formData.append('action', 'data');
+			formData.append('action', 'tagembed_data');
 			formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 			formData.append('__tagembed__ajax_action', '__tagembed__plugin_version');
 			fetch(__tagembed__ajax_url, {
@@ -105,19 +110,53 @@
 			}).then(response => {
 				if (response.status == true) {
 					if (response.data.installedPluginVersion != response.data.livePluginVersion) {
-						let elemHTML = `<div class="__tagembed__popupwrap __tagembed__popup_md">`;
-						elemHTML = `${elemHTML}<button onclick="__tagembed__hide_plugin_upgrade_message();" type="button" class="__tagembed__closebtn"></button>`;
-						elemHTML = `${elemHTML}<div class="__tagembed__popupinn">`;
-						elemHTML = `${elemHTML}<div class="__tagembed__header"><h2>Update Plugin For Free</h2></div>`;
-						elemHTML = `${elemHTML}<hr class="__tagembed__horizontaborder">`;
-						elemHTML = `${elemHTML}<div class="__tagembed__formwbody">`;
-						elemHTML = `${elemHTML}<div class="__tagembed__formwrow">`;
-						elemHTML = `${elemHTML}<p><strong> Note : </strong> There is a new version of Tagembed Widget available. <strong> ${response.data.livePluginVersion} </strong> is a recommended Update For Performance Improvements. </p>`;
-						elemHTML = `${elemHTML}</div></div>`;
-						elemHTML = `${elemHTML}<div class = "__tagembed__btnwrap text-center">`;
-						elemHTML = `${elemHTML}<a style="background: #d63638;" href="${response.data.pluginUpgradeURL}" class="__tagembed__okaybtn">Update Plugin</a>`;
-						elemHTML = `${elemHTML}</div></div></div>`;
-						document.getElementById("__tagembed__plugin_upgrade_message").innerHTML = elemHTML;
+						/* Built with DOM methods : the version string and the upgrade URL are
+						   assigned as a text node and an attribute, never as markup. */
+						let popupWrap = document.createElement("div");
+						popupWrap.className = "__tagembed__popupwrap __tagembed__popup_md";
+						let closeBtn = document.createElement("button");
+						closeBtn.setAttribute("type", "button");
+						closeBtn.className = "__tagembed__closebtn";
+						closeBtn.addEventListener("click", __tagembed__hide_plugin_upgrade_message);
+						let popupInn = document.createElement("div");
+						popupInn.className = "__tagembed__popupinn";
+						let header = document.createElement("div");
+						header.className = "__tagembed__header";
+						let heading = document.createElement("h2");
+						heading.textContent = "Update Plugin For Free";
+						header.appendChild(heading);
+						let horizontalBorder = document.createElement("hr");
+						horizontalBorder.className = "__tagembed__horizontaborder";
+						let formBody = document.createElement("div");
+						formBody.className = "__tagembed__formwbody";
+						let formRow = document.createElement("div");
+						formRow.className = "__tagembed__formwrow";
+						let note = document.createElement("p");
+						let noteLabel = document.createElement("strong");
+						noteLabel.textContent = " Note : ";
+						let versionLabel = document.createElement("strong");
+						versionLabel.textContent = " " + response.data.livePluginVersion + " ";
+						note.appendChild(noteLabel);
+						note.appendChild(document.createTextNode(" There is a new version of Tagembed Widget available. "));
+						note.appendChild(versionLabel);
+						note.appendChild(document.createTextNode(" is a recommended Update For Performance Improvements. "));
+						formRow.appendChild(note);
+						formBody.appendChild(formRow);
+						let btnWrap = document.createElement("div");
+						btnWrap.className = "__tagembed__btnwrap text-center";
+						let updateLink = document.createElement("a");
+						updateLink.setAttribute("style", "background: #d63638;");
+						updateLink.setAttribute("href", response.data.pluginUpgradeURL);
+						updateLink.className = "__tagembed__okaybtn";
+						updateLink.textContent = "Update Plugin";
+						btnWrap.appendChild(updateLink);
+						popupInn.appendChild(header);
+						popupInn.appendChild(horizontalBorder);
+						popupInn.appendChild(formBody);
+						popupInn.appendChild(btnWrap);
+						popupWrap.appendChild(closeBtn);
+						popupWrap.appendChild(popupInn);
+						document.getElementById("__tagembed__plugin_upgrade_message").replaceChildren(popupWrap);
 					}
 				} else {
 					__tagembed__toast.danger({
@@ -189,8 +228,8 @@
 		let __tagembed__next_and_back_link_main_section = document.querySelector("#__tagembed__next_and_back_link_main_section");
 		__tagembed__next_and_back_link_main_section.innerHTML = "";
 		let __tagembed__nextAndBackLinkSectionStyle = "block";
-		let __tagembed__widgets_count = "<?php echo	esc_html($__tagembed__widgets_count);	?>";
-		let __tagembed__active_menue_id = "<?php echo	esc_html($__tagembed__active_menue_id);	?>";
+		let __tagembed__widgets_count = <?php echo wp_json_encode((string) $__tagembed__widgets_count); ?>;
+		let __tagembed__active_menue_id = <?php echo wp_json_encode((string) $__tagembed__active_menue_id); ?>;
 		if (__tagembed__widgets_count == 0) {
 			__tagembed__nextAndBackLinkSectionStyle = "none";
 		}
@@ -238,22 +277,3 @@
 	window.onload = __tagembed__manageNextAndBackButon();
 	/*--End-- Manage And Generate Next And Back Link In Footer*/
 </script>
-<!--Start--Clarity Tracking Code -->
-<script type="text/javascript">
-	document.addEventListener('DOMContentLoaded', function() {
-		(function(c, l, a, r, i, t, y) {
-			c[a] = c[a] || function() {
-				(c[a].q = c[a].q || []).push(arguments)
-			};
-			t = l.createElement(r);
-			t.async = 1;
-			t.src = "https://www.clarity.ms/tag/" + i;
-			y = l.getElementsByTagName(r)[0];
-			y.parentNode.insertBefore(t, y);
-		})(window, document, "clarity", "script", "jz1bviq7un");
-		var __tagembed__userEmailIdForClarity = "<?php echo	esc_html($__tagembed__active_widget_user_email_id);	?>";
-		clarity("set", "userEmail", __tagembed__userEmailIdForClarity);
-		clarity("set", "type", "wordpress");
-	});
-</script>
-<!--End--Clarity Tracking Code -->

@@ -2,10 +2,10 @@
 Contributors: tagembed
 Donate link: https://tagembed.com/
 Tags: social media feed, Instagram feed, LinkedIn, google reviews, social media aggregator
-Requires at least: 3.0
-Tested up to: 7.0.2
+Requires at least: 5.0
+Tested up to: 7.1
 Requires PHP: 5.6
-Stable tag: 7.4
+Stable tag: 7.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -160,6 +160,15 @@ Free Plan: **Forever Free** includes
     
 *   **All-in-one-review widget:** Add multiple reviews sites on single [review widget](https://tagembed.com/review-widget/) (For ex: Add Google review, Facebook feed reviews in one widget)
 
+== External services ==
+
+**1. Intercom - widget.intercom.io and api-iam.intercom.io**
+
+Intercom powers the "Chat with Us" support chat on the Tagembed admin screens. When you are signed in, your email address, name, Tagembed user ID and a verification hash are sent to Intercom to identify your support conversation. Nothing is sent from your site's front end.
+
+Terms and policies: https://www.intercom.com/legal/terms-and-policies
+Privacy policy: https://www.intercom.com/legal/privacy
+
 == Installation ==
 
 Installation is quick and easy.
@@ -247,8 +256,22 @@ Support Forum: https://wordpress.org/support/plugin/tagembed-widget/
 Email: support@tagembed.com
 
 == Changelog ==
-= 7.3 =
+= 7.6 =
+* Security: replaced all in-house output escaping with the WordPress core escaping APIs and the DOMPurify sanitizer.
+* Security: admin screens now build their markup with DOM methods instead of HTML strings wherever possible.
+* Security: identifiers received from the API are validated before use.
+* Security: removed every inline event handler from generated markup.
+
+= 7.5 =
+* Security: fixed a cross-site scripting (XSS) issue on the plugin admin screens.
+* Security: hardened output escaping across all admin views and scripts.
+* Security: added direct file access protection to all plugin files.
+* Security: request verification now runs before any request data is processed.
+
+= 7.4 =
+* Added support for new social media feed and review platforms.
 * Improved widget performance.
+* Enhanced content aggregation capabilities for WordPress websites.
 
 = 7.3 =
 * Improved widget performance, and enhanced content aggregation capabilities for WordPress websites.
@@ -279,6 +302,12 @@ Email: support@tagembed.com
 * Enhanced compatibility with WordPress themes and plugins.
 
 == Upgrade Notice ==
+
+= 7.6 =
+Security release. Output escaping now uses the WordPress core escaping APIs together with the DOMPurify sanitizer, and admin markup is built with DOM methods. Updating is strongly recommended for all users.
+
+= 7.5 =
+Security release. Fixes a cross-site scripting (XSS) issue on the plugin admin screens and hardens output escaping throughout the plugin. Updating is strongly recommended for all users.
 
 = 7.4 =
 Added support for new social media feed and review platforms, improved widget performance, and enhanced content aggregation capabilities for WordPress websites.

@@ -1,4 +1,4 @@
-function confirmDialog(option, action) {
+function __tagembed__confirmDialog(option, action) {
     let title = (option.title) ? option.title : 'Action';
     let message = (option.message) ? option.message : 'Are you sure? '
     let cancelButtonText = (option.cancelButtonText) ? option.cancelButtonText : 'Cancel';
@@ -22,26 +22,65 @@ function confirmDialog(option, action) {
         icon = "fa-times";
     }
 
+    /* The dialog is built with DOM methods. The title and the message are assigned through
+       textContent, so no markup can be produced from them. */
     let elemId = 'tagembedConfirmDialog';
-    let elemHTML = '<div id="' + elemId + '" class="__tagembed__overlay"><div class="__tagembed__popupwrap">';
-    elemHTML = elemHTML + '<div class="__tagembed__iconarea ' + typeClass + '"><i class="fa ' + icon + '" aria-hidden="true"></i></div>';
-    elemHTML = elemHTML + '<hr class="__tagembed__horizontaborder" />';
-    elemHTML = elemHTML + '<div class="__tagembed__title"><h2>' + title + '</h2></div>';
-    elemHTML = elemHTML + '<div class="__tagembed__desc"><p>' + message + '</p></div>';
-    elemHTML = elemHTML + '<div class="__tagembed__btnwrap">';
-    elemHTML = elemHTML + '<button class="__tagembed__okaybtn ' + buttonClass + ' ' + typeClass + '" id="' + elemId + 'OkayButton">' + buttonText + '</button>';
-    elemHTML = elemHTML + '<button class="__tagembed__cancelbtn ' + buttonClass + '" id="' + elemId + 'CancelButton">Cancel</button>';
-    elemHTML = elemHTML + '</div>';
-    elemHTML = elemHTML + '</div></div>';
+    let overlay = document.createElement('div');
+    overlay.setAttribute('id', elemId);
+    overlay.className = '__tagembed__overlay';
 
-    let elem = document.createElement('div');
-    elem.innerHTML = elemHTML;
-    elem.querySelector('#' + elemId + 'CancelButton').onclick = function () {
+    let popupWrap = document.createElement('div');
+    popupWrap.className = '__tagembed__popupwrap';
+    overlay.appendChild(popupWrap);
+
+    let iconArea = document.createElement('div');
+    iconArea.className = '__tagembed__iconarea ' + typeClass;
+    let iconEl = document.createElement('i');
+    iconEl.className = 'fa ' + icon;
+    iconEl.setAttribute('aria-hidden', 'true');
+    iconArea.appendChild(iconEl);
+    popupWrap.appendChild(iconArea);
+
+    let horizontalBorder = document.createElement('hr');
+    horizontalBorder.className = '__tagembed__horizontaborder';
+    popupWrap.appendChild(horizontalBorder);
+
+    let titleWrap = document.createElement('div');
+    titleWrap.className = '__tagembed__title';
+    let titleEl = document.createElement('h2');
+    titleEl.textContent = title;
+    titleWrap.appendChild(titleEl);
+    popupWrap.appendChild(titleWrap);
+
+    let descWrap = document.createElement('div');
+    descWrap.className = '__tagembed__desc';
+    let descEl = document.createElement('p');
+    descEl.textContent = message;
+    descWrap.appendChild(descEl);
+    popupWrap.appendChild(descWrap);
+
+    let btnWrap = document.createElement('div');
+    btnWrap.className = '__tagembed__btnwrap';
+    popupWrap.appendChild(btnWrap);
+
+    let okayButton = document.createElement('button');
+    okayButton.className = '__tagembed__okaybtn ' + buttonClass + ' ' + typeClass;
+    okayButton.setAttribute('id', elemId + 'OkayButton');
+    okayButton.textContent = buttonText;
+    btnWrap.appendChild(okayButton);
+
+    let cancelButton = document.createElement('button');
+    cancelButton.className = '__tagembed__cancelbtn ' + buttonClass;
+    cancelButton.setAttribute('id', elemId + 'CancelButton');
+    cancelButton.textContent = 'Cancel';
+    btnWrap.appendChild(cancelButton);
+
+    cancelButton.onclick = function () {
         document.querySelector('#' + elemId).remove();
     };
-    elem.querySelector('#' + elemId + 'OkayButton').onclick = function () {
+    okayButton.onclick = function () {
         document.querySelector('#' + elemId).remove();
         (action)();
     };
-    document.body.appendChild(elem.firstChild);
+    document.body.appendChild(overlay);
 }

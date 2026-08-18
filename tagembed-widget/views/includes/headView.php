@@ -1,7 +1,20 @@
 <?php
-wp_enqueue_script('__jquery');
-wp_enqueue_script('__tagembed__custom-js', TAGEMBED_PLUGIN_URL . '/assets/js/tagembed.common.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
-wp_enqueue_script('__script-widget-js', TAGEMBED_PLUGIN_URL . '/assets/js/widget/tagembed.widget.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
+if (!defined('ABSPATH')) :
+	exit;
+endif;
+wp_enqueue_script('jquery');
+/* --Start-- DOMPurify : Third Party HTML Sanitizer. Loaded only on this plugin's own screen. */
+wp_enqueue_script('__tagembed__domPurifyJs', TAGEMBED_PLUGIN_URL . '/assets/js/vendor/purify.js', [], '3.4.13', true);
+/* DOMPurify 3.4.13. Official release, used unmodified and byte for byte
+   identical to https://github.com/cure53/DOMPurify/blob/3.4.13/dist/purify.js
+   The sanitizer is a UMD bundle. If another plugin has left an AMD or CommonJS loader on
+   the page, the bundle would register there instead of on window, so those globals are
+   hidden for the moment it runs and restored immediately afterwards. */
+wp_add_inline_script('__tagembed__domPurifyJs', '(function(w){w.__tagembed__umd={d:w.define,m:w.module,e:w.exports};try{delete w.define;delete w.module;delete w.exports;}catch(e){w.define=undefined;w.module=undefined;w.exports=undefined;}})(window);', 'before');
+wp_add_inline_script('__tagembed__domPurifyJs', '(function(w){w.__tagembed__DOMPurify=w.DOMPurify;var s=w.__tagembed__umd;if(s){if(s.d!==undefined){w.define=s.d;}if(s.m!==undefined){w.module=s.m;}if(s.e!==undefined){w.exports=s.e;}delete w.__tagembed__umd;}})(window);', 'after');
+/* --End-- DOMPurify */
+wp_enqueue_script('__tagembed__custom-js', TAGEMBED_PLUGIN_URL . '/assets/js/tagembed.common.js', ['jquery', 'wp-escape-html', '__tagembed__domPurifyJs'], TAGEMBED_PLUGIN_VERSION, true);
+wp_enqueue_script('__tagembed__script-widget-js', TAGEMBED_PLUGIN_URL . '/assets/js/widget/tagembed.widget.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
 $__tagembed__account_page = true; /* Use : Check User Token Valid Or Not */
 $__tagembed__user_details = ___tagembed__user();
 $__tagembed__active_widget_user_id = ___tagembed__activeWidgetUser();
@@ -16,13 +29,13 @@ $__tagembed__widgets_count = count($__tagembed__widgets); /* Use In Next And Bac
 /* $__tagembed__collaborators = __tagembed__collaborator($__tagembed__user_details->userId); */
 ?>
 <script type="text/javascript">
-	var __tagembed__ajax_call_nones = "<?php echo esc_html(wp_create_nonce('__tagembed__ajax_call_security_nones')); ?>";
-	var __tagembed__ajax_url = "<?php echo esc_html(admin_url('admin-ajax.php')); ?>";
-	var __tagembed__plugin_server_url = "<?php echo esc_html(TAGEMBED_PLUGIN_SERVER_URL); ?>";
+	var __tagembed__ajax_call_nones = <?php echo wp_json_encode((string) wp_create_nonce('__tagembed__ajax_call_security_nones')); ?>;
+	var __tagembed__ajax_url = <?php echo wp_json_encode((string) admin_url('admin-ajax.php')); ?>;
+	var __tagembed__plugin_server_url = <?php echo wp_json_encode((string) TAGEMBED_PLUGIN_SERVER_URL); ?>;
 	var __tagembed__network_already_exist_auth = [];
-	var __tagembed__plugin_url_for_js = "<?php echo esc_html(TAGEMBED_PLUGIN_URL); ?>";
-	var __tagembed__plugin_react_url = "<?php echo esc_html(TAGEMBED_PLUGIN_REACT_URL); ?>";
-	var __tagembed__user_id = "<?php echo esc_html(!empty($__tagembed__user_details->userId) ? $__tagembed__user_details->userId : ''); ?>";
+	var __tagembed__plugin_url_for_js = <?php echo wp_json_encode((string) TAGEMBED_PLUGIN_URL); ?>;
+	var __tagembed__plugin_react_url = <?php echo wp_json_encode((string) TAGEMBED_PLUGIN_REACT_URL); ?>;
+	var __tagembed__user_id = <?php echo wp_json_encode(!empty($__tagembed__user_details->userId) ? (string) $__tagembed__user_details->userId : ''); ?>;
 </script>
 <!--Start--Check User Access Token-->
 <?php if (!empty($__tagembed__user_details)) : ?>
@@ -33,7 +46,7 @@ $__tagembed__widgets_count = count($__tagembed__widgets); /* Use In Next And Bac
 			let __tagembed__toast = new TagembedToast;
 			__tagembed__open_loader();
 			let formData = new FormData();
-			formData.append('action', 'data');
+			formData.append('action', 'tagembed_data');
 			formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 			formData.append('__tagembed__ajax_action', '__tagembed__check_user_token');
 			fetch(__tagembed__ajax_url, {
@@ -82,7 +95,7 @@ $__tagembed__widgets_count = count($__tagembed__widgets); /* Use In Next And Bac
 		let overlay = document.querySelector("#__tagembed__upgrade_plan_overlay");
 		if (overlay) overlay.style.display = 'block';
 		let formData = new FormData();
-		formData.append('action', 'data');
+		formData.append('action', 'tagembed_data');
 		formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 		formData.append('__tagembed__ajax_action', '__tagembed__check_plan_premium_feature');
 		__tagembed__open_loader();

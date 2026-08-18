@@ -45,7 +45,7 @@ function __tagembed__create_feed(__tagembed__feed_data, useCommonInput = true) {
             if (validationError)
                 return;
             __tagembed__open_loader();
-            formData.append('action', 'data');
+            formData.append('action', 'tagembed_data');
             formData.append('widgetId', __tagembed__feed_data.widgetId);
             formData.append('widgetName', __tagembed__feed_data.widgetName);
             formData.append('networkId', __tagembed__feed_data.networkId);

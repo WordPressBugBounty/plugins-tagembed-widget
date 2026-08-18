@@ -9,7 +9,7 @@ function __tagembed__check_user_accout_status() {
 
     let __tagembed__toast = new TagembedToast;
     let formData = new FormData();
-    formData.append('action', 'data');
+    formData.append('action', 'tagembed_data');
     formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
     formData.append('__tagembed__ajax_action', '__tagembed__check_user_accout_status');
     __tagembed__open_loader();

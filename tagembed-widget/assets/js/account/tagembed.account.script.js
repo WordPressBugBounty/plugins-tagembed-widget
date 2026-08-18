@@ -49,44 +49,13 @@ function __tagembed__manage_account_view(accountType) {
 }
 /*--End-- Manage Account Views*/
 
-/*--Start-- Manage Other Plugin Account Popup*/
-function __tagembed__manage_other_plugin_account(otherPluginInstallStatus, pluginUrl, existingPluginUser, otherPluginInstallUrl) {
-    let elemHTML = `<div id="__tagembed__upgrade_plan_overlay" style="left:0;position:fixed;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:999;"></div>`;
-    elemHTML = `${elemHTML}<div class="__tagembed__popupwrap __tagembed__popup_xl">`;
-    elemHTML = `${elemHTML}<button onclick="__tagembed__hide_other_plugin_account_popup_close();" type="button" class="__tagembed__closebtn"></button>`;
-    elemHTML = `${elemHTML}<div class="__tagembed__popupinn">`;
-    elemHTML = `${elemHTML}<div class="__tagembed__header"><h2>Taggbox & Tagembed Are Now One 🤝</h2></div>`;
-    elemHTML = `${elemHTML}<hr class="__tagembed__horizontaborder">`;
-    elemHTML = `${elemHTML}<div class="__tagembed__formwbody">`;
-    elemHTML = `${elemHTML}<div class="__tagembed__formwrow">`;
-    elemHTML = `${elemHTML}<p style="text-align: center;"> You already have an account on <strong style="text-transform: capitalize;">${existingPluginUser}</strong> Plugin. Install and Use the same credentials to log in Or to continue sign up with a different email.</p>`;
-    elemHTML = `${elemHTML}</div></div>`;
-    elemHTML = `${elemHTML}<div class="__tagembed__btnwrap text-center">`;
-
-    if (otherPluginInstallStatus) {
-        elemHTML = `${elemHTML}<a href="${otherPluginInstallUrl}" style=""  class="__tagembed__okaybtn">Login</a>`;
-    } else {
-        elemHTML = `${elemHTML}<a href="${pluginUrl}" target="_blank" style=""  class="__tagembed__okaybtn">Install <strong style="text-transform: capitalize;">${existingPluginUser}</strong>  Plugin</a>`;
-    }
-    elemHTML = `${elemHTML}</div>`;
-    elemHTML = `${elemHTML}</div></div>`;
-    let __tagembed__other_plugin_popup = document.getElementById("__tagembed__other_plugin_popup");
-    __tagembed__other_plugin_popup.innerHTML = elemHTML;
-    __tagembed__other_plugin_popup.style.display = "block";
-}
-function __tagembed__hide_other_plugin_account_popup_close() {
-    let __tagembed__other_plugin_popup = document.querySelector("#__tagembed__other_plugin_popup")
-    __tagembed__other_plugin_popup.style.display = "none";
-}
-/*--End-- Manage Other Plugin Account Popup*/
-
 /*--Start-- Get Country Code For Register*/
 window.addEventListener ? window.addEventListener("load", __tagembed__getCallingCode, false) : window.attachEvent && window.attachEvent("onload", __tagembed__getCallingCode);
 function __tagembed__getCallingCode() {
     /*Manage Customizaton Section Hide Show*/
     let __tagembed__toast = new TagembedToast;
     let formData = new FormData();
-    formData.append('action', 'data');
+    formData.append('action', 'tagembed_data');
     formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
     formData.append('__tagembed__ajax_action', '__tagembed__getCallingCode');
     __tagembed__open_loader();
@@ -139,7 +108,7 @@ if (__tagembed__register_form) {
         let __tagembed__toast = new TagembedToast;
         let formData = document.querySelector("#__tagembed__register_form")
         formData = new FormData(formData);
-        formData.append('action', 'data');
+        formData.append('action', 'tagembed_data');
         formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
         formData.append('__tagembed__ajax_action', '__tagembed__register');
         fetch(__tagembed__ajax_url, {
@@ -154,12 +123,7 @@ if (__tagembed__register_form) {
             __tagembed__close_loader();
             if (response.status == true) {
                 if (response.hasOwnProperty("data") && Object.keys(response.data).length > 0) {
-                    if (response.data.hasOwnProperty("accountAlreadyOtherPluginStatus")) {
-                        if (response.data.accountAlreadyOtherPluginStatus == true)
-                            __tagembed__manage_other_plugin_account(response.data.otherPluginInstallStatus, response.data.pluginUrl, response.data.existingPluginUser, response.data.otherPluginInstallUrl);
-                    } else {
-                        window.location.replace(response.data.redirectUrl);
-                    }
+                    window.location.replace(response.data.redirectUrl);
                 }
             } else {
                 if (response.hasOwnProperty("data") && Object.keys(response.data).length > 0) {
@@ -216,7 +180,7 @@ if (__tagembed__login_form) {
         let __tagembed__toast = new TagembedToast;
         let formData = document.querySelector("#__tagembed__login_form")
         formData = new FormData(formData);
-        formData.append('action', 'data');
+        formData.append('action', 'tagembed_data');
         formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
         formData.append('__tagembed__ajax_action', '__tagembed__login');
         fetch(__tagembed__ajax_url, {
@@ -231,12 +195,7 @@ if (__tagembed__login_form) {
             __tagembed__close_loader();
             if (response.status == true) {
                 if (response.hasOwnProperty("data") && Object.keys(response.data).length > 0) {
-                    if (response.data.hasOwnProperty("accountAlreadyOtherPluginStatus")) {
-                        if (response.data.accountAlreadyOtherPluginStatus == true)
-                            __tagembed__manage_other_plugin_account(response.data.otherPluginInstallStatus, response.data.pluginUrl, response.data.existingPluginUser, response.data.otherPluginInstallUrl);
-                    } else {
-                        window.location.replace(response.data.redirectUrl);
-                    }
+                    window.location.replace(response.data.redirectUrl);
                 }
             } else {
                 if (response.hasOwnProperty("data") && Object.keys(response.data).length > 0) {

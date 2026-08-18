@@ -4,10 +4,10 @@ function __tagembed__manageAllFeactureHideShow() {
 	let __tagembed__all_feacture_button = document.querySelector("#__tagembed__all_feacture_button");
 	if (__tagembed__all_feacture_section.style.display === "none") {
 		__tagembed__all_feacture_section.style.display = "block";
-		__tagembed__all_feacture_button.innerHTML = "Hide All Features";
+		__tagembed__all_feacture_button.textContent = "Hide All Features";
 	} else {
 		__tagembed__all_feacture_section.style.display = "none";
-		__tagembed__all_feacture_button.innerHTML = "Show All Features";
+		__tagembed__all_feacture_button.textContent = "Show All Features";
 	}
 }
 /*--End--Manage All Feacture Hide Show*/
@@ -58,7 +58,7 @@ function __tagembed__get_account_details() {
 	let __tagembed__plan = document.querySelector("#__tagembed__plan");
 	let __tagembed__toast = new TagembedToast;
 	let formData = new FormData();
-	formData.append('action', 'data');
+	formData.append('action', 'tagembed_data');
 	formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 	formData.append('__tagembed__ajax_action', '__tagembed__get_account_details');
 	__tagembed__open_loader();
@@ -107,7 +107,7 @@ function __tagembed__get_account_details() {
 								for (const key of selectedKeys) {
 									const planRuleData = response.data.Product[indexxxxx][indexxxxxx].PlanRule;
 									if (planRuleData.hasOwnProperty(key) && !allFeactureRemovableKeys.includes(key)) {
-										allFeactureHTML += `<th>${key.replace(/([A-Z])/g, ' $1')}</th>`;
+										allFeactureHTML += `<th>${__tagembed__escapeText(key.replace(/([A-Z])/g, ' $1'))}</th>`;
 									}
 								}
 								allFeactureHTML += '<th>Networks</th></tr>';
@@ -119,7 +119,7 @@ function __tagembed__get_account_details() {
 								const planRuleData = response.data.Product[indexxxxx][indexxxxxx].PlanRule;
 								if (planRuleData.hasOwnProperty(key) && !allFeactureRemovableKeys.includes(key)) {
 									if (allFeactureIcons.includes(key)) {
-										allFeactureHTML += `<td>${planRuleData[key]}</td>`;
+										allFeactureHTML += `<td>${__tagembed__escapeText(planRuleData[key])}</td>`;
 									} else {
 										if (planRuleData[key] == "1") {
 											allFeactureHTML += `<td class="text-center mb-0"><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" class="img-fluid"></td>`;
@@ -131,14 +131,14 @@ function __tagembed__get_account_details() {
 							}
 							allFeactureHTML += '<td>';
 							for (let network of response.data.Product[indexxxxx][indexxxxxx].Planrulenetwork) {
-								allFeactureHTML += `<img style="height:14px; margin:2px;" src="${__tagembed__plugin_url_for_js}assets/images/network/${network.network}.png"/>`;
+								allFeactureHTML += `<img style="height:14px; margin:2px;" src="${__tagembed__plugin_url_for_js}assets/images/network/${__tagembed__escapeAttr(network.network)}.png"/>`;
 							}
 							allFeactureHTML += '</td></tr>';
 						}
 					}
 				}
 			}
-			__tagembed__all_feacture_section.innerHTML = `<table> ${allFeactureHTML}</table>`;
+			__tagembed__setSafeHtml(__tagembed__all_feacture_section, `<table> ${allFeactureHTML}</table>`);
 			/*--End-- Manage All Feacture Section*/
 			/*--Start-- Manage Plan Serction Section*/
 			let elemHTML = "";
@@ -148,29 +148,29 @@ function __tagembed__get_account_details() {
 						elemHTML = `${elemHTML}<div class="__tagembed__planbox ${(response.data.Product[indexx][indexxx].Plan.id == response.data.Product.ActivePlan.id) ? '__tagembed__activeplan' : ''}">`;
 						if (response.data.Product[indexx][indexxx].Plan.id == response.data.Product.ActivePlan.id)
 							elemHTML = `${elemHTML}<span class="__tagembed__currentplan">Current Plan</span>`;
-						elemHTML = `${elemHTML}<strong>${response.data.Product[indexx][indexxx].Plan.name}</strong>`;
+						elemHTML = `${elemHTML}<strong>${__tagembed__escapeText(response.data.Product[indexx][indexxx].Plan.name)}</strong>`;
 						let monthelyPrice = response.data.Product[indexx][indexxx].Plan.wordpessMonthlyPrice;
 						let yearlyPrice = response.data.Product[indexx][indexxx].Plan.wordpressYearlyPrice;
 						if (response.data.Product[indexx][indexxx].Plan.id == 67 || response.data.Product[indexx][indexxx].Plan.id == 53) {
 							elemHTML = `${elemHTML}<h2>Free</h2>`;
 						} else {
-							elemHTML = `${elemHTML}<h2 class="__tagembed__monthely_plan" style="display:none;">$${monthelyPrice}/Mo</h2>`;
-							elemHTML = `${elemHTML}<h2 class="__tagembed__yearly_plan">$${yearlyPrice}/Mo</h2>`;
+							elemHTML = `${elemHTML}<h2 class="__tagembed__monthely_plan" style="display:none;">$${__tagembed__escapeText(monthelyPrice)}/Mo</h2>`;
+							elemHTML = `${elemHTML}<h2 class="__tagembed__yearly_plan">$${__tagembed__escapeText(yearlyPrice)}/Mo</h2>`;
 						}
-						elemHTML = `${elemHTML}<p>${response.data.Product[indexx][indexxx].Plan.description}</p>`;
+						elemHTML = `${elemHTML}<p>${__tagembed__escapeText(response.data.Product[indexx][indexxx].Plan.description)}</p>`;
 						elemHTML = `${elemHTML}<ul>`;
-						elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />${response.data.Product[indexx][indexxx].PlanRule.feeds} ${response.data.Product[indexx][indexxx].Plan.id == 67 || response.data.Product[indexx][indexxx].Plan.id == 53 ? `Feed` : `Feeds`}</li>`;
-						elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />${response.data.Product[indexx][indexxx].PlanRule.viewCount} Views/Month</li>`;
+						elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />${__tagembed__escapeText(response.data.Product[indexx][indexxx].PlanRule.feeds)} ${response.data.Product[indexx][indexxx].Plan.id == 67 || response.data.Product[indexx][indexxx].Plan.id == 53 ? `Feed` : `Feeds`}</li>`;
+						elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />${__tagembed__escapeText(response.data.Product[indexx][indexxx].PlanRule.viewCount)} Views/Month</li>`;
 						if (response.data.Product[indexx][indexxx].Plan.id != 67 && response.data.Product[indexx][indexxx].Plan.id != 53) {
 							if (response.data.Product[indexx][indexxx].PlanRule.linkedInFeedLimit != 0) {
-								elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />LinkedIn Auto Update (Max ${response.data.Product[indexx][indexxx].PlanRule.linkedInFeedLimit} Feeds)</li>`;
+								elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />LinkedIn Auto Update (Max ${__tagembed__escapeText(response.data.Product[indexx][indexxx].PlanRule.linkedInFeedLimit)} Feeds)</li>`;
 							} else {
 								elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />LinkedIn Manual</li>`;
 							}
 						} else {
 							elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-cross.svg" alt="no-access" />LinkedIn Feed</li>`;
 						}
-						elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />${response.data.Product[indexx][indexxx].PlanRule.updatesIntervalCron} ${(response.data.Product[indexx][indexxx].PlanRule.unit_cron == 3600) ? "Hours" : "Mins"}  Update Time</li>`;
+						elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-ok.svg" alt="access" />${__tagembed__escapeText(response.data.Product[indexx][indexxx].PlanRule.updatesIntervalCron)} ${(response.data.Product[indexx][indexxx].PlanRule.unit_cron == 3600) ? "Hours" : "Mins"}  Update Time</li>`;
 						if (response.data.Product[indexx][indexxx].PlanRule.customCss == 0) {
 							elemHTML = `${elemHTML}<li><img src="${__tagembed__plugin_url_for_js}assets/images/plan-cross.svg" alt="no-access" />No Custom CSS</li>`;
 						} else {
@@ -185,15 +185,15 @@ function __tagembed__get_account_details() {
 						if (response.data.Product[indexx][indexxx].Plan.id != 1) {
 							if (response.data.Product[indexx][indexxx].Plan.id == response.data.Product.ActivePlan.id) {
 								if (response.data.Product[indexx][indexxx].Plan.id != 67 && response.data.Product[indexx][indexxx].Plan.id != 53) {
-									elemHTML = `${elemHTML}<a href="javascript:void(0);" onclick="__tagembed__cancel_subscription('${response.data.Product[indexx][indexxx].Plan.id}');" class="__tagembed__selectbtn">Cancel Subscription</a>`;
+									elemHTML = `${elemHTML}<a href="javascript:void(0);" data-tagembed-action="cancel-subscription" data-tagembed-plan-id="${__tagembed__escapeAttr(response.data.Product[indexx][indexxx].Plan.id)}" class="__tagembed__selectbtn">Cancel Subscription</a>`;
 								}
 							} else {
 								if (response.data.Product[indexx][indexxx].Plan.id == 67 || response.data.Product[indexx][indexxx].Plan.id == 53) {
-									elemHTML = `${elemHTML}<a href="javascript:void(0);" onclick="__tagembed__make_lite_plan_payment('${response.data.Product[indexx][indexxx].Plan.id}','${response.data.Product[indexx][indexxx].Plan.wordpressStripeMonthlyPriceCode}');" class="__tagembed__selectbtn  __tagembed__selectbtn_monthely" style="display:none;">Select</a>`;
-									elemHTML = `${elemHTML}<a href="javascript:void(0);" onclick="__tagembed__make_lite_plan_payment('${response.data.Product[indexx][indexxx].Plan.id}','${response.data.Product[indexx][indexxx].Plan.wordpressStripeYearlyPriceCode}');" class="__tagembed__selectbtn  __tagembed__selectbtn_yearly">Select</a>`;
+									elemHTML = `${elemHTML}<a href="javascript:void(0);" data-tagembed-action="lite-payment" data-tagembed-plan-id="${__tagembed__escapeAttr(response.data.Product[indexx][indexxx].Plan.id)}" data-tagembed-price-code="${__tagembed__escapeAttr(response.data.Product[indexx][indexxx].Plan.wordpressStripeMonthlyPriceCode)}" class="__tagembed__selectbtn  __tagembed__selectbtn_monthely" style="display:none;">Select</a>`;
+									elemHTML = `${elemHTML}<a href="javascript:void(0);" data-tagembed-action="lite-payment" data-tagembed-plan-id="${__tagembed__escapeAttr(response.data.Product[indexx][indexxx].Plan.id)}" data-tagembed-price-code="${__tagembed__escapeAttr(response.data.Product[indexx][indexxx].Plan.wordpressStripeYearlyPriceCode)}" class="__tagembed__selectbtn  __tagembed__selectbtn_yearly">Select</a>`;
 								} else {
-									elemHTML = `${elemHTML}<a href="javascript:void(0);" onclick="__tagembed__make_payment('${response.data.Product[indexx][indexxx].Plan.id}','${response.data.Product[indexx][indexxx].Plan.wordpressStripeMonthlyPriceCode}');" class="__tagembed__selectbtn  __tagembed__selectbtn_monthely" style="display:none;">Select</a>`;
-									elemHTML = `${elemHTML}<a href="javascript:void(0);" onclick="__tagembed__make_payment('${response.data.Product[indexx][indexxx].Plan.id}','${response.data.Product[indexx][indexxx].Plan.wordpressStripeYearlyPriceCode}');" class="__tagembed__selectbtn  __tagembed__selectbtn_yearly">Select</a>`;
+									elemHTML = `${elemHTML}<a href="javascript:void(0);" data-tagembed-action="payment" data-tagembed-plan-id="${__tagembed__escapeAttr(response.data.Product[indexx][indexxx].Plan.id)}" data-tagembed-price-code="${__tagembed__escapeAttr(response.data.Product[indexx][indexxx].Plan.wordpressStripeMonthlyPriceCode)}" class="__tagembed__selectbtn  __tagembed__selectbtn_monthely" style="display:none;">Select</a>`;
+									elemHTML = `${elemHTML}<a href="javascript:void(0);" data-tagembed-action="payment" data-tagembed-plan-id="${__tagembed__escapeAttr(response.data.Product[indexx][indexxx].Plan.id)}" data-tagembed-price-code="${__tagembed__escapeAttr(response.data.Product[indexx][indexxx].Plan.wordpressStripeYearlyPriceCode)}" class="__tagembed__selectbtn  __tagembed__selectbtn_yearly">Select</a>`;
 								}
 							}
 						}
@@ -201,7 +201,19 @@ function __tagembed__get_account_details() {
 					}
 				}
 			}
-			__tagembed__plan.innerHTML = elemHTML;
+			__tagembed__setSafeHtml(__tagembed__plan, elemHTML);
+			/* The plan buttons carry their values in data attributes and are wired up here,
+			   so no event handler is written into the markup. */
+			__tagembed__plan.querySelectorAll("[data-tagembed-action]").forEach(function (__tagembed__planButton) {
+				__tagembed__planButton.addEventListener("click", function () {
+					let __tagembed__action = (this.getAttribute("data-tagembed-action") || "");
+					let __tagembed__planId = (this.getAttribute("data-tagembed-plan-id") || "");
+					let __tagembed__priceCode = (this.getAttribute("data-tagembed-price-code") || "");
+					if ("cancel-subscription" === __tagembed__action) __tagembed__cancel_subscription(__tagembed__planId);
+					else if ("lite-payment" === __tagembed__action) __tagembed__make_lite_plan_payment(__tagembed__planId, __tagembed__priceCode);
+					else if ("payment" === __tagembed__action) __tagembed__make_payment(__tagembed__planId, __tagembed__priceCode);
+				});
+			});
 			/*--End-- Manage Plan Serction Section*/
 
 			/*Manage Upgrade Plan Section Hide | Show */
@@ -224,7 +236,7 @@ function __tagembed__get_account_details() {
 /*--End-- Get User Accounts Details*/
 /*--Start-- Manage Payment*/
 function __tagembed__make_lite_plan_payment(planId, priceCode) {
-	confirmDialog({ title: 'Opting Free Forever LITE Plan', message: 'Your current plan will be canceled and changed to Lite Plan.', buttonText: 'Confirm', type: 'danger' }, function () {
+	__tagembed__confirmDialog({ title: 'Opting Free Forever LITE Plan', message: 'Your current plan will be canceled and changed to Lite Plan.', buttonText: 'Confirm', type: 'danger' }, function () {
 		__tagembed__make_payment(planId, priceCode);
 	});
 }
@@ -235,7 +247,7 @@ function __tagembed__make_payment(planId, priceCode) {
 	} else {
 		__tagembed__open_loader();
 		let formData = new FormData();
-		formData.append('action', 'data');
+		formData.append('action', 'tagembed_data');
 		formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 		formData.append('__tagembed__ajax_action', '__tagembed__make_payment');
 		formData.append('planId', planId);
@@ -271,10 +283,10 @@ function __tagembed__cancel_subscription(planId) {
 	let __tagembed__toast = new TagembedToast;
 	if (!planId)
 		return __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
-	confirmDialog({ title: 'Are you sure!', message: 'Do you want to cancel subscription?', buttonText: 'Yes', type: 'danger' }, function () {
+	__tagembed__confirmDialog({ title: 'Are you sure!', message: 'Do you want to cancel subscription?', buttonText: 'Yes', type: 'danger' }, function () {
 		let formData = new FormData();
 		formData.append('planId', planId);
-		formData.append('action', 'data');
+		formData.append('action', 'tagembed_data');
 		formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 		formData.append('__tagembed__ajax_action', '__tagembed__cancel_subscription');
 		__tagembed__open_loader();

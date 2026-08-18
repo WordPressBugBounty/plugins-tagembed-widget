@@ -1,3 +1,8 @@
+<?php
+if (!defined('ABSPATH')) :
+	exit;
+endif;
+?>
 <div class="__tagembed__tabing">
 	<div class="__tagembed__tabingone">
 		<div class="__tagembed__menumob">
@@ -14,9 +19,9 @@
 				endif;
 				if ($__tagembed__menu->id <= 6) :
 			?>
-					<li onclick="__tagembed__menus('<?php echo esc_html($__tagembed__menu->id); ?>')" class="__tagembed__tablinks<?php echo esc_html($__tagembed__menu->status) == 1 ? ' __tagembed__active ' : ''; ?>"> <span><?php echo esc_html($i); ?></span> <?php echo esc_html($__tagembed__menu->name); ?></li>
+					<li onclick="__tagembed__menus('<?php echo esc_js($__tagembed__menu->id); ?>')" class="__tagembed__tablinks<?php echo esc_html($__tagembed__menu->status) == 1 ? ' __tagembed__active ' : ''; ?>"> <span><?php echo esc_html($i); ?></span> <?php echo esc_html($__tagembed__menu->name); ?></li>
 				<?php else : ?>
-					<li onclick="__tagembed__menus('<?php echo esc_html($__tagembed__menu->id); ?>')" class="__tagembed__tablinks <?php echo esc_html($__tagembed__menu->status) == 1 ? ' __tagembed__active ' : ''; ?>"><?php echo esc_html($__tagembed__menu->name); ?></li>
+					<li onclick="__tagembed__menus('<?php echo esc_js($__tagembed__menu->id); ?>')" class="__tagembed__tablinks <?php echo esc_html($__tagembed__menu->status) == 1 ? ' __tagembed__active ' : ''; ?>"><?php echo esc_html($__tagembed__menu->name); ?></li>
 			<?php
 				endif;
 				$i++;
@@ -24,7 +29,7 @@
 			?>
 		</ul>
 		<ul class="__tagembed__branding">
-			<li><a href="https://tagembed.com/" target="_blank"><img src="<?php echo esc_html(TAGEMBED_PLUGIN_URL); ?>assets/images/logo.svg" alt="tagembed" /></a></li>
+			<li><a href="https://tagembed.com/" target="_blank"><img src="<?php echo esc_url(TAGEMBED_PLUGIN_URL . 'assets/images/logo.svg'); ?>" alt="tagembed" /></a></li>
 		</ul>
 	</div>
 	<div class="__tagembed__tabingtwo">
@@ -32,10 +37,10 @@
 			<div class="__tagembed__selectwid">
 				<?php if (!empty($__tagembed__widgets)) : ?>
 					<?php if (!in_array($__tagembed__active_menue_id, [1,	7,	8,	9,	10])):	?>
-						<span class="<?php echo in_array($__tagembed__active_menue_id, [2]) ? 'add-select-widget' : ""; ?> ">Selected Widget</sub></span>
+						<span class="<?php echo in_array($__tagembed__active_menue_id, [2]) ? 'add-select-widget' : ""; ?> ">Selected Widget</span>
 						<select name="__tagembed__widgets" id="__tagembed__widgets">
 							<?php foreach ($__tagembed__widgets	as	$__tagembed__widget) : ?>
-								<option <?php echo $__tagembed__active_widget_id == $__tagembed__widget->id ? 'selected' : ''; ?> value="<?php echo esc_html($__tagembed__widget->id); ?>#<?php echo esc_html($__tagembed__widget->name); ?>"><?php echo esc_html($__tagembed__widget->name); ?></option>
+								<option <?php echo $__tagembed__active_widget_id == $__tagembed__widget->id ? 'selected' : ''; ?> value="<?php echo esc_attr($__tagembed__widget->id . '#' . $__tagembed__widget->name); ?>"><?php echo esc_html($__tagembed__widget->name); ?></option>
 							<?php endforeach; ?>
 						</select>
 					<?php endif; ?>
@@ -47,7 +52,7 @@
 		</div>
 		<div class="__tagembed__tabtworight">
 			<div class="__tagembed__msg">
-				<img style="margin-top: -2px;" src="<?php echo esc_html(TAGEMBED_PLUGIN_URL); ?>assets/images/profile.png" />
+				<img style="margin-top: -2px;" src="<?php echo esc_url(TAGEMBED_PLUGIN_URL . 'assets/images/profile.png'); ?>" alt="" />
 				<div class="__tagembed__showemail">
 					<b>Hi,</b>
 					<?php echo esc_html($__tagembed__active_widget_user_name); ?>
@@ -57,7 +62,7 @@
 			<a href="javascript:void(0);" id="__tagembed__logout" class="__tagembed__logout">
 				<em>Switch account</em>
 				<span>
-					<img src="<?php echo esc_html(TAGEMBED_PLUGIN_URL); ?>assets/images/turn-off.png" alt="Sign Out" />
+					<img src="<?php echo esc_url(TAGEMBED_PLUGIN_URL . 'assets/images/turn-off.png'); ?>" alt="Sign Out" />
 					<i>Sign Out</i>
 				</span>
 			</a>
@@ -66,6 +71,6 @@
 </div>
 <!--Start-- Manage Tagembed Loader How OR Not -->
 <script>
-	var __tagembed__loader_status = <?php echo in_array($__tagembed__active_menue_id, [5]) ? 0 : 1; ?>;
+	var __tagembed__loader_status = <?php echo absint(in_array($__tagembed__active_menue_id, [5]) ? 0 : 1); ?>;
 </script>
 <!--End-- Manage Tagembed Loader How OR Not -->

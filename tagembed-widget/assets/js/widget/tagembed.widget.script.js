@@ -16,7 +16,7 @@ function __tagembed__widgetEditForm(__tagembed__widget_id, __tagembed__widget_na
 				return;
 			}
 			__tagembed__open_loader();
-			formData.append('action', 'data');
+			formData.append('action', 'tagembed_data');
 			formData.append('widgetId', __tagembed__widget_id);
 			formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 			formData.append('__tagembed__ajax_action', '__tagembed__edit_widget');
@@ -69,11 +69,11 @@ function __tagembed__updateWidgetStauts(__tagembed__widget_id, count) {
 	let __tagembed__toast = new TagembedToast;
 	if (!__tagembed__widget_id || !__tagembed__widget_status)
 		return __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
-	/*confirmDialog({title: 'Yes, update widget status', message: 'Are you sure! do you want to update widget status?', buttonText: 'Update', type: 'warning'}, function () {*/
+	/*__tagembed__confirmDialog({title: 'Yes, update widget status', message: 'Are you sure! do you want to update widget status?', buttonText: 'Update', type: 'warning'}, function () {*/
 	let formData = new FormData();
 	formData.append('widgetId', __tagembed__widget_id);
 	formData.append('status', __tagembed__widget_status);
-	formData.append('action', 'data');
+	formData.append('action', 'tagembed_data');
 	formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 	formData.append('__tagembed__ajax_action', '__tagembed__update_widget_status');
 	__tagembed__open_loader();
@@ -122,10 +122,10 @@ function __tagembed__deleteWidget(__tagembed__widget_id, __tagembed__widgetbox_i
 	let __tagembed__toast = new TagembedToast;
 	if (!__tagembed__widget_id || !__tagembed__widgetbox_id)
 		return __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
-	confirmDialog({ title: 'Yes, delete widget', message: 'Are you sure! do you want to delete widget?', buttonText: 'Delete', type: 'danger' }, function () {
+	__tagembed__confirmDialog({ title: 'Yes, delete widget', message: 'Are you sure! do you want to delete widget?', buttonText: 'Delete', type: 'danger' }, function () {
 		let formData = new FormData();
 		formData.append('widgetId', __tagembed__widget_id);
-		formData.append('action', 'data');
+		formData.append('action', 'tagembed_data');
 		formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 		formData.append('__tagembed__ajax_action', '__tagembed__delete_widget');
 		__tagembed__open_loader();

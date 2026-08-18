@@ -4,18 +4,19 @@
  * Plugin Name:       Tagembed: Social Media Feeds and Customer Reviews Widget
  * Plugin URI:        https://tagembed.com/
  * Description:       Display social media feeds and user-generated content in an interactive widget.
- * Version:           7.4
+ * Version:           7.6
  * Author:            Tagembed
  * Author URI:        https://tagembed.com/
  * License:           GPLv3
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
+ * Text Domain:       tagembed-widget
  */
 if (!defined('WPINC')) :
 	die;
 endif;
 
 /* --Start-- Create Constant */
-!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '7.4');
+!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '7.6');
 !defined('TAGEMBED_PLUGIN_DIR_PATH')         && define('TAGEMBED_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 !defined('TAGEMBED_PLUGIN_URL')              && define('TAGEMBED_PLUGIN_URL', plugin_dir_url(__FILE__));
 !defined('TAGEMBED_PLUGIN_REDIRECT_URL')     && define('TAGEMBED_PLUGIN_REDIRECT_URL', get_admin_url(null, 'admin.php?page='));
@@ -26,8 +27,7 @@ endif;
 !defined('TAGEMBED_PLUGIN_REACT_URL')        && define('TAGEMBED_PLUGIN_REACT_URL', 'https://widget.tagembed.com/');
 !defined('TAGEMBED_PLUGIN_CALL_BACK_URL')    && define('TAGEMBED_PLUGIN_CALL_BACK_URL', admin_url() . 'admin.php?page=tagembed');
 !defined('TAGEMBED_PLUGIN_PLATFORM')         && define('TAGEMBED_PLUGIN_PLATFORM', 'tagembed');
-!defined('TAGEMBED_PLUGIN_OTHER_PLUGIN')     && define('TAGEMBED_PLUGIN_OTHER_PLUGIN', 'taggbox-widget/taggbox.php');
-!defined('TAGEMBED_PLUGIN_OTHER_PLUGIN_URL') && define('TAGEMBED_PLUGIN_OTHER_PLUGIN_URL', admin_url() . 'admin.php?page=taggbox');
+
 /* --End-- Create Constant */
 
 /* --Start--Include Files */
@@ -132,36 +132,24 @@ function ___tagembed__view()
 }
 /* --End-- Add & Manage Views */
 
-/* --Start-- Feed Count For First Time Create */
-function ___tagembed__get_feed_count_information($userDetails, $networkId)
-{
-	$param['networkId'] = sanitize_key($networkId);
-	$param['userId']    = sanitize_key($userDetails->userId);
-	$response           = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apifeed/getFeedCountForFirstTimeFeed', $param, ['Authorization:' . $userDetails->accessToken]);
-	if (200 == $response->head->code || !empty($response->body) || $response->body || $response->head->status) :
-		return $response->body;
-	endif;
-}
-/* --End-- Feed Count For First Time Create */
-
 /* --Start-- Manage Ajax Calls */
-add_action('wp_ajax_data', '___tagembed__dataAjaxHandler');
+add_action('wp_ajax_tagembed_data', '___tagembed__dataAjaxHandler');
 function ___tagembed__dataAjaxHandler()
 {
 	if (!current_user_can('manage_options')) :
 		return ___tagembed__exitWithDanger('You do not have sufficient permissions to access this page.');
 	endif;
-	if (empty($_REQUEST['__tagembed__ajax_action'])) :
-		return false;
-	endif;
-	$data = ___tagembed__sanitizeRequestData($_REQUEST);
-	$data = (object)$data;
-	/* --Start-- Manage Ajax call Request Security */
-	$__tagembed__ajaxCallSecurityNones = isset($data->__tagembed__ajax_call_nones) ? sanitize_text_field($data->__tagembed__ajax_call_nones) : '';
+	/* --Start-- Manage Ajax call Request Security (Verified Before Any Other Request Data Is Used) */
+	$__tagembed__ajaxCallSecurityNones = isset($_REQUEST['__tagembed__ajax_call_nones']) ? sanitize_text_field(wp_unslash($_REQUEST['__tagembed__ajax_call_nones'])) : '';
 	if (!wp_verify_nonce($__tagembed__ajaxCallSecurityNones, '__tagembed__ajax_call_security_nones')) :
 		return ___tagembed__exitWithDanger();
 	endif;
 	/* --End-- Manage Ajax call Request Security */
+	if (empty($_REQUEST['__tagembed__ajax_action'])) :
+		return false;
+	endif;
+	$data = ___tagembed__sanitizeRequestData(wp_unslash($_REQUEST));
+	$data = (object)$data;
 	/* --Start__ Sanetize All Input */
 	foreach ($data as $key => $value) :
 		if (!in_array($key, ['emailId', 'password', 'youtubePlaylist'])) :
@@ -170,8 +158,7 @@ function ___tagembed__dataAjaxHandler()
 	endforeach;
 	/* --End__ Sanetize All Input */
 
-	$param = [];
-	global $wpdb;
+	$param  = [];
 	$action = $data->__tagembed__ajax_action;
 	$__tagembed__user_details = ___tagembed__user();
 	switch ($action):
@@ -194,26 +181,11 @@ function ___tagembed__dataAjaxHandler()
 			$param['password']     = $data->password;
 			$param['contact_no']   = $data->contact_no;
 			$param['calling_code'] = $data->calling_code;
-			$param['platform']   = TAGEMBED_PLUGIN_PLATFORM;
+			$param['platform']     = TAGEMBED_PLUGIN_PLATFORM;
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/register', $param, []);
 			$response = ___tagembed__manageApiResponse($response);
 			unset($param);
-
-			/*Mange Other Plugin Login*/
-			if (isset($response->accountAlreadyOtherPluginStatus)):
-				$___tagembed__other_plugin_install_status = false;
-				if (function_exists('is_plugin_active') && is_plugin_active(TAGEMBED_PLUGIN_OTHER_PLUGIN))
-					$___tagembed__other_plugin_install_status = true;
-				return ___tagembed__exitWithSuccess([
-					'accountAlreadyOtherPluginStatus' => $response->accountAlreadyOtherPluginStatus,
-					'pluginUrl'                       => $response->pluginUrl,
-					'existingPluginUser'              => $response->existingPluginUser,
-					'otherPluginInstallStatus'        => $___tagembed__other_plugin_install_status,
-					'otherPluginInstallUrl'           => TAGEMBED_PLUGIN_OTHER_PLUGIN_URL,
-				]);
-			endif;
-
 			$param = ['userId' => sanitize_key($response->userId), 'inheritStyles' => 1];
 			___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiwidget/create', $param, ['Authorization:' . $response->access_token]);
 			if (___tagembed__login($response) == true) :
@@ -234,21 +206,6 @@ function ___tagembed__dataAjaxHandler()
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/login', $param, []);
 			unset($param);
 			$response = ___tagembed__manageApiResponse($response);
-
-			/*Mange Other Plugin Login*/
-			if (isset($response->accountAlreadyOtherPluginStatus)):
-				$___tagembed__other_plugin_install_status = false;
-				if (function_exists('is_plugin_active') && is_plugin_active(TAGEMBED_PLUGIN_OTHER_PLUGIN))
-					$___tagembed__other_plugin_install_status = true;
-				return ___tagembed__exitWithSuccess([
-					'accountAlreadyOtherPluginStatus' => $response->accountAlreadyOtherPluginStatus,
-					'pluginUrl'                       => $response->pluginUrl,
-					'existingPluginUser'              => $response->existingPluginUser,
-					'otherPluginInstallStatus'        => $___tagembed__other_plugin_install_status,
-					'otherPluginInstallUrl'           => TAGEMBED_PLUGIN_OTHER_PLUGIN_URL,
-				]);
-			endif;
-
 			if (___tagembed__login($response) == true) :
 				return ___tagembed__exitWithSuccess(['redirectUrl' => TAGEMBED_PLUGIN_CALL_BACK_URL]);
 			else :
@@ -931,25 +888,6 @@ function ___tagembed__dataAjaxHandler()
 							$__tagembed__feed_input_data['byApiCall'] = 1;
 						endif;
 						break;
-					/*
-						case 3:
-			            case 18:
-						if (23 == $__tagembed__feed_filter_id || 26 == $__tagembed__feed_filter_id || 8 == $__tagembed__feed_filter_id) :
-						$__tagembed__get_feed_count_information = ___tagembed__get_feed_count_information($__tagembed__user_details, $__tagembed__feed_input_data['networkId']);
-						if (empty($__tagembed__get_feed_count_information)) :
-						$byApiCall = 1;
-						$__tagembed__feed_input_data['byApiCall'] = 1;
-						endif;
-						endif;
-						break;
-						case 1:
-						$__tagembed__get_feed_count_information = ___tagembed__get_feed_count_information($__tagembed__user_details, $__tagembed__feed_input_data['networkId']);
-						if (empty($__tagembed__get_feed_count_information)) :
-						$byApiCall = 1;
-						$__tagembed__feed_input_data['byApiCall'] = 1;
-						endif;
-						break;
-						*/
 					case 5:
 					case 7:
 					case 6:
@@ -1133,7 +1071,7 @@ function ___tagembed__dataAjaxHandler()
 			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/checkusertoken', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
-			if (401 == $response->head->code && !$response->head->status) :
+			if (!empty($response->head) && 401 == $response->head->code && empty($response->head->status)) :
 				tagembed_logout();
 			endif;
 			unset($param);
@@ -1262,37 +1200,6 @@ function ___tagembed__dataAjaxHandler()
 }
 /* --End-- Manage Ajax Calls */
 
-/* --Start-- Manage Login And Register On Plugin Activate */
-function ___tagembed__manageLoginAndRegisterOnPluginActivate()
-{
-	global $wpdb;
-	$__tagembed__activeUserData = wp_get_current_user();
-	if (empty($__tagembed__activeUserData->roles) || 'administrator' != $__tagembed__activeUserData->roles[0]) :
-		return false;
-	endif;
-	if (!empty($__tagembed__activeUserData->data->user_email) && !empty($__tagembed__activeUserData->data->display_name)) :
-		$__tagembed__activeUserName = $__tagembed__activeUserData->data->display_name;
-		$__tagembed__activeUserEmail = $__tagembed__activeUserData->data->user_email;
-		$__tagembed__activeOptions = ___tagembed__getActiveOptions();
-		if (!empty($__tagembed__activeOptions[0]->email)) :
-			if (empty($__tagembed__activeOptions[0]->isLogin) || 'no' == $__tagembed__activeOptions[0]->isLogin) :
-				return false;
-			endif;
-			$__tagembed__activeUserEmail = $__tagembed__activeOptions[0]->email;
-		endif;
-		$__tagembed__user_details = ___tagembed__user($__tagembed__activeUserEmail);
-		$accessTocken = (isset($__tagembed__user_details->accessToken) && !empty($__tagembed__user_details->accessToken)) ? $__tagembed__user_details->accessToken : '';
-		$param = [];
-		$param['emailId'] = sanitize_email($__tagembed__activeUserEmail);
-		$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/checkUserExistOrNotAndGetData', $param, ['Authorization:' . $accessTocken]);
-		unset($param);
-		if (!empty($response->body->userId)) :
-			___tagembed__login($response->body);
-		endif;
-	endif;
-}
-/* --End-- Manage Login And Register On Plugin Activate */
-
 /* --Start-- Login */
 function ___tagembed__login($response)
 {
@@ -1332,15 +1239,6 @@ function ___tagembed__manageActiveOptions($email = null, $other = null)
 	endif;
 }
 /* --End-- Manage Active Options */
-
-/* --Start--Get User Last Login Email Id */
-function ___tagembed__getActiveOptions()
-{
-	global $wpdb;
-	$__tagembed__activeOptions = $wpdb->get_results($wpdb->prepare('SELECT email, isLogin FROM wp_tagembed_active_options WHERE id = %d', 1));
-	return $__tagembed__activeOptions;
-}
-/* --End--Get User last Login Email Id */
 
 /* --Start-- Logout */
 function tagembed_logout()
@@ -1440,7 +1338,6 @@ function ___tagembed__activeWidget()
 function ___tagembed__manageActiveWidget($widgetId)
 {
 	global $wpdb;
-	$return = '';
 	$activeWidgetUserId = ___tagembed__activeWidget();
 	if ($activeWidgetUserId == $widgetId) :
 		return true;
@@ -1473,7 +1370,6 @@ function ___tagembed__activeWidgetUser()
 function ___tagembed__manageActiveWidgetsUser($userId)
 {
 	global $wpdb;
-	$return = '';
 	$activeWidgetUserId = ___tagembed__activeWidgetUser();
 	if ($activeWidgetUserId == $userId) :
 		return true;
@@ -1524,7 +1420,6 @@ register_activation_hook(__FILE__, '___tagembed__pluginActivate');
 function ___tagembed__pluginActivate()
 {
 	___tagembed__createDatabaseTableForPlugin();
-	___tagembed__manageLoginAndRegisterOnPluginActivate();
 	add_action('activated_plugin', '___tagembed__plginActivationRedirect');
 }
 register_uninstall_hook(__FILE__, '___tagembed__pluginUnistall');
@@ -1547,7 +1442,6 @@ function ___tagembed__plginActivationRedirect()
 	$__tagembed__pluginCallbackUrl = esc_url(TAGEMBED_PLUGIN_CALL_BACK_URL);
 	wp_safe_redirect($__tagembed__pluginCallbackUrl);
 	exit;
-	/* exit(wp_redirect(TAGEMBED_PLUGIN_CALL_BACK_URL)); */
 }
 /* --End--Manage Redirect After Plugin Activate */
 
@@ -1563,10 +1457,8 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), '___tagembed__set
 /* --Start--Manage Database On Plugin Update Time */
 function ___tagembed__manageDatabaseOnPluginUpdateTime()
 {
-	$__tagembed__userTableDropStatus = false;
 	___tagembed__dropDatabaseTablesForPlugin();
 	___tagembed__createDatabaseTableForPlugin();
-	___tagembed__manageLoginAndRegisterOnPluginActivate();
 }
 add_action('upgrader_process_complete', '___tagembed__manageDatabaseOnPluginUpdateTime', 10, 2);
 /* --End--Manage Database On Plugin Update Time */
@@ -1577,12 +1469,9 @@ function ___tagembed__get_user_social_account_id()
 	$__tagembed__user_details = ___tagembed__user();
 	$param['userId'] = $__tagembed__user_details->userId;
 	$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/getsocialaccountid', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
-	if (isset($response->head->status)) :
-		if ($response->head->status) :
-			$response = ___tagembed__manageApiResponse($response);
-			if (!empty($response->userId)) :
-				return $response->userId;
-			endif;
+	if (!empty($response->head->status)) :
+		if (!empty($response->body->userId)) :
+			return $response->body->userId;
 		endif;
 	endif;
 	return false;
@@ -1599,8 +1488,8 @@ function ___tagembed__generalAdminNotice()
 	endif;
 	$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/notification', ['callBy' => 'wordpress'], []);
 	if (!is_wp_error($response)) :
-		if (isset($response->head->status)) :
-			$response = ___tagembed__manageApiResponse($response);
+		if (!empty($response->head->status) && !empty($response->body)) :
+			$response = $response->body;
 			if (!empty($response->notifications) && is_array($response->notifications)) :
 				$htmlData = '';
 				foreach ($response->notifications as $notifications) :
@@ -1608,11 +1497,11 @@ function ___tagembed__generalAdminNotice()
 						if ('tagembed' != $__tagmebed__page_name) :
 							continue;
 						endif;
-						$htmlData .= '<div class=\'notice notice-' . esc_html($notifications->type) . 'is-dismissible\'>';
+						$htmlData .= '<div class=\'notice notice-' . esc_attr($notifications->type) . ' is-dismissible\'>';
 						$htmlData .= '<p>' . $notifications->message . '</p>';
 						$htmlData .= '</div>';
 					elseif ('all' == $notifications->location) :
-						$htmlData .= '<div class=\'notice	notice-' . esc_html($notifications->type) . 'is-dismissible\'>';
+						$htmlData .= '<div class=\'notice notice-' . esc_attr($notifications->type) . ' is-dismissible\'>';
 						$htmlData .= '<p>' . $notifications->message . '</p>';
 						$htmlData .= '</div>';
 					endif;

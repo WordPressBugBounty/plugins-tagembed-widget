@@ -65,7 +65,7 @@ function __tagembed__pluginDeactivateReason(__tagembed__pluginDeactivateReason) 
     document.querySelector("#__tagembed__other_reason_input").value = "";
     document.querySelector("#__tagembed__better_plugin_input").value = "";
     let __tagembed__pluginDeactivateBtn = document.querySelector("#__tagembed__pluginDeactivateBtn");
-    __tagembed__pluginDeactivateBtn.innerHTML = "Submit & Deactivate";
+    __tagembed__pluginDeactivateBtn.textContent = "Submit & Deactivate";
     let __tagembed__betterPluginDiv = document.querySelector("#__tagembed__betterPluginDiv");
     __tagembed__betterPluginDiv.style.display = "none";
     let __tagembed__otherReasonDiv = document.querySelector("#__tagembed__otherReasonDiv");
@@ -88,7 +88,7 @@ function __tagembed__deactivatePlugin() {
         __tagembed__pluginDeactivateReason = "";
     }
     let formData = new FormData();
-    formData.append('action', 'data');
+    formData.append('action', 'tagembed_data');
     formData.append('__tagembed__ajax_action', '__tagembed__plugin_deactivate');
     formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_security_nones_object.__tagembed__ajax_call_security_nones);
     formData.append('betterPlugin', __tagembed__better_plugin_input);

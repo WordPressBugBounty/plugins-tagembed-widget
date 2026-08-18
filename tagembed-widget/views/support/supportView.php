@@ -1,7 +1,10 @@
 <?php
+if (!defined('ABSPATH')) :
+	exit;
+endif;
 include_once TAGEMBED_PLUGIN_DIR_PATH . 'views/includes/headView.php';
 include_once TAGEMBED_PLUGIN_DIR_PATH . 'views/includes/headerView.php';
-wp_enqueue_script('__script-support-js', TAGEMBED_PLUGIN_URL . '/assets/js/support/tagembed.support.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
+wp_enqueue_script('__tagembed__script-support-js', TAGEMBED_PLUGIN_URL . '/assets/js/support/tagembed.support.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
 ?>
 <div class="__tagembed__support">
 	<h3><span style="font-size: 12px;">🔗</span> <a href="https://tagembed.com/support/" target="_blank">We’re Here to Help You Succeed -</a></h3>

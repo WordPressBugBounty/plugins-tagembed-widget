@@ -6,9 +6,19 @@ function __tagembed__open_loader(text = '', loaderImage = '') {
     text = (text) ? text : 'Please Wait...';
     loaderImage = (loaderImage) ? loaderImage : __tagembedLoaderImageCustomPath;
     document.body.style.cursor = "wait";
-    let elem = document.createElement('div');
-    elem.innerHTML = '<div id="__tagembed__loader" class="__tagembed__loader-overlay"><div class="__tagembed__loader"><img src="' + loaderImage + '"/><br/>' + text + '</div></div>';
-    document.body.appendChild(elem.firstChild);
+    /* Built with DOM methods so no markup is produced from the arguments. */
+    let overlay = document.createElement('div');
+    overlay.setAttribute('id', '__tagembed__loader');
+    overlay.className = '__tagembed__loader-overlay';
+    let inner = document.createElement('div');
+    inner.className = '__tagembed__loader';
+    let image = document.createElement('img');
+    image.setAttribute('src', loaderImage);
+    inner.appendChild(image);
+    inner.appendChild(document.createElement('br'));
+    inner.appendChild(document.createTextNode(text));
+    overlay.appendChild(inner);
+    document.body.appendChild(overlay);
 }
 function __tagembed__close_loader() {
     document.body.style.cursor = "auto";

@@ -1,7 +1,10 @@
 <?php
+if (!defined('ABSPATH')) :
+	exit;
+endif;
 include_once TAGEMBED_PLUGIN_DIR_PATH . 'views/includes/headView.php';
 include_once TAGEMBED_PLUGIN_DIR_PATH . 'views/includes/headerView.php';
-wp_enqueue_script('__script-display-js', TAGEMBED_PLUGIN_URL . '/assets/js/display/tagembed.display.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
+wp_enqueue_script('__tagembed__script-display-js', TAGEMBED_PLUGIN_URL . '/assets/js/display/tagembed.display.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
 if (!empty($__tagembed__widgets)) :
 ?>
 	<div id="__tagembed__displayfeed" class="__tagembed__tabcontent">

@@ -9,7 +9,7 @@ function __tagembed__get_theme() {
     let __tagembed__theme = document.querySelector("#__tagembed__theme");
     let __tagembed__toast = new TagembedToast;
     let formData = new FormData();
-    formData.append('action', 'data');
+    formData.append('action', 'tagembed_data');
     formData.append('widgetId', widgetId);
     formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
     formData.append('__tagembed__ajax_action', '__tagembed__get_themes');
@@ -31,16 +31,23 @@ function __tagembed__get_theme() {
                     elemHTML = `${elemHTML}<li>`;
                     elemHTML = `${elemHTML}<label class="${response.data[index].active == 1 ? "__tagembed__themeactive" : ""} ">`;
                     elemHTML = `${elemHTML}<span class="__tagembed__theme-img">`;
-                    /*elemHTML = `${elemHTML}<img src="${__tagembed__plugin_url_for_js}assets/images/theme/themeThumb${response.data[index].themeId}.png" alt="modern fall" />`;*/
-                    elemHTML = `${elemHTML}<img class="lazyload" src="${__tagembed__plugin_url_for_js}assets/images/blur-img.gif" data-src="${__tagembed__plugin_url_for_js}assets/images/theme/themeThumb${response.data[index].themeId}.png" alt="theme-image" />`;
+                    /*elemHTML = `${elemHTML}<img src="${__tagembed__plugin_url_for_js}assets/images/theme/themeThumb${__tagembed__escapeAttr(response.data[index].themeId)}.png" alt="modern fall" />`;*/
+                    elemHTML = `${elemHTML}<img class="lazyload" src="${__tagembed__plugin_url_for_js}assets/images/blur-img.gif" data-src="${__tagembed__plugin_url_for_js}assets/images/theme/themeThumb${__tagembed__escapeAttr(response.data[index].themeId)}.png" alt="theme-image" />`;
                     elemHTML = `${elemHTML}</span>`;
-                    elemHTML = `${elemHTML}<span class="__tagembed__themename"> ${response.data[index].name} </span>`;
-                    elemHTML = `${elemHTML}<input type="radio" onclick="__tagembed__editTheme(${response.data[index].themeId});" class="__tagembed__theme_radio_button"  name="themeId" value="${response.data[index].themeId}" ${response.data[index].active == 1 ? "checked" : ""}  />`;
+                    elemHTML = `${elemHTML}<span class="__tagembed__themename"> ${__tagembed__escapeText(response.data[index].name)} </span>`;
+                    elemHTML = `${elemHTML}<input type="radio" data-tagembed-theme-id="${__tagembed__escapeAttr(__tagembed__validId(response.data[index].themeId))}" class="__tagembed__theme_radio_button"  name="themeId" value="${__tagembed__escapeAttr(response.data[index].themeId)}" ${response.data[index].active == 1 ? "checked" : ""}  />`;
                     elemHTML = `${elemHTML}</label>`;
                     elemHTML = `${elemHTML}</li>`;
                 }
             }
-            __tagembed__theme.innerHTML = elemHTML;
+            __tagembed__setSafeHtml(__tagembed__theme, elemHTML);
+            /* The theme radio buttons carry their id in a data attribute and are wired up here,
+               so no event handler is written into the markup. */
+            __tagembed__theme.querySelectorAll("input[data-tagembed-theme-id]").forEach(function (__tagembed__themeRadio) {
+                __tagembed__themeRadio.addEventListener("click", function () {
+                    __tagembed__editTheme((this.getAttribute("data-tagembed-theme-id") || ""));
+                });
+            });
             __tagembed__image__lazy_loading()/*Image Lazy Loader*/
         } else {
             if (response.hasOwnProperty("message")) {
@@ -59,7 +66,7 @@ function __tagembed__get_theme() {
 /*--Start--Image Lazy Loadin*/
 function __tagembed__image__lazy_loading() {
     let images = document.querySelectorAll(".lazyload");
-    lazyload(images);
+    __tagembed__lazyload(images);
 }
 /*--End--Image Lazy Loadin*/
 /*--Start--Edit Theme*/
@@ -70,7 +77,7 @@ function __tagembed__editTheme(__tagembed__theme_id) {
     if (!__tagembed__widget_id || !__tagembed__theme_id)
         return __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
     let formData = new FormData();
-    formData.append('action', 'data');
+    formData.append('action', 'tagembed_data');
     formData.append('widgetId', __tagembed__widget_id);
     formData.append('themeId', __tagembed__theme_id);
     formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);

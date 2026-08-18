@@ -1,3 +1,40 @@
+/*--Start--Validation : Accept An Identifier Only When It Is Digits Only*/
+/* Validation, as described in the WordPress security handbook : test the value against a
+   known pattern and treat anything else as invalid. */
+function __tagembed__isValidId(value) {
+	return /^\d+$/.test(String(value === undefined || value === null ? "" : value).trim());
+}
+function __tagembed__validId(value) {
+	return __tagembed__isValidId(value) ? String(value).trim() : "";
+}
+/*--End--Validation*/
+/*--Start--Escaping : WordPress Core @wordpress/escape-html Package*/
+/* wp.escapeHtml is shipped by WordPress core (script handle wp-escape-html).
+   escapeHTML() is for text between tags, escapeAttribute() is for a double quoted attribute. */
+function __tagembed__escapeText(value) {
+	let __tagembed__stringValue = String(value === undefined || value === null ? "" : value);
+	return window.wp.escapeHtml.escapeHTML(__tagembed__stringValue);
+}
+function __tagembed__escapeAttr(value) {
+	let __tagembed__stringValue = String(value === undefined || value === null ? "" : value);
+	return window.wp.escapeHtml.escapeAttribute(__tagembed__stringValue);
+}
+/*--End--Escaping*/
+/*--Start--Sanitization : DOMPurify, Applied To Every Markup String Before It Reaches The DOM*/
+/* Our own DOMPurify instance is captured as soon as this file loads, so a copy loaded
+   later by another plugin can never replace the one this plugin uses. */
+var __tagembed__purifier = window.__tagembed__DOMPurify || window.DOMPurify;
+function __tagembed__setSafeHtml(element, html) {
+	if (!element) return;
+	var __tagembed__sanitizer = __tagembed__purifier || window.__tagembed__DOMPurify || window.DOMPurify;
+	if (!__tagembed__sanitizer || typeof __tagembed__sanitizer.sanitize !== "function") {
+		/* Without the sanitizer nothing is rendered, so unsanitized markup can never reach the page. */
+		element.textContent = "";
+		return;
+	}
+	element.innerHTML = __tagembed__sanitizer.sanitize(String(html === undefined || html === null ? "" : html), { USE_PROFILES: { html: true } });
+}
+/*--End--Sanitization*/
 /*--Start-- Manage Window Popup In New Tab*/
 /*function __tagmebed__openWindowPopup(url, windowName = "Tagembed") {
  __tagmebed__window_popup = window.open(url, '_blank');
@@ -63,27 +100,51 @@ function __tagembed__message() {
 		/*--Start--Show Popup On Plan Upgrade Time*/
 		if (__tagembed__message.hasOwnProperty("planName") && __tagembed__message.hasOwnProperty("amount") && __tagembed__message.hasOwnProperty("paymentId")) {
 			let __tagembed__upgrade_account_popup = document.querySelector("#__tagembed__upgrade_account_popup");
-			let elemHTML = `<div class="__tagembed__popupwrap __tagembed__popup_md">`;
-			elemHTML = `${elemHTML}<button id="__tagembed__upgrade_account_popup_close_btn" onclick="__tagembed__hide_upgrade_account_popup();" type="button" class="__tagembed__closebtn"></button>`;
-			elemHTML = `${elemHTML}<div class="__tagembed__popupinn">`;
-			elemHTML = `${elemHTML}<div class="__tagembed__formwbody">`;
-			elemHTML = `${elemHTML}<div class="__tagembed__thankyou">`;
-			elemHTML = `${elemHTML}<img src="${__tagembed__plugin_url_for_js}assets/images/check-green.png" alt="check">`;
-			elemHTML = `${elemHTML}<h2>Congratulations! <span>Your account has been upgraded</span></h2>`;
-			elemHTML = `${elemHTML}<div class="__tagembed__plandetail">`;
-			elemHTML = `${elemHTML}<div class="__tagembed__planbox">`;
-			elemHTML = `${elemHTML}<p>Amount</p>`;
-			elemHTML = `${elemHTML}<span>$${__tagembed__message.amount}</span>`;
-			elemHTML = `${elemHTML}</div>`;
-			elemHTML = `${elemHTML}<div class="__tagembed__planbox">`;
-			elemHTML = `${elemHTML}<p>Payment Id</p>`;
-			elemHTML = `${elemHTML}<span>${__tagembed__message.paymentId}</span>`;
-			elemHTML = `${elemHTML}</div>`;
-			elemHTML = `${elemHTML}<div class="__tagembed__planbox">`;
-			elemHTML = `${elemHTML}<p>Plan</p>`;
-			elemHTML = `${elemHTML}<span>${__tagembed__message.planName}</span>`;
-			elemHTML = `${elemHTML}</div></div></div></div></div></div>`;
-			__tagembed__upgrade_account_popup.innerHTML = elemHTML;
+			/* Built with DOM methods. The three query string values are inserted as text
+			   nodes only, so no markup can be produced from them. */
+			let __tagembed__makeElement = function (tag, className) {
+				let __tagembed__element = document.createElement(tag);
+				if (className) __tagembed__element.className = className;
+				return __tagembed__element;
+			};
+			let __tagembed__makePlanBox = function (label, value) {
+				let __tagembed__box = __tagembed__makeElement("div", "__tagembed__planbox");
+				let __tagembed__label = document.createElement("p");
+				__tagembed__label.textContent = label;
+				let __tagembed__value = document.createElement("span");
+				__tagembed__value.textContent = (value === undefined || value === null) ? "" : String(value);
+				__tagembed__box.appendChild(__tagembed__label);
+				__tagembed__box.appendChild(__tagembed__value);
+				return __tagembed__box;
+			};
+			let __tagembed__wrap = __tagembed__makeElement("div", "__tagembed__popupwrap __tagembed__popup_md");
+			let __tagembed__closeBtn = __tagembed__makeElement("button", "__tagembed__closebtn");
+			__tagembed__closeBtn.setAttribute("id", "__tagembed__upgrade_account_popup_close_btn");
+			__tagembed__closeBtn.setAttribute("type", "button");
+			__tagembed__closeBtn.addEventListener("click", __tagembed__hide_upgrade_account_popup);
+			let __tagembed__inn = __tagembed__makeElement("div", "__tagembed__popupinn");
+			let __tagembed__body = __tagembed__makeElement("div", "__tagembed__formwbody");
+			let __tagembed__thankyou = __tagembed__makeElement("div", "__tagembed__thankyou");
+			let __tagembed__checkImg = document.createElement("img");
+			__tagembed__checkImg.setAttribute("src", __tagembed__plugin_url_for_js + "assets/images/check-green.png");
+			__tagembed__checkImg.setAttribute("alt", "check");
+			let __tagembed__heading = document.createElement("h2");
+			__tagembed__heading.appendChild(document.createTextNode("Congratulations! "));
+			let __tagembed__headingSpan = document.createElement("span");
+			__tagembed__headingSpan.textContent = "Your account has been upgraded";
+			__tagembed__heading.appendChild(__tagembed__headingSpan);
+			let __tagembed__detail = __tagembed__makeElement("div", "__tagembed__plandetail");
+			__tagembed__detail.appendChild(__tagembed__makePlanBox("Amount", "$" + __tagembed__message.amount));
+			__tagembed__detail.appendChild(__tagembed__makePlanBox("Payment Id", __tagembed__message.paymentId));
+			__tagembed__detail.appendChild(__tagembed__makePlanBox("Plan", __tagembed__message.planName));
+			__tagembed__thankyou.appendChild(__tagembed__checkImg);
+			__tagembed__thankyou.appendChild(__tagembed__heading);
+			__tagembed__thankyou.appendChild(__tagembed__detail);
+			__tagembed__body.appendChild(__tagembed__thankyou);
+			__tagembed__inn.appendChild(__tagembed__body);
+			__tagembed__wrap.appendChild(__tagembed__closeBtn);
+			__tagembed__wrap.appendChild(__tagembed__inn);
+			__tagembed__upgrade_account_popup.replaceChildren(__tagembed__wrap);
 			__tagembed__upgrade_account_popup.style.display = "block";
 		}
 		/*--End--Show Popup On Plan Upgrade Time*/
@@ -103,9 +164,9 @@ function __tagembed__manageApiCall() {
 var __tagembed__logout = document.querySelector("#__tagembed__logout");
 if (__tagembed__logout) {
 	__tagembed__logout.addEventListener('click', function (event) {
-		confirmDialog({ title: 'Yes, sign out', message: 'Are you sure! do you want to sign out?', buttonText: 'Sign Out', type: 'warning' }, function () {
+		__tagembed__confirmDialog({ title: 'Yes, sign out', message: 'Are you sure! do you want to sign out?', buttonText: 'Sign Out', type: 'warning' }, function () {
 			let formData = new FormData();
-			formData.append('action', 'data');
+			formData.append('action', 'tagembed_data');
 			formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 			formData.append('__tagembed__ajax_action', '__tagembed__logout');
 			__tagembed__open_loader();
@@ -146,7 +207,7 @@ function __tagembed__menus(__tagembed__menu_id, __tagembed__widgetId = null) {
 	__tagembed__open_loader();
 	let __tagembed__toast = new TagembedToast;
 	let formData = new FormData();
-	formData.append('action', 'data');
+	formData.append('action', 'tagembed_data');
 	formData.append('menueId', __tagembed__menu_id);
 	formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 	formData.append('__tagembed__ajax_action', '__tagembed__menue');
@@ -183,7 +244,7 @@ function __tagembed__get_already_exist_auth(__tagembed__network_id) {
 		return;
 	let formData = new FormData();
 	formData.append('networkId', __tagembed__network_id);
-	formData.append('action', 'data');
+	formData.append('action', 'tagembed_data');
 	formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 	formData.append('__tagembed__ajax_action', '__tagembed__get_already_exist_auth');
 	fetch(__tagembed__ajax_url, {
@@ -206,7 +267,7 @@ function __tagembed__get_already_exist_auth_new(__tagembed__network_id, __tagemb
 	__tagembed__open_loader();
 	let formData = new FormData();
 	formData.append('networkId', __tagembed__network_id);
-	formData.append('action', 'data');
+	formData.append('action', 'tagembed_data');
 	formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 	formData.append('__tagembed__ajax_action', '__tagembed__get_already_exist_auth');
 	fetch(__tagembed__ajax_url, {
@@ -252,7 +313,7 @@ function __tagembed__manageActiveWidget(__tagembed__widgetId = null) {
 	}
 	let __tagembed__toast = new TagembedToast;
 	let formData = new FormData();
-	formData.append('action', 'data');
+	formData.append('action', 'tagembed_data');
 	formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 	formData.append('__tagembed__ajax_action', '__tagembed__manage_active_widget');
 	formData.append('widgetId', __tagembed__widgetId);
@@ -306,7 +367,7 @@ if (__tagembed__widget_create_form) {
 				}
 				__tagembed__open_loader();
 				let __tagembed__toast = new TagembedToast;
-				formData.append('action', 'data');
+				formData.append('action', 'tagembed_data');
 				formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 				formData.append('__tagembed__ajax_action', '__tagembed__create_widget');
 				fetch(__tagembed__ajax_url, {
@@ -375,7 +436,7 @@ function __tageembed__addUpdateAndRefreshAccount(__tagembed__networkId, __tagemb
 	if (__tagembed__networkId) {
 		let __tagembed__toast = new TagembedToast;
 		let formData = new FormData();
-		formData.append('action', 'data');
+		formData.append('action', 'tagembed_data');
 		formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 		formData.append('__tagembed__ajax_action', '__tagembed__add_or_update_account');
 		formData.append('type', __tagembed__type);
@@ -423,7 +484,7 @@ function __tagembed__manageShotrCode() {
 		let __tagembed__widgetId = widgetData.selectedOptions[0].value.split('#')[0];
 		let __tagembed__shortCode = document.querySelector("#__tagembed__shortCode");
 		if (__tagembed__shortCode)
-			__tagembed__shortCode.innerHTML = `[tagembed widgetid ${__tagembed__widgetId}]`;
+			__tagembed__shortCode.textContent = `[tagembed widgetid ${__tagembed__widgetId}]`;
 	}
 }
 /*--Start--Copy Short Code*/
@@ -436,7 +497,7 @@ async function __tagembed__copyCodeEmbed(__tagembed__codeType, __tagembed__copyE
 	let __tagembed__copyEmbedCode = "";
 	switch (__tagembed__codeType) {
 		case "shortCode":
-			__tagembed__copyEmbedCode = document.querySelector(`#${__tagembed__copyEmbedId}`).innerHTML;
+			__tagembed__copyEmbedCode = document.querySelector(`#${__tagembed__copyEmbedId}`).textContent;
 			break;
 		case "embedCode":
 			__tagembed__copyEmbedCode = document.querySelector(`#${__tagembed__copyEmbedId}`).value;

@@ -6,7 +6,7 @@ function __tagembed__getCustomizationOption() {
 	widgetId = widgetId.value.split('#')[0];
 	let __tagembed__toast = new TagembedToast;
 	let formData = new FormData();
-	formData.append('action', 'data');
+	formData.append('action', 'tagembed_data');
 	formData.append('widgetId', widgetId);
 	formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 	formData.append('__tagembed__ajax_action', '__tagembed__get_customization_option');
@@ -79,22 +79,22 @@ function __tagembed__manageCustomizationOptions(__tagembed__customizationsOption
 	if (__tagembed__customizationsOptions.Personalization.postText == 1)
 		document.querySelector("#__tagembed__hide_top_ck").checked = true;
 	document.querySelector("#__tagembed__ps").value = __tagembed__customizationsOptions.Personalization.padding;
-	document.querySelector("#__tagembed__post_spacing_range_value_section").innerHTML = __tagembed__customizationsOptions.Personalization.padding;
+	document.querySelector("#__tagembed__post_spacing_range_value_section").textContent = __tagembed__customizationsOptions.Personalization.padding;
 	document.querySelector("#__tagembed__post_mw").value = __tagembed__customizationsOptions.Personalization.minimumPostWidth;
-	document.querySelector("#__tagembed__post_width_range_value_section").innerHTML = __tagembed__customizationsOptions.Personalization.minimumPostWidth;
+	document.querySelector("#__tagembed__post_width_range_value_section").textContent = __tagembed__customizationsOptions.Personalization.minimumPostWidth;
 	document.querySelector("#__tagembed__columnCount").value = __tagembed__customizationsOptions.ThemeRule.numberOfColumn;
 	document.querySelector("#__tagembed__columnCountMobile").value = __tagembed__customizationsOptions.ThemeRule.mobileColumn;
 	/*--End-- Manage Layout Setting*/
 
 	/*--Start-- Manage Card Setting*/
 	document.querySelector("#__tagembed__fontColor").value = __tagembed__customizationsOptions.ThemeRule.fontColor;
-	document.querySelector("#__tagembed__post_font_color_value_section").innerHTML = __tagembed__customizationsOptions.ThemeRule.fontColor;
+	document.querySelector("#__tagembed__post_font_color_value_section").textContent = __tagembed__customizationsOptions.ThemeRule.fontColor;
 	document.querySelector("#__tagembed__authorFontColor").value = __tagembed__customizationsOptions.ThemeRule.authorColor;
-	document.querySelector("#__tagembed__author_font_color_value_section").innerHTML = __tagembed__customizationsOptions.ThemeRule.authorColor;
+	document.querySelector("#__tagembed__author_font_color_value_section").textContent = __tagembed__customizationsOptions.ThemeRule.authorColor;
 	document.querySelector("#__tagembed__cardColor").value = __tagembed__customizationsOptions.ThemeRule.cardColor;
-	document.querySelector("#__tagembed__card_color_value_section").innerHTML = __tagembed__customizationsOptions.ThemeRule.cardColor;
-	document.querySelector("#__tagembed__post_font_size").innerHTML = __tagembed__customizationsOptions.ThemeRule.fontSize;
-	document.querySelector("#__tagembed__post_font_size_section").innerHTML = __tagembed__customizationsOptions.ThemeRule.fontSize;
+	document.querySelector("#__tagembed__card_color_value_section").textContent = __tagembed__customizationsOptions.ThemeRule.cardColor;
+	document.querySelector("#__tagembed__post_font_size").textContent = __tagembed__customizationsOptions.ThemeRule.fontSize;
+	document.querySelector("#__tagembed__post_font_size_section").textContent = __tagembed__customizationsOptions.ThemeRule.fontSize;
 	document.querySelector("#__tagembed__show_is_ck").checked = false;
 	if (__tagembed__customizationsOptions.ThemeRule.inheritStyles == 1)
 		document.querySelector("#__tagembed__show_is_ck").checked = true;
@@ -278,7 +278,7 @@ function __tagembed__updateCustomizationOption(__tagembed__optionType) {
 	/*Get And Manage Widget Id*/
 	let widgetId = document.querySelector("#__tagembed__widgets").selectedOptions[0];
 	widgetId = widgetId.value.split('#')[0];
-	formData.append('action', 'data');
+	formData.append('action', 'tagembed_data');
 	formData.append('widgetId', widgetId);
 	formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 	formData.append('__tagembed__ajax_action', '__tagembed__update_' + __tagembed__optionType + '_customization_option');
@@ -386,13 +386,13 @@ function __tagembed__manageCustomizeMenueHideShow(__tagembed__customize_menue) {
 function __tagembed__showRangeInputValue(__tagembed__range_val, __tagembed__range_value_Show_section_id) {
 	let __tagembed__rangeValueShowSection = document.getElementById(__tagembed__range_value_Show_section_id);
 	if (__tagembed__rangeValueShowSection)
-		__tagembed__rangeValueShowSection.innerHTML = __tagembed__range_val;
+		__tagembed__rangeValueShowSection.textContent = __tagembed__range_val;
 }
 /*--End-- Show Range Input Value*/
 /*--Start-- Show Range Input Value*/
 function __tagembed__showColorInputValue(__tagembed__color_val, __tagembed__color_value_Show_section_id) {
 	let __tagembed__colorValueShowSection = document.getElementById(__tagembed__color_value_Show_section_id);
 	if (__tagembed__colorValueShowSection)
-		__tagembed__colorValueShowSection.innerHTML = __tagembed__color_val;
+		__tagembed__colorValueShowSection.textContent = __tagembed__color_val;
 }
 /*--End-- Show Range Input Value*/

@@ -1,0 +1,9 @@
+# Third party code is kept exactly as published upstream.
+# Do not reformat anything in this folder.
+root = false
+
+[*]
+indent_style = unset
+indent_size = unset
+insert_final_newline = false
+trim_trailing_whitespace = false

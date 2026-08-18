@@ -132,7 +132,7 @@ jQuery(function (editor, blocks, element, components, i18n, data, compose) {
                 ]
             },
         save: function (props) {
-            if (props.attributes.__widgetId !== '' && props.attributes.__widgetId !== null && typeof (props.attributes.__widgetId) != "undefined") {
+            if (props.attributes.__widgetId !== '' && props.attributes.__widgetId !== null && typeof (props.attributes.__widgetId) != "undefined" && !isNaN(props.attributes.__widgetId)) {
                 return El("div", { className: "tagembed-widget", style: "width:" + props.attributes.__width + ";height:" + props.attributes.__height + ";overflow: auto;", "data-widget-id": props.attributes.__widgetId, "view-url": "https://widget.tagembed.com/" + props.attributes.__widgetId });
                 /*return El("div", {className: "tagembed-container", style: "width:" + props.attributes.__width + ";height:" + props.attributes.__height + " !important;overflow: auto;"},
                  *El("div", {className: "tagembed-socialwall tagembed-analystic", style: "width:100%;height:100%;", "data-wall-id": props.attributes.__widgetId}));

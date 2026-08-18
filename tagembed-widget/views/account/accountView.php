@@ -1,6 +1,9 @@
 <?php
+if (!defined('ABSPATH')) :
+	exit;
+endif;
 include_once TAGEMBED_PLUGIN_DIR_PATH . 'views/includes/headView.php';
-wp_enqueue_script('__script-account-js', TAGEMBED_PLUGIN_URL . '/assets/js/account/tagembed.account.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
+wp_enqueue_script('__tagembed__script-account-js', TAGEMBED_PLUGIN_URL . '/assets/js/account/tagembed.account.script.js', ['jquery'], TAGEMBED_PLUGIN_VERSION, true);
 ?>
 <!--Start-- Other Plugin Popup-->
 <style>

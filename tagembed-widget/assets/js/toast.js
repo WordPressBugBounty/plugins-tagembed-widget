@@ -43,9 +43,20 @@ class TagembedToast {
             this.duration = options.duration;
         }
         /*create toast*/
+        /* The message is rendered as text only. No markup is built from it, so there is
+           nothing for an attacker to break out of. */
         let toastDiv = document.createElement("div");
-        let elemHTML = '<span class="__tagembed__faicon"><i class="fas ' + this.icon + '" aria-hidden="true"></i></span><span class="__tagembed__btnmsg">' + this.message + '</span>';
-        toastDiv.innerHTML = elemHTML;
+        let toastIconSpan = document.createElement("span");
+        toastIconSpan.className = "__tagembed__faicon";
+        let toastIcon = document.createElement("i");
+        toastIcon.className = "fas " + this.icon;
+        toastIcon.setAttribute("aria-hidden", "true");
+        toastIconSpan.appendChild(toastIcon);
+        let toastMessageSpan = document.createElement("span");
+        toastMessageSpan.className = "__tagembed__btnmsg";
+        toastMessageSpan.textContent = (this.message === undefined || this.message === null) ? "" : String(this.message);
+        toastDiv.appendChild(toastIconSpan);
+        toastDiv.appendChild(toastMessageSpan);
         toastDiv.className = this.type;
         let toastParentDiv = document.createElement("div");
         toastParentDiv.setAttribute('id', this.id);

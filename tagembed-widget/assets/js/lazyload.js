@@ -4,7 +4,7 @@
     } else if (typeof define === "function" && define.amd) {
         define([], factory);
     } else {
-        root.LazyLoad = factory(root);
+        root.__tagembed__LazyLoad = factory(root);
     }
 })(typeof global !== "undefined" ? global : this.window || this.global, function (root) {
     "use strict";
@@ -46,13 +46,13 @@
         }
         return extended;
     };
-    function LazyLoad(images, options) {
+    function __tagembed__LazyLoad(images, options) {
         this.settings = extend(defaults, options || {});
         this.images = images || document.querySelectorAll(this.settings.selector);
         this.observer = null;
         this.init();
     }
-    LazyLoad.prototype = {
+    __tagembed__LazyLoad.prototype = {
         init: function () {
             if (!root.IntersectionObserver) {
                 this.loadImages();
@@ -122,17 +122,17 @@
             this.settings = null;
         }
     };
-    root.lazyload = function (images, options) {
-        return new LazyLoad(images, options);
+    root.__tagembed__lazyload = function (images, options) {
+        return new __tagembed__LazyLoad(images, options);
     };
     if (root.jQuery) {
         const $ = root.jQuery;
-        $.fn.lazyload = function (options) {
+        $.fn.__tagembed__lazyload = function (options) {
             options = options || {};
             options.attribute = options.attribute || "data-src";
-            new LazyLoad($.makeArray(this), options);
+            new __tagembed__LazyLoad($.makeArray(this), options);
             return this;
         };
     }
-    return LazyLoad;
+    return __tagembed__LazyLoad;
 });

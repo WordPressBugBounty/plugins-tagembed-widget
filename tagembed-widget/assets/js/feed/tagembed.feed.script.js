@@ -1,3 +1,31 @@
+/*--Start--Bind The Actions Carried In data-tagembed-action Attributes*/
+/* The generated markup only carries data attributes. Every behaviour is attached here with
+   addEventListener, so no event handler is ever written into the markup. */
+function __tagembed__bindFeedActions(container) {
+	if (!container) return;
+	container.querySelectorAll("[data-tagembed-action]").forEach(function (node) {
+		let action = node.getAttribute("data-tagembed-action");
+		let eventName = ("feed-status" === action) ? "change" : "click";
+		node.addEventListener(eventName, function () {
+			if ("facebook-search" === action) {
+				__tagembed__facebookSearchData((this.getAttribute("data-tagembed-name") || ""), (this.getAttribute("data-tagembed-link") || ""));
+			} else if ("google-search" === action) {
+				__tagembed__manageGoogleSearchData((this.getAttribute("data-tagembed-place-id") || ""), (this.getAttribute("data-tagembed-main-text") || ""), (this.getAttribute("data-tagembed-description") || ""));
+			} else if ("youtube-search" === action) {
+				__tagembed__youtubeSearchData((this.getAttribute("data-tagembed-youtube-id") || ""), (this.getAttribute("data-tagembed-youtube-name") || ""), (this.getAttribute("data-tagembed-type") || ""));
+			} else if ("vk-search" === action) {
+				__tagembed__manageVkCommunitiesData((this.getAttribute("data-tagembed-vk-id") || ""), (this.getAttribute("data-tagembed-screen-name") || ""));
+			} else if ("reconnect-account" === action) {
+				__tageembed__addUpdateAndRefreshAccount((this.getAttribute("data-tagembed-network-id") || ""), 'reconnect', (this.getAttribute("data-tagembed-account-id") || ""), (this.getAttribute("data-tagembed-feed-id") || ""), (this.getAttribute("data-tagembed-filter-id") || ""), (this.getAttribute("data-tagembed-feed-name") || ""));
+			} else if ("feed-status" === action) {
+				__tagembed__updateFeedStauts((this.getAttribute("data-tagembed-count") || ""));
+			} else if ("delete-feed" === action) {
+				__tagembed__deleteFeed((this.getAttribute("data-tagembed-feed-id") || ""), (this.getAttribute("data-tagembed-widget-id") || ""), (this.getAttribute("data-tagembed-box-id") || ""));
+			}
+		});
+	});
+}
+/*--End--Bind The Actions*/
 /*--Start--Create Feed According Filters*/
 var __tagembed__feed_filters = document.querySelector("#__tagembed__feed_filters");
 if (__tagembed__feed_filters) {
@@ -192,7 +220,7 @@ function __tagembed__getFacebookPageAlbums() {
 		__tagembed__open_loader();
 		let __tagembed__toast = new TagembedToast;
 		let formData = new FormData();
-		formData.append('action', 'data');
+		formData.append('action', 'tagembed_data');
 		formData.append('connectedAccountsId', __tagembed__connected_accountsId);
 		formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 		formData.append('__tagembed__ajax_action', '__tagembed__get_facebook_page_albums');
@@ -210,13 +238,14 @@ function __tagembed__getFacebookPageAlbums() {
 				let elemHTML = `<label>Select Album</label><select name="accountAlbumData" id="__tagembed__account_album_data">`;
 				if (response.data) {
 					for (let index in response.data)
-						elemHTML = `${elemHTML} <option value="${response.data[index].id}#${response.data[index].name}">${response.data[index].name}</option>`;
+						elemHTML = `${elemHTML} <option value="${__tagembed__escapeAttr(response.data[index].id)}#${__tagembed__escapeText(response.data[index].name)}">${__tagembed__escapeText(response.data[index].name)}</option>`;
 				} else {
 					elemHTML = `${elemHTML} <option value="">This Facebook Pase Album Not Found</option>`;
 				}
 				elemHTML = `${elemHTML} </select>`;
 				__tagembed__account_album_section.style.display = 'block';
-				__tagembed__account_album_section.innerHTML = elemHTML;
+				__tagembed__setSafeHtml(__tagembed__account_album_section, elemHTML);
+				__tagembed__bindFeedActions(__tagembed__account_album_section);
 			} else {
 				__tagembed__account_album_section.innerHTML = '';
 				__tagembed__account_album_section.style.display = 'none';
@@ -260,13 +289,13 @@ function __tagembed__manageFacebookPageSearchOptions() {
 						__tagembed__facebookSearchData('', __tagembed__facebook_search_page, __tagembed__facebook_search_page);
 						return false;
 					} else {
-						__tagembed__feed_error.innerHTML = "No specific path found after 'facebook.com'";
+						__tagembed__feed_error.textContent = "No specific path found after 'facebook.com'";
 					}
 				} else {
-					__tagembed__feed_error.innerHTML = "The URL does not belong to 'facebook.com'";
+					__tagembed__feed_error.textContent = "The URL does not belong to 'facebook.com'";
 				}
 			} catch (error) {
-				__tagembed__feed_error.innerHTML = "Invalid URL";
+				__tagembed__feed_error.textContent = "Invalid URL";
 			}
 		} else {
 			let __tagembed__toast = new TagembedToast;
@@ -277,7 +306,7 @@ function __tagembed__manageFacebookPageSearchOptions() {
 			__tagembed__search_option.innerHTML = "";
 
 			let formData = new FormData();
-			formData.append('action', 'data');
+			formData.append('action', 'tagembed_data');
 			formData.append('facebookPageData', __tagembed__facebook_search_page);
 			formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 			formData.append('__tagembed__ajax_action', '__tagembed__search_facebook_page');
@@ -291,12 +320,13 @@ function __tagembed__manageFacebookPageSearchOptions() {
 					let elemHTML = `<ul>`;
 					if (response.data.length > 0) {
 						for (let index in response.data)
-							elemHTML = `${elemHTML} <li style="font-weight:500; line-height:normal;" onClick="__tagembed__facebookSearchData('${response.data[index].name}','${response.data[index].link}')" value="${response.data[index].link}">${response.data[index].name} <span style="display:block; line-height:normal; font-weight:normal; margin-top:3px;">${response.data[index].link}</span></li>`;
+							elemHTML = `${elemHTML} <li style="font-weight:500; line-height:normal;" data-tagembed-action="facebook-search" data-tagembed-name="${__tagembed__escapeAttr(response.data[index].name)}" data-tagembed-link="${__tagembed__escapeAttr(response.data[index].link)}" value="${__tagembed__escapeAttr(response.data[index].link)}">${__tagembed__escapeText(response.data[index].name)} <span style="display:block; line-height:normal; font-weight:normal; margin-top:3px;">${__tagembed__escapeText(response.data[index].link)}</span></li>`;
 					} else {
 						elemHTML = `${elemHTML} <li value="">Not Found</li>`;
 					}
 					elemHTML = `${elemHTML} </ul>`;
-					__tagembed__search_option.innerHTML = elemHTML;
+					__tagembed__setSafeHtml(__tagembed__search_option, elemHTML);
+					__tagembed__bindFeedActions(__tagembed__search_option);
 					__tagembed__facebook_page_search_loader.style.display = 'none';
 				} else {
 					__tagembed__search_option.innerHTML = "";
@@ -315,7 +345,7 @@ function __tagembed__manageFacebookPageSearchOptions() {
 		}
 	} else {
 		__tagembed__search_option.style.display = "none";
-		__tagembed__feed_error.innerHTML = "Enter Minimum 3 Characters";
+		__tagembed__feed_error.textContent = "Enter Minimum 3 Characters";
 		__tagembed__feed_error.style.display = 'block';
 		__tagembed__search_option.innerHTML = "";
 		__tagembed__facebook_page_search_loader.style.display = 'none';
@@ -361,7 +391,7 @@ function __tagembed__searchGoogleLocation() {
 		/*__tagembed__search_option.innerHTML = '';*/
 		let __tagembed__toast = new TagembedToast;
 		let formData = new FormData();
-		formData.append('action', 'data');
+		formData.append('action', 'tagembed_data');
 		formData.append('googleLocationName', __tagembed__google_location);
 		formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 		formData.append('__tagembed__ajax_action', '__tagembed__search_google_location');
@@ -378,12 +408,13 @@ function __tagembed__searchGoogleLocation() {
 				let elemHTML = `<ul>`;
 				if (response.data) {
 					for (let index in response.data)
-						elemHTML = `${elemHTML} <li onClick="__tagembed__manageGoogleSearchData('${response.data[index].place_id}','${response.data[index].structured_formatting.main_text}','${response.data[index].description}')" value="${response.data[index].place_id}"> <img src="${__tagembed__plugin_url_for_js}assets/images/feeds/location.svg" alt="image" />${response.data[index].description}</li>`;
+						elemHTML = `${elemHTML} <li data-tagembed-action="google-search" data-tagembed-place-id="${__tagembed__escapeAttr(response.data[index].place_id)}" data-tagembed-main-text="${__tagembed__escapeAttr(response.data[index].structured_formatting.main_text)}" data-tagembed-description="${__tagembed__escapeAttr(response.data[index].description)}" value="${__tagembed__escapeAttr(response.data[index].place_id)}"> <img src="${__tagembed__plugin_url_for_js}assets/images/feeds/location.svg" alt="image" />${__tagembed__escapeText(response.data[index].description)}</li>`;
 				} else {
 					elemHTML = `${elemHTML} <li value="">Not Found</li>`;
 				}
 				elemHTML = `${elemHTML} </ul>`;
-				__tagembed__search_option.innerHTML = elemHTML;
+				__tagembed__setSafeHtml(__tagembed__search_option, elemHTML);
+				__tagembed__bindFeedActions(__tagembed__search_option);
 				__tagembed__google_location_search_loader.style.display = 'none';
 			} else {
 				__tagembed__search_option.innerHTML = '';
@@ -528,7 +559,7 @@ function __tagembed__youtubeSearch(type = null) {
 		__tagembed__youtube_channel_search_loader.style.display = 'block';
 		let __tagembed__toast = new TagembedToast;
 		let formData = new FormData();
-		formData.append('action', 'data');
+		formData.append('action', 'tagembed_data');
 		formData.append('youtubeChannelData', __tagembed__youtube_channel_data);
 		formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 		formData.append('__tagembed__ajax_action', '__tagembed__search_youtube_channel');
@@ -546,12 +577,13 @@ function __tagembed__youtubeSearch(type = null) {
 				let elemHTML = `<ul>`;
 				if (response.data.length > 0) {
 					for (let index in response.data)
-						elemHTML = `${elemHTML} <li onClick="__tagembed__youtubeSearchData('${response.data[index].youtubeId}','${response.data[index].youtubeName}','${type}')" value="${response.data[index].youtubeId}"><img src="${response.data[index].youtubeImage}" alt="image" /> ${response.data[index].youtubeName}</li>`;
+						elemHTML = `${elemHTML} <li data-tagembed-action="youtube-search" data-tagembed-youtube-id="${__tagembed__escapeAttr(response.data[index].youtubeId)}" data-tagembed-youtube-name="${__tagembed__escapeAttr(response.data[index].youtubeName)}" data-tagembed-type="${__tagembed__escapeAttr(type)}" value="${__tagembed__escapeAttr(response.data[index].youtubeId)}"><img src="${__tagembed__escapeAttr(response.data[index].youtubeImage)}" alt="image" /> ${__tagembed__escapeText(response.data[index].youtubeName)}</li>`;
 				} else {
 					elemHTML = `${elemHTML} <li value="">Not Found</li>`;
 				}
 				elemHTML = `${elemHTML} </ul>`;
-				__tagembed__search_option.innerHTML = elemHTML;
+				__tagembed__setSafeHtml(__tagembed__search_option, elemHTML);
+				__tagembed__bindFeedActions(__tagembed__search_option);
 				__tagembed__youtube_channel_search_loader.style.display = 'none';
 				__tagembed__input_search_youtube.style.display = 'flex';
 			} else {
@@ -573,7 +605,7 @@ function __tagembed__youtubeSearch(type = null) {
 			__tagembed__input_search_youtube.style.display = 'flex';
 		});
 	} else {
-		__tagembed__feed_error.innerHTML = "Enter Minimum 4 Characters";
+		__tagembed__feed_error.textContent = "Enter Minimum 4 Characters";
 		__tagembed__feed_error.style.display = 'block';
 		__tagembed__search_option.innerHTML = "";
 		__tagembed__youtube_channel_search_loader.style.display = 'none';
@@ -599,7 +631,7 @@ function __tagembed__getYoutubePlaylist(youtubeId) {
 	__tagembed__open_loader();
 	let __tagembed__toast = new TagembedToast;
 	let formData = new FormData();
-	formData.append('action', 'data');
+	formData.append('action', 'tagembed_data');
 	formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 	formData.append('__tagembed__ajax_action', '__tagembed__get_youtube_playlist');
 	formData.append('youtubeId', youtubeId);
@@ -615,13 +647,14 @@ function __tagembed__getYoutubePlaylist(youtubeId) {
 			let elemHTML = `<label>Select Playlist</label><select name="youtubePlaylist" id="__tagembed__playlist_data">`;
 			if (response.data.length > 0) {
 				for (let index in response.data)
-					elemHTML = `${elemHTML} <option value="${response.data[index].youtubeId}#${response.data[index].youtubeName}">${response.data[index].youtubeName}</option>`;
+					elemHTML = `${elemHTML} <option value="${__tagembed__escapeAttr(response.data[index].youtubeId)}#${__tagembed__escapeText(response.data[index].youtubeName)}">${__tagembed__escapeText(response.data[index].youtubeName)}</option>`;
 			} else {
 				elemHTML = `${elemHTML} <option value="">Not Found</option>`;
 			}
 			elemHTML = `${elemHTML} </select>`;
 			__tagembed__search_option.style.display = 'block';
-			__tagembed__search_option.innerHTML = elemHTML;
+			__tagembed__setSafeHtml(__tagembed__search_option, elemHTML);
+			__tagembed__bindFeedActions(__tagembed__search_option);
 		} else {
 			__tagembed__search_option.innerHTML = "";
 			__tagembed__search_option.style.display = 'none';
@@ -827,7 +860,7 @@ function __tagembed__getSlackChannelList(__tagembed__connected_accountsId = null
 		let __tagembed__account_slack_channel = document.querySelector("#__tagembed__account_slack_channel");
 		__tagembed__open_loader();
 		let formData = new FormData();
-		formData.append('action', 'data');
+		formData.append('action', 'tagembed_data');
 		formData.append('connectedAccountsId', __tagembed__get_connected_accountsId);
 		formData.append('__tagembed__ajax_action', '__tagembed__get_slack_channel_list');
 		formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
@@ -841,12 +874,13 @@ function __tagembed__getSlackChannelList(__tagembed__connected_accountsId = null
 				let elemHTML = ``;
 				if (response.data) {
 					for (let index in response.data)
-						elemHTML = `${elemHTML} <option value="${response.data[index].id}#${response.data[index].name}">${response.data[index].name}</option>`;
+						elemHTML = `${elemHTML} <option value="${__tagembed__escapeAttr(response.data[index].id)}#${__tagembed__escapeText(response.data[index].name)}">${__tagembed__escapeText(response.data[index].name)}</option>`;
 				} else {
 					elemHTML = `${elemHTML} <option value="">This Slack Channel Not Found</option>`;
 				}
 				elemHTML = `${elemHTML}`;
-				__tagembed__account_slack_channel.innerHTML = elemHTML;
+				__tagembed__setSafeHtml(__tagembed__account_slack_channel, elemHTML);
+				__tagembed__bindFeedActions(__tagembed__account_slack_channel);
 				__tagembed__account_slack_channel.parentElement.style.display = 'block';
 			} else {
 				__tagembed__account_slack_channel.innerHTML = '';
@@ -983,7 +1017,7 @@ function __tagembed__searchVkCommunities() {
 		/*__tagembed__search_option.innerHTML = '';*/
 		let __tagembed__toast = new TagembedToast;
 		let formData = new FormData();
-		formData.append('action', 'data');
+		formData.append('action', 'tagembed_data');
 		formData.append('vkCommunitiesName', __tagembed__vk_communities);
 		formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 		formData.append('__tagembed__ajax_action', '__tagembed__search_vk_communities');
@@ -1000,12 +1034,13 @@ function __tagembed__searchVkCommunities() {
 				let elemHTML = `<ul>`;
 				if (response.data) {
 					for (let index in response.data)
-						elemHTML = `${elemHTML} <li onClick="__tagembed__manageVkCommunitiesData('${response.data[index].id}','${response.data[index].screen_name}')" value="${response.data[index].id}"> <img style="min-width:20px;max-width:20px;" src="${response.data[index].photo_100}" alt="image" />${response.data[index].screen_name}</li>`;
+						elemHTML = `${elemHTML} <li data-tagembed-action="vk-search" data-tagembed-vk-id="${__tagembed__escapeAttr(response.data[index].id)}" data-tagembed-screen-name="${__tagembed__escapeAttr(response.data[index].screen_name)}" value="${__tagembed__escapeAttr(response.data[index].id)}"> <img style="min-width:20px;max-width:20px;" src="${__tagembed__escapeAttr(response.data[index].photo_100)}" alt="image" />${__tagembed__escapeText(response.data[index].screen_name)}</li>`;
 				} else {
 					elemHTML = `${elemHTML} <li value="">Not Found</li>`;
 				}
 				elemHTML = `${elemHTML} </ul>`;
-				__tagembed__search_option.innerHTML = elemHTML;
+				__tagembed__setSafeHtml(__tagembed__search_option, elemHTML);
+				__tagembed__bindFeedActions(__tagembed__search_option);
 				__tagembed__vk_communities_search_loader.style.display = 'none';
 			} else {
 				__tagembed__search_option.innerHTML = '';
@@ -1161,12 +1196,12 @@ function __tagembed__updateFeedStauts(count) {
 	let __tagembed__toast = new TagembedToast;
 	if (!__tagembed__feed_id || !__tagembed__widget_id || !__tagembed__feed_status)
 		return __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
-	/*confirmDialog({title: 'Yes, update feed status', message: 'Are you sure! do you want to update feed status?', buttonText: 'Update', type: 'warning'}, function () {*/
+	/*__tagembed__confirmDialog({title: 'Yes, update feed status', message: 'Are you sure! do you want to update feed status?', buttonText: 'Update', type: 'warning'}, function () {*/
 	let formData = new FormData();
 	formData.append('feedId', __tagembed__feed_id);
 	formData.append('widgetId', __tagembed__widget_id);
 	formData.append('status', __tagembed__feed_status);
-	formData.append('action', 'data');
+	formData.append('action', 'tagembed_data');
 	formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 	formData.append('__tagembed__ajax_action', '__tagembed__update_feed_status');
 	__tagembed__open_loader();
@@ -1216,11 +1251,11 @@ function __tagembed__deleteFeed(__tagembed__feed_id, __tagembed__widget_id, __ta
 	let __tagembed__toast = new TagembedToast;
 	if (!__tagembed__feed_id || !__tagembed__widget_id || !__tagembed__feedbox_id)
 		return __tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
-	confirmDialog({ title: 'Yes, delete feed', message: 'Are you sure! do you want to delete feed?', buttonText: 'Delete', type: 'danger' }, function () {
+	__tagembed__confirmDialog({ title: 'Yes, delete feed', message: 'Are you sure! do you want to delete feed?', buttonText: 'Delete', type: 'danger' }, function () {
 		let formData = new FormData();
 		formData.append('feedId', __tagembed__feed_id);
 		formData.append('widgetId', __tagembed__widget_id);
-		formData.append('action', 'data');
+		formData.append('action', 'tagembed_data');
 		formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 		formData.append('__tagembed__ajax_action', '__tagembed__delete_feed');
 		__tagembed__open_loader();
@@ -1270,7 +1305,7 @@ function __tagembed__getFeed() {
 
 	let __tagembed__toast = new TagembedToast;
 	let formData = new FormData();
-	formData.append('action', 'data');
+	formData.append('action', 'tagembed_data');
 	formData.append('__tagembed__ajax_call_nones', __tagembed__ajax_call_nones);
 	formData.append('__tagembed__ajax_action', '__tagembed__get_feed');
 	formData.append('widgetId', __tagembed__widgetId);
@@ -1294,16 +1329,16 @@ function __tagembed__getFeed() {
 					__tagembed__feedbox_id = __tagembed__feedbox_id + count;
 					elemHTML = `${elemHTML}<li id="${__tagembed__feedbox_id}">`;
 					elemHTML = `${elemHTML}<div class="__tagembed__checkbox __tagembed__reconninn">`;
-					elemHTML = `${elemHTML}<div class="__tagembed__feediconame"><label><img class="" src="${__tagembed__plugin_url_for_js}assets/images/network/${response.data[index].Feed.networkId}.png"/></label>`;
-					elemHTML = `${elemHTML}<span title="${response.data[index].Feed.name}"><img class="" src="${response.data[index].Filter.image}"/> <b>${response.data[index].Feed.name} : ${response.data[index].Filter.name}</b></span></div>`;
+					elemHTML = `${elemHTML}<div class="__tagembed__feediconame"><label><img class="" src="${__tagembed__plugin_url_for_js}assets/images/network/${__tagembed__escapeAttr(response.data[index].Feed.networkId)}.png"/></label>`;
+					elemHTML = `${elemHTML}<span title="${__tagembed__escapeAttr(response.data[index].Feed.name)}"><img class="" src="${__tagembed__escapeAttr(response.data[index].Filter.image)}"/> <b>${__tagembed__escapeText(response.data[index].Feed.name)} : ${__tagembed__escapeText(response.data[index].Filter.name)}</b></span></div>`;
 					if (response.data[index].Feed.api == 3 || response.data[index].Feed.api == 4)
-						elemHTML = `${elemHTML}<div class="__tagembed__conn__actions"><a class="__tagembed__btn_reconn" href="javascript:void(0);" onclick="__tageembed__addUpdateAndRefreshAccount(${response.data[index].Feed.networkId},'reconnect','${response.data[index].Feed.accountId}',${response.data[index].Feed.id},${response.data[index].Feed.filterId},'${response.data[index].Feed.name}');"><i class="fas fa-redo-alt"></i> ${response.data[index].Feed.api == 3 ? 'Connect' : 'Reconnect'} </a></div>`;
+						elemHTML = `${elemHTML}<div class="__tagembed__conn__actions"><a class="__tagembed__btn_reconn" href="javascript:void(0);" data-tagembed-action="reconnect-account" data-tagembed-network-id="${__tagembed__escapeAttr(__tagembed__validId(response.data[index].Feed.networkId))}" data-tagembed-account-id="${__tagembed__escapeAttr(response.data[index].Feed.accountId)}" data-tagembed-feed-id="${__tagembed__escapeAttr(__tagembed__validId(response.data[index].Feed.id))}" data-tagembed-filter-id="${__tagembed__escapeAttr(__tagembed__validId(response.data[index].Feed.filterId))}" data-tagembed-feed-name="${__tagembed__escapeAttr(response.data[index].Feed.name)}"><i class="fas fa-redo-alt"></i> ${response.data[index].Feed.api == 3 ? 'Connect' : 'Reconnect'} </a></div>`;
 					elemHTML = `${elemHTML}</div>`;
 					elemHTML = `${elemHTML}<div class="__tagembed__mod__actions">`;
 					elemHTML = `${elemHTML}<div class="__tagembed__status">`;
 					elemHTML = `${elemHTML}<div class="__tagembed__toggleOnBut __tagembed__switch tooltip">`;
 					elemHTML = `${elemHTML}<div class="__tagembed__onoffswitch">`;
-					elemHTML = `${elemHTML}<input data-widgetId="${response.data[index].Feed.wallId}" data-feedId="${response.data[index].Feed.id}"  data-feedStatus="${response.data[index].Feed.status}"  id="feed_${count}" name="feed_${count}"  onchange="__tagembed__updateFeedStauts(${count});" type="checkbox"  class="__tagembed__onoffswitch-checkbox __tagembed__updateStatus" data-on-color="#009385" data-off-color="#989898" ${(response.data[index].Feed.status == 1) ? 'checked' : ''}>`;
+					elemHTML = `${elemHTML}<input data-widgetId="${__tagembed__escapeAttr(response.data[index].Feed.wallId)}" data-feedId="${__tagembed__escapeAttr(response.data[index].Feed.id)}"  data-feedStatus="${__tagembed__escapeAttr(response.data[index].Feed.status)}"  id="feed_${count}" name="feed_${count}"  data-tagembed-action="feed-status" data-tagembed-count="${count}" type="checkbox"  class="__tagembed__onoffswitch-checkbox __tagembed__updateStatus" data-on-color="#009385" data-off-color="#989898" ${(response.data[index].Feed.status == 1) ? 'checked' : ''}>`;
 					elemHTML = `${elemHTML}<label class="__tagembed__onoffswitch-label" for="feed_${count}">`;
 					elemHTML = `${elemHTML}<span class="__tagembed__onoffswitch-inner"></span>`;
 					elemHTML = `${elemHTML}<span class="__tagembed__onoffswitch-switch"style="background: rgb(152, 152, 152);"></span>`;
@@ -1311,25 +1346,26 @@ function __tagembed__getFeed() {
 					elemHTML = `${elemHTML}<span class="tooltiptext">Status</span>`;
 					elemHTML = `${elemHTML}</div></div>`;
 					elemHTML = `${elemHTML}<div class="__tagembed__totalpostcount">`;
-					elemHTML = `${elemHTML}Total Post <span>${response.data[index].Feed.totalPost}</span>`;
+					elemHTML = `${elemHTML}Total Post <span>${__tagembed__escapeText(response.data[index].Feed.totalPost)}</span>`;
 					elemHTML = `${elemHTML}</div>`;
 					elemHTML = `${elemHTML}<div class="__tagembed__moderation">`;
-					elemHTML = `${elemHTML}<a class="__tagembed__btn__trash" onclick="__tagembed__deleteFeed(${response.data[index].Feed.id},${response.data[index].Feed.wallId},'${__tagembed__feedbox_id}');" href="javascript:void(0);"><i class="fas fa-trash" aria-hidden="true"></i></a>`;
+					elemHTML = `${elemHTML}<a class="__tagembed__btn__trash" data-tagembed-action="delete-feed" data-tagembed-feed-id="${__tagembed__escapeAttr(__tagembed__validId(response.data[index].Feed.id))}" data-tagembed-widget-id="${__tagembed__escapeAttr(__tagembed__validId(response.data[index].Feed.wallId))}" data-tagembed-box-id="${__tagembed__escapeAttr(__tagembed__feedbox_id)}" href="javascript:void(0);"><i class="fas fa-trash" aria-hidden="true"></i></a>`;
 					elemHTML = `${elemHTML}</div></div></li>`;
 					count++;
 				}
 				elemHTML = `${elemHTML}</ul>`;
 				__tagembed__feed.style.display = 'flex';
-				__tagembed__feed_data.innerHTML = elemHTML;
+				__tagembed__setSafeHtml(__tagembed__feed_data, elemHTML);
+				__tagembed__bindFeedActions(__tagembed__feed_data);
 				__tagembed__copycode.style.display = 'flex';
 				/*Manage Next And Back Link section Section*/
-				manageNextAndBackLinkSectionHideShow('block');
+				__tagembed__manageNextAndBackLinkSectionHideShow('block');
 			} else {
 				__tagembed__feed_data.innerHTML = '';
 				__tagembed__feed.style.display = 'none';
 				__tagembed__copycode.style.display = 'none';
 				/*Manage Next And Back Link section Section*/
-				manageNextAndBackLinkSectionHideShow('none');
+				__tagembed__manageNextAndBackLinkSectionHideShow('none');
 			}
 		} else {
 			__tagembed__close_loader();
@@ -1337,7 +1373,7 @@ function __tagembed__getFeed() {
 			__tagembed__feed.style.display = 'none';
 			__tagembed__copycode.style.display = 'none';
 			/*Manage Next And Back Link section Section*/
-			manageNextAndBackLinkSectionHideShow('none');
+			__tagembed__manageNextAndBackLinkSectionHideShow('none');
 			if (response.hasOwnProperty("message")) {
 				__tagembed__toast.danger({ message: response.message, position: '__tagembed__is-top-right' });
 			} else {
@@ -1351,13 +1387,13 @@ function __tagembed__getFeed() {
 		__tagembed__feed.style.display = 'none';
 		__tagembed__copycode.style.display = 'none';
 		/*Manage Next And Back Link section Section*/
-		manageNextAndBackLinkSectionHideShow('none');
+		__tagembed__manageNextAndBackLinkSectionHideShow('none');
 		__tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
 	});
 }
 /*--End-- Get Creadet Feed*/
 /*--Start-- Manage Next And Back Link Hide Show*/
-function manageNextAndBackLinkSectionHideShow(hideShow) {
+function __tagembed__manageNextAndBackLinkSectionHideShow(hideShow) {
 	/*Manage Next And Back Link section Section*/
 	let __tagembed__next_and_back_link_section = document.getElementById("__tagembed__next_and_back_link_section");
 	if (__tagembed__next_and_back_link_section)

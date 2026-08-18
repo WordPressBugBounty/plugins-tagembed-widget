@@ -20,7 +20,18 @@ function __tagembed__changeIfrmSrc() {
     let widgetData = document.querySelector("#__tagembed__widgets");
     if (widgetData) {
         let __tagembed__widgetId = widgetData.selectedOptions[0].value.split('#')[0];
-        document.querySelector("#__tagembed__widget_display_preview_id").innerHTML = `<iframe id="__tagembed__display_ifrm" width="100%" height="100%" src="${__tagembed__plugin_react_url + __tagembed__widgetId}?editor=1" title="Tagembed" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        /* Validate before use : the widget id must be digits only. */
+        if (!/^\d+$/.test(__tagembed__widgetId)) return;
+        let __tagembed__displayFrame = document.createElement("iframe");
+        __tagembed__displayFrame.setAttribute("id", "__tagembed__display_ifrm");
+        __tagembed__displayFrame.setAttribute("width", "100%");
+        __tagembed__displayFrame.setAttribute("height", "100%");
+        __tagembed__displayFrame.setAttribute("src", __tagembed__plugin_react_url + __tagembed__widgetId + "?editor=1");
+        __tagembed__displayFrame.setAttribute("title", "Tagembed");
+        __tagembed__displayFrame.setAttribute("frameborder", "0");
+        __tagembed__displayFrame.setAttribute("allow", "accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
+        __tagembed__displayFrame.setAttribute("allowfullscreen", "");
+        document.querySelector("#__tagembed__widget_display_preview_id").replaceChildren(__tagembed__displayFrame);
     }
     /*Close  Loader After 5 Second*/
     /*setTimeout(function () {__tagembed__display_preview_loader.style.display = 'none'}, 2000);*/
