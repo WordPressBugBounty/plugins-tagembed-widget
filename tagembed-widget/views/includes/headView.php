@@ -127,7 +127,7 @@ $__tagembed__widgets_count = count($__tagembed__widgets); /* Use In Next And Bac
 				<div class="__tagembed__formwbody">
 				<div class="__tagembed__formwrow">
 				<p>
-				You've created a <strong>LinkedIn feed</strong>, which is not available in your free plan.
+				You've created a <strong>premium feed</strong>, which is not available in your free plan.
 				To continue displaying content from this network, please upgrade your plan.
 				</p>
 				</div>
@@ -141,7 +141,7 @@ $__tagembed__widgets_count = count($__tagembed__widgets); /* Use In Next And Bac
 				<div style="display:flex; flex-direction:column;">
 				<span style="font-size:16px; font-weight:700;">Prefer Not to Upgrade?</span>
 				<span style="font-size:14px;">
-				You can delete the (<span style="color:#6f42c1;">LinkedIn</span>) feed and choose a network included in the free plan.
+				You can delete the (<span style="color:#6f42c1;"> Premium Network </span>) feed and choose a network included in the free plan.
 				</span>
 				</div>
 				<button onclick="__tagembed__menus('2')" 

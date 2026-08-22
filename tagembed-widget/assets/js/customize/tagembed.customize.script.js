@@ -124,11 +124,11 @@ function __tagembed__manageCustomizationOptions(__tagembed__customizationsOption
 	document.querySelector("#__tagembed__square_curve").checked = false;
 	document.querySelector("#__tagembed__rounded_corner").checked = false;
 	document.querySelector("#__tagembed__circular_corner").checked = false;
-	if (__tagembed__customizationsOptions.ThemeRule.borderRadius == 0)
+	if (__tagembed__customizationsOptions.ThemeRule.roundEdge == 0)
 		document.querySelector("#__tagembed__square_curve").checked = true;
-	if (__tagembed__customizationsOptions.ThemeRule.borderRadius == 8)
+	if (__tagembed__customizationsOptions.ThemeRule.roundEdge == 8)
 		document.querySelector("#__tagembed__rounded_corner").checked = true;
-	if (__tagembed__customizationsOptions.ThemeRule.borderRadius == 24)
+	if (__tagembed__customizationsOptions.ThemeRule.roundEdge == 24)
 		document.querySelector("#__tagembed__circular_corner").checked = true;
 	/*--End-- Manage Card Setting*/
 
@@ -190,12 +190,18 @@ function __tagembed__updateCustomizationOption(__tagembed__optionType) {
 			let __tagembed__hideTextOnlyPost = document.querySelector("#__tagembed__hide_top_ck");
 			if (__tagembed__hideTextOnlyPost.checked)
 				__tagembed__hideTextOnlyPostCheckBoxValue = 1;
+
 			let __tagembed__featurePopupCheckBoxValue = 0;
-			if (document.querySelector("#__tagembed__featured_popup").checked)
-				__tagembed__featurePopupCheckBoxValue = 1;
 			let __tagembed__directToSourceCheckBoxValue = 0;
-			if (document.querySelector("#__tagembed__direct_to_source").checked)
+
+			if (document.querySelector("#__tagembed__featured_popup").checked) {
+				__tagembed__featurePopupCheckBoxValue = 1;
 				__tagembed__directToSourceCheckBoxValue = 1;
+			}
+			if (document.querySelector("#__tagembed__direct_to_source").checked) {
+				__tagembed__directToSourceCheckBoxValue = 2;
+				__tagembed__featurePopupCheckBoxValue = 2;
+			}
 			if (document.querySelector("#__tagembed__none").checked) {
 				__tagembed__directToSourceCheckBoxValue = 0;
 				__tagembed__featurePopupCheckBoxValue = 0;
@@ -264,7 +270,7 @@ function __tagembed__updateCustomizationOption(__tagembed__optionType) {
 			formData.append('lineTrim', __tagembed__linetrim);
 			formData.append('aspectImageRatio', __tagembed__aspectImageRatio);
 			formData.append('textAlignment', __tagembed__textAlignment);
-			formData.append('borderRadius', __tagembed__cardCurve);
+			formData.append('roundEdge', __tagembed__cardCurve);
 			break;
 		case 'other':
 			let __tagembed__customCss = document.querySelector("#__tagembed__custom_css").value;

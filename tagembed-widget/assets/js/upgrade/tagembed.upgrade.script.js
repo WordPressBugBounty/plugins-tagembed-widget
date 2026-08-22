@@ -242,7 +242,7 @@ function __tagembed__make_lite_plan_payment(planId, priceCode) {
 }
 function __tagembed__make_payment(planId, priceCode) {
 	let __tagembed__toast = new TagembedToast;
-	if (!planId || !priceCode) {
+	if (!planId) {
 		__tagembed__toast.danger({ message: "Something went wrong. Please try after sometime", position: '__tagembed__is-top-right' });
 	} else {
 		__tagembed__open_loader();

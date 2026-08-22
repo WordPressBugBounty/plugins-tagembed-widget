@@ -4,7 +4,7 @@
  * Plugin Name:       Tagembed: Social Media Feeds and Customer Reviews Widget
  * Plugin URI:        https://tagembed.com/
  * Description:       Display social media feeds and user-generated content in an interactive widget.
- * Version:           7.6
+ * Version:           7.7
  * Author:            Tagembed
  * Author URI:        https://tagembed.com/
  * License:           GPLv3
@@ -16,7 +16,7 @@ if (!defined('WPINC')) :
 endif;
 
 /* --Start-- Create Constant */
-!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '7.6');
+!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '7.7');
 !defined('TAGEMBED_PLUGIN_DIR_PATH')         && define('TAGEMBED_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 !defined('TAGEMBED_PLUGIN_URL')              && define('TAGEMBED_PLUGIN_URL', plugin_dir_url(__FILE__));
 !defined('TAGEMBED_PLUGIN_REDIRECT_URL')     && define('TAGEMBED_PLUGIN_REDIRECT_URL', get_admin_url(null, 'admin.php?page='));
@@ -930,7 +930,8 @@ function ___tagembed__dataAjaxHandler()
 			return ___tagembed__exitWithSuccess(['byapiCall' => $byApiCall, '__tagembed__requestCallBackUrl' => TAGEMBED_PLUGIN_CALL_BACK_URL, 'redirectUrl' => TAGEMBED_PLUGIN_API_URL . 'apiauth/getauth', '__tagembed__feedData' => $response->__tagembed__feedData]);
 			break;
 		case '__tagembed__make_payment':
-			if (empty($__tagembed__user_details) || empty($data->planId) || empty($data->priceCode)) :
+
+			if (empty($__tagembed__user_details) || empty($data->planId)) :
 				return ___tagembed__exitWithDanger();
 			endif;
 			/* --Start-- Manage Param Data */
@@ -1162,7 +1163,7 @@ function ___tagembed__dataAjaxHandler()
 			$param['lineTrim']          = sanitize_key($data->lineTrim);
 			$param['aspectImageRatio']  = $data->aspectImageRatio;
 			$param['textAlignment']     = $data->textAlignment;
-			$param['borderRadius']      = $data->borderRadius;
+			$param['roundEdge']         = $data->roundEdge;
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apicustomization/card', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);

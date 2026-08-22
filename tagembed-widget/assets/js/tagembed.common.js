@@ -98,9 +98,18 @@ function __tagembed__message() {
 			__tagembed__toast.danger({ message: __tagembed__message.__tagembed__message.replace(/-/g, ' '), position: '__tagembed__is-top-right' });
 		}
 		/*--Start--Show Popup On Plan Upgrade Time*/
-		if (__tagembed__message.hasOwnProperty("planName") && __tagembed__message.hasOwnProperty("amount") && __tagembed__message.hasOwnProperty("paymentId")) {
+		/* Every query string value is read through one trimmed lookup, so a key that arrives with
+		   no value at all (&paymentId) counts as absent instead of printing a blank box. */
+		let __tagembed__queryValue = function (key) {
+			let __tagembed__raw = __tagembed__message[key];
+			return String(__tagembed__raw === undefined || __tagembed__raw === null ? "" : __tagembed__raw).trim();
+		};
+		let __tagembed__planName = __tagembed__queryValue("planName");
+		if (__tagembed__planName) {
 			let __tagembed__upgrade_account_popup = document.querySelector("#__tagembed__upgrade_account_popup");
-			/* Built with DOM methods. The three query string values are inserted as text
+			/* The popup markup only exists on the upgrade screen, so nothing is built when it is absent. */
+			if (!__tagembed__upgrade_account_popup) return;
+			/* Built with DOM methods. The query string values are inserted as text
 			   nodes only, so no markup can be produced from them. */
 			let __tagembed__makeElement = function (tag, className) {
 				let __tagembed__element = document.createElement(tag);
@@ -131,15 +140,28 @@ function __tagembed__message() {
 			let __tagembed__heading = document.createElement("h2");
 			__tagembed__heading.appendChild(document.createTextNode("Congratulations! "));
 			let __tagembed__headingSpan = document.createElement("span");
-			__tagembed__headingSpan.textContent = "Your account has been upgraded";
+			/* The popup repeats the message that came back in the query string, so an upgrade and a
+			   downgrade each read correctly instead of both claiming an upgrade. */
+			__tagembed__headingSpan.textContent = __tagembed__message.__tagembed__message.replace(/-/g, ' ');
 			__tagembed__heading.appendChild(__tagembed__headingSpan);
 			let __tagembed__detail = __tagembed__makeElement("div", "__tagembed__plandetail");
-			__tagembed__detail.appendChild(__tagembed__makePlanBox("Amount", "$" + __tagembed__message.amount));
-			__tagembed__detail.appendChild(__tagembed__makePlanBox("Payment Id", __tagembed__message.paymentId));
-			__tagembed__detail.appendChild(__tagembed__makePlanBox("Plan", __tagembed__message.planName));
+			/* A free plan costs nothing, so a missing or zero amount is left out rather than shown as $0. */
+			let __tagembed__amount = __tagembed__queryValue("amount");
+			let __tagembed__amountValue = Number(__tagembed__amount);
+			if (__tagembed__amount && !(isFinite(__tagembed__amountValue) && 0 === __tagembed__amountValue))
+				__tagembed__detail.appendChild(__tagembed__makePlanBox("Amount", "$" + __tagembed__amount));
+			/* A downgrade carries no payment, so the payment id is shown only when one actually arrived. */
+			let __tagembed__paymentId = __tagembed__queryValue("paymentId");
+			if (__tagembed__paymentId)
+				__tagembed__detail.appendChild(__tagembed__makePlanBox("Payment Id", __tagembed__paymentId));
+			/* The free plan is the fallback every downgrade lands on, so naming it adds nothing. */
+			if ("free" !== __tagembed__planName.toLowerCase())
+				__tagembed__detail.appendChild(__tagembed__makePlanBox("Plan", __tagembed__planName));
 			__tagembed__thankyou.appendChild(__tagembed__checkImg);
 			__tagembed__thankyou.appendChild(__tagembed__heading);
-			__tagembed__thankyou.appendChild(__tagembed__detail);
+			/* A free downgrade leaves out every detail, so the empty row is not added at all. */
+			if (__tagembed__detail.hasChildNodes())
+				__tagembed__thankyou.appendChild(__tagembed__detail);
 			__tagembed__body.appendChild(__tagembed__thankyou);
 			__tagembed__inn.appendChild(__tagembed__body);
 			__tagembed__wrap.appendChild(__tagembed__closeBtn);

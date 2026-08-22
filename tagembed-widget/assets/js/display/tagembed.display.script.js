@@ -26,7 +26,7 @@ function __tagembed__changeIfrmSrc() {
         __tagembed__displayFrame.setAttribute("id", "__tagembed__display_ifrm");
         __tagembed__displayFrame.setAttribute("width", "100%");
         __tagembed__displayFrame.setAttribute("height", "100%");
-        __tagembed__displayFrame.setAttribute("src", __tagembed__plugin_react_url + __tagembed__widgetId + "?editor=1");
+        __tagembed__displayFrame.setAttribute("src", __tagembed__plugin_react_url + __tagembed__widgetId);
         __tagembed__displayFrame.setAttribute("title", "Tagembed");
         __tagembed__displayFrame.setAttribute("frameborder", "0");
         __tagembed__displayFrame.setAttribute("allow", "accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture");

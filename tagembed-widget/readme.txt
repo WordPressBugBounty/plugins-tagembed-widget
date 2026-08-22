@@ -5,7 +5,7 @@ Tags: social media feed, Instagram feed, LinkedIn, google reviews, social media 
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 5.6
-Stable tag: 7.6
+Stable tag: 7.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -256,6 +256,10 @@ Support Forum: https://wordpress.org/support/plugin/tagembed-widget/
 Email: support@tagembed.com
 
 == Changelog ==
+
+= 7.7 =
+* Improved widget performance.
+
 = 7.6 =
 * Security: replaced all in-house output escaping with the WordPress core escaping APIs and the DOMPurify sanitizer.
 * Security: admin screens now build their markup with DOM methods instead of HTML strings wherever possible.
@@ -302,6 +306,9 @@ Email: support@tagembed.com
 * Enhanced compatibility with WordPress themes and plugins.
 
 == Upgrade Notice ==
+
+= 7.7 =
+Improved widget performance.
 
 = 7.6 =
 Security release. Output escaping now uses the WordPress core escaping APIs together with the DOMPurify sanitizer, and admin markup is built with DOM methods. Updating is strongly recommended for all users.
