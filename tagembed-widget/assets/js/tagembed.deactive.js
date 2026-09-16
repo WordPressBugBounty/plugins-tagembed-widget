@@ -47,7 +47,7 @@ window.onload = function () {
             elemHTML = `${elemHTML} </div></div>`;
             elemHTML = `${elemHTML} <div class = "__tagembed__btnwrap text-center">`;
             elemHTML = `${elemHTML} <button id="__tagembed__pluginDeactivateBtn" onclick="__tagembed__deactivatePlugin();" class="__tagembed__okaybtn __tagembed__bg-danger">Skip & Deactivate</button>`;
-            elemHTML = `${elemHTML} <button class="__tagembed__okaybtn" onclick="__tagembed__hidePluginDeactivePopup();">Cencel</button>`;
+            elemHTML = `${elemHTML} <button class="__tagembed__okaybtn" onclick="__tagembed__hidePluginDeactivePopup();">Cancel</button>`;
             elemHTML = `${elemHTML} </div></div></div>`;
             let __tagembed__deactivatePopupNode = document.createElement('div');
             __tagembed__deactivatePopupNode.setAttribute("id", "__tagembed__plugin_deactivate_popup");

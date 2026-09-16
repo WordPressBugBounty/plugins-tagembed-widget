@@ -5,7 +5,7 @@ Tags: social media feed, Instagram feed, LinkedIn, google reviews, social media 
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 5.6
-Stable tag: 7.7
+Stable tag: 7.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -257,6 +257,9 @@ Email: support@tagembed.com
 
 == Changelog ==
 
+= 7.8 =
+* Add Google login and signup option
+
 = 7.7 =
 * Improved widget performance.
 
@@ -306,6 +309,9 @@ Email: support@tagembed.com
 * Enhanced compatibility with WordPress themes and plugins.
 
 == Upgrade Notice ==
+
+= 7.8 =
+Added Google login and signup option. Updating is recommended for all users.
 
 = 7.7 =
 Improved widget performance.

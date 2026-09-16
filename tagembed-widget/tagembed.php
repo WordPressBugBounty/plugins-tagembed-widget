@@ -4,7 +4,7 @@
  * Plugin Name:       Tagembed: Social Media Feeds and Customer Reviews Widget
  * Plugin URI:        https://tagembed.com/
  * Description:       Display social media feeds and user-generated content in an interactive widget.
- * Version:           7.7
+ * Version:           7.8
  * Author:            Tagembed
  * Author URI:        https://tagembed.com/
  * License:           GPLv3
@@ -16,7 +16,7 @@ if (!defined('WPINC')) :
 endif;
 
 /* --Start-- Create Constant */
-!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '7.7');
+!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '7.8');
 !defined('TAGEMBED_PLUGIN_DIR_PATH')         && define('TAGEMBED_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 !defined('TAGEMBED_PLUGIN_URL')              && define('TAGEMBED_PLUGIN_URL', plugin_dir_url(__FILE__));
 !defined('TAGEMBED_PLUGIN_REDIRECT_URL')     && define('TAGEMBED_PLUGIN_REDIRECT_URL', get_admin_url(null, 'admin.php?page='));
@@ -211,6 +211,18 @@ function ___tagembed__dataAjaxHandler()
 			else :
 				return ___tagembed__exitWithDanger();
 			endif;
+			break;
+		case '__tagembed__google_auth_url':
+			$__tagembed__google_state    = wp_generate_password(32, false, false);
+			$__tagembed__google_verifier = wp_generate_password(64, false, false);
+			set_transient('__tagembed__google_' . $__tagembed__google_state, ['verifier' => $__tagembed__google_verifier, 'userId' => get_current_user_id()], 10 * MINUTE_IN_SECONDS);
+			$param['platform']  = TAGEMBED_PLUGIN_PLATFORM;
+			$param['state']     = $__tagembed__google_state;
+			$param['challenge'] = hash('sha256', $__tagembed__google_verifier);
+			$param['returnUrl'] = TAGEMBED_PLUGIN_CALL_BACK_URL;
+			$__tagembed__google_auth_url = TAGEMBED_PLUGIN_API_URL . 'apiaccount/googleauth?' . http_build_query($param, '', '&');
+			unset($param);
+			return ___tagembed__exitWithSuccess(['authUrl' => $__tagembed__google_auth_url]);
 			break;
 		case '__tagembed__logout':
 			if (tagembed_logout()) :
@@ -1201,6 +1213,67 @@ function ___tagembed__dataAjaxHandler()
 }
 /* --End-- Manage Ajax Calls */
 
+add_action('admin_init', '___tagembed__googleAuthListener');
+function ___tagembed__googleAuthListener()
+{
+	if (empty($_GET['__tb_google_state'])) :
+		return;
+	endif;
+	if (empty($_GET['page']) || 'tagembed' !== sanitize_key(wp_unslash($_GET['page']))) :
+		return;
+	endif;
+	if (!current_user_can('manage_options')) :
+		return;
+	endif;
+	$__tagembed__google_state = isset($_GET['__tb_google_state']) ? sanitize_text_field(wp_unslash($_GET['__tb_google_state'])) : '';
+	if ('' === $__tagembed__google_state || !preg_match('/^[A-Za-z0-9]{16,64}$/', $__tagembed__google_state)) :
+		return;
+	endif;
+	$__tagembed__google_session = get_transient('__tagembed__google_' . $__tagembed__google_state);
+	delete_transient('__tagembed__google_' . $__tagembed__google_state);
+	if (empty($__tagembed__google_session['verifier']) || (int) $__tagembed__google_session['userId'] !== get_current_user_id()) :
+		return ___tagembed__googleAuthFailed('expired');
+	endif;
+	if (empty($_GET['__tb_google_code'])) :
+		$__tagembed__google_error_code = isset($_GET['__tb_google_error']) ? sanitize_text_field(wp_unslash($_GET['__tb_google_error'])) : 'failed';
+		return ___tagembed__googleAuthFailed($__tagembed__google_error_code);
+	endif;
+	$param = [
+		'token'    => sanitize_text_field(wp_unslash($_GET['__tb_google_code'])),
+		'verifier' => $__tagembed__google_session['verifier'],
+		'platform' => TAGEMBED_PLUGIN_PLATFORM,
+	];
+	$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/googleexchange', $param, []);
+	unset($param);
+	if (empty($response->head) || empty($response->head->status) || empty($response->body->userId) || empty($response->body->emailId) || empty($response->body->access_token)) :
+		return ___tagembed__googleAuthFailed('failed');
+	endif;
+	$__tagembed__google_user = $response->body;
+	if (!empty($__tagembed__google_user->createFirstWidget)) :
+		___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiwidget/create', ['userId' => sanitize_key($__tagembed__google_user->userId), 'inheritStyles' => 1], ['Authorization:' . $__tagembed__google_user->access_token]);
+	endif;
+	if (___tagembed__login($__tagembed__google_user) !== true) :
+		return ___tagembed__googleAuthFailed('failed');
+	endif;
+	wp_safe_redirect(TAGEMBED_PLUGIN_CALL_BACK_URL);
+	exit;
+}
+function ___tagembed__googleAuthFailed($errorCode)
+{
+	$__tagembed__google_errors = [
+		'cancelled' => 'Google sign in was cancelled. Please try again.',
+		'expired'   => 'Google sign in session has expired. Please try again.',
+		'email'     => 'Your Google account email could not be verified. Please use another account.',
+		'account'   => 'Your account is not active. Please contact support.',
+		'register'  => 'We could not create an account with this Google email. Please sign up with your email instead.',
+		'process'   => 'Your registration is already in progress. Please wait a moment and try again.',
+		'failed'    => 'Google sign in failed. Please try again.',
+	];
+	$__tagembed__google_message = isset($__tagembed__google_errors[$errorCode]) ? $__tagembed__google_errors[$errorCode] : $__tagembed__google_errors['failed'];
+	set_transient('__tagembed__google_error_' . get_current_user_id(), $__tagembed__google_message, MINUTE_IN_SECONDS);
+	wp_safe_redirect(TAGEMBED_PLUGIN_CALL_BACK_URL);
+	exit;
+}
 /* --Start-- Login */
 function ___tagembed__login($response)
 {
