@@ -4,7 +4,7 @@
  * Plugin Name:       Tagembed: Social Media Feeds and Customer Reviews Widget
  * Plugin URI:        https://tagembed.com/
  * Description:       Display social media feeds and user-generated content in an interactive widget.
- * Version:           7.8
+ * Version:           8.0
  * Author:            Tagembed
  * Author URI:        https://tagembed.com/
  * License:           GPLv3
@@ -16,7 +16,7 @@ if (!defined('WPINC')) :
 endif;
 
 /* --Start-- Create Constant */
-!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '7.8');
+!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '8.0');
 !defined('TAGEMBED_PLUGIN_DIR_PATH')         && define('TAGEMBED_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 !defined('TAGEMBED_PLUGIN_URL')              && define('TAGEMBED_PLUGIN_URL', plugin_dir_url(__FILE__));
 !defined('TAGEMBED_PLUGIN_REDIRECT_URL')     && define('TAGEMBED_PLUGIN_REDIRECT_URL', get_admin_url(null, 'admin.php?page='));
@@ -251,6 +251,62 @@ function ___tagembed__dataAjaxHandler()
 			$param['userId'] = sanitize_key($__tagembed__user_details->userId);
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/checkUserAccountStatus', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
+			unset($param);
+			$response = ___tagembed__manageApiResponse($response);
+			return ___tagembed__exitWithSuccess($response);
+			break;
+		case '__tagembed__get_cards':
+			if (empty($__tagembed__user_details)) :
+				return ___tagembed__exitWithDanger();
+			endif;
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
+			$param['platform'] = TAGEMBED_PLUGIN_PLATFORM;
+			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/getcards', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
+			unset($param);
+			$response = ___tagembed__manageApiResponse($response);
+			return ___tagembed__exitWithSuccess($response);
+			break;
+		case '__tagembed__card_session':
+			if (empty($__tagembed__user_details)) :
+				return ___tagembed__exitWithDanger();
+			endif;
+			$param['userId']    = sanitize_key($__tagembed__user_details->userId);
+			$param['platform']  = TAGEMBED_PLUGIN_PLATFORM;
+			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/cardsession', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
+			unset($param);
+			$response = ___tagembed__manageApiResponse($response);
+			return ___tagembed__exitWithSuccess($response);
+			break;
+		case '__tagembed__get_plan_status':
+			if (empty($__tagembed__user_details)) :
+				return ___tagembed__exitWithDanger();
+			endif;
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
+			$param['platform'] = TAGEMBED_PLUGIN_PLATFORM;
+			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/planstatus', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
+			unset($param);
+			$response = ___tagembed__manageApiResponse($response);
+			return ___tagembed__exitWithSuccess($response);
+			break;
+		case '__tagembed__get_invoice_pdf':
+			if (empty($__tagembed__user_details) || empty($data->invoiceId)) :
+				return ___tagembed__exitWithDanger();
+			endif;
+			$param['userId']    = sanitize_key($__tagembed__user_details->userId);
+			$param['invoiceId'] = sanitize_text_field($data->invoiceId);
+			$param['platform']  = TAGEMBED_PLUGIN_PLATFORM;
+			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/invoicepdf', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
+			unset($param);
+			$response = ___tagembed__manageApiResponse($response);
+			return ___tagembed__exitWithSuccess($response);
+			break;
+		case '__tagembed__get_invoices':
+			if (empty($__tagembed__user_details)) :
+				return ___tagembed__exitWithDanger();
+			endif;
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
+			$param['platform'] = TAGEMBED_PLUGIN_PLATFORM;
+			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/getinvoices', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
 			unset($param);
 			$response = ___tagembed__manageApiResponse($response);
 			return ___tagembed__exitWithSuccess($response);
@@ -959,6 +1015,18 @@ function ___tagembed__dataAjaxHandler()
 			unset($param);
 			$response = ___tagembed__manageApiResponse($response);
 			return ___tagembed__exitWithSuccess(['__tagembed__requestCallBackUrl' => TAGEMBED_PLUGIN_CALL_BACK_URL, 'redirectUrl' => TAGEMBED_PLUGIN_API_URL . 'apiaccount/makepayment', '__tagembed__paymentData' => $response->__tagembed__paymentData]);
+			break;
+		case '__tagembed__resume_subscription':
+			if (empty($__tagembed__user_details)) :
+				return ___tagembed__exitWithDanger();
+			endif;
+			$param['userId']   = sanitize_key($__tagembed__user_details->userId);
+			$param['platform'] = TAGEMBED_PLUGIN_PLATFORM;
+			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/resumesubscription', $param, ['Authorization:' . $__tagembed__user_details->accessToken]);
+			unset($param);
+			$response = ___tagembed__manageApiResponse($response);
+			$response = !empty($response->message) ? $response->message : 'Done';
+			return ___tagembed__exitWithSuccess(['message' => $response]);
 			break;
 		case '__tagembed__cancel_subscription':
 			if (empty($__tagembed__user_details) || empty($data->planId)) :

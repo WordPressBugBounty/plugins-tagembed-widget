@@ -1,3 +1,25 @@
+/* The message is still written with text nodes only, so no markup can come out of it.
+   `highlight` just wraps those exact substrings in <strong> built the same DOM way. */
+function __tagembed__confirmDialogMessage(target, message, highlight) {
+    message = String(message);
+    let parts = Array.isArray(highlight) ? highlight.filter(function (part) { return part && String(part).length; }) : [];
+    if (!parts.length) {
+        target.textContent = message;
+        return;
+    }
+    let pattern = parts.map(function (part) { return String(part).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|');
+    let pieces = message.split(new RegExp('(' + pattern + ')', 'g'));
+    pieces.forEach(function (piece) {
+        if (!piece) return;
+        if (parts.indexOf(piece) !== -1) {
+            let strongEl = document.createElement('strong');
+            strongEl.textContent = piece;
+            target.appendChild(strongEl);
+        } else {
+            target.appendChild(document.createTextNode(piece));
+        }
+    });
+}
 function __tagembed__confirmDialog(option, action) {
     let title = (option.title) ? option.title : 'Action';
     let message = (option.message) ? option.message : 'Are you sure? '
@@ -55,7 +77,8 @@ function __tagembed__confirmDialog(option, action) {
     let descWrap = document.createElement('div');
     descWrap.className = '__tagembed__desc';
     let descEl = document.createElement('p');
-    descEl.textContent = message;
+    if (option.align) descEl.style.textAlign = option.align;
+    __tagembed__confirmDialogMessage(descEl, message, option.highlight);
     descWrap.appendChild(descEl);
     popupWrap.appendChild(descWrap);
 

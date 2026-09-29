@@ -5,7 +5,7 @@ Tags: social media feed, Instagram feed, LinkedIn, google reviews, social media 
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 5.6
-Stable tag: 7.8
+Stable tag: 8.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -257,6 +257,11 @@ Email: support@tagembed.com
 
 == Changelog ==
 
+= 8.0 =
+* Plan upgrades, downgrades and cancellations now take effect at the end of your billing cycle, with a confirmation before you switch.
+* Added a Restart Subscription option for cancelled plans.
+* Billing History now shows invoice PDF downloads.
+
 = 7.8 =
 * Add Google login and signup option
 
@@ -310,17 +315,5 @@ Email: support@tagembed.com
 
 == Upgrade Notice ==
 
-= 7.8 =
-Added Google login and signup option. Updating is recommended for all users.
-
-= 7.7 =
-Improved widget performance.
-
-= 7.6 =
-Security release. Output escaping now uses the WordPress core escaping APIs together with the DOMPurify sanitizer, and admin markup is built with DOM methods. Updating is strongly recommended for all users.
-
-= 7.5 =
-Security release. Fixes a cross-site scripting (XSS) issue on the plugin admin screens and hardens output escaping throughout the plugin. Updating is strongly recommended for all users.
-
-= 7.4 =
-Added support for new social media feed and review platforms, improved widget performance, and enhanced content aggregation capabilities for WordPress websites.
+= 8.0 =
+Improved billing: plan upgrades, downgrades and cancellations now apply at the end of your billing cycle, with invoice PDF downloads in Billing History.
