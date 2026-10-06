@@ -4,7 +4,7 @@
  * Plugin Name:       Tagembed: Social Media Feeds and Customer Reviews Widget
  * Plugin URI:        https://tagembed.com/
  * Description:       Display social media feeds and user-generated content in an interactive widget.
- * Version:           8.0
+ * Version:           8.1
  * Author:            Tagembed
  * Author URI:        https://tagembed.com/
  * License:           GPLv3
@@ -16,7 +16,7 @@ if (!defined('WPINC')) :
 endif;
 
 /* --Start-- Create Constant */
-!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '8.0');
+!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '8.1');
 !defined('TAGEMBED_PLUGIN_DIR_PATH')         && define('TAGEMBED_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 !defined('TAGEMBED_PLUGIN_URL')              && define('TAGEMBED_PLUGIN_URL', plugin_dir_url(__FILE__));
 !defined('TAGEMBED_PLUGIN_REDIRECT_URL')     && define('TAGEMBED_PLUGIN_REDIRECT_URL', get_admin_url(null, 'admin.php?page='));
@@ -181,6 +181,7 @@ function ___tagembed__dataAjaxHandler()
 			$param['password']     = $data->password;
 			$param['contact_no']   = $data->contact_no;
 			$param['calling_code'] = $data->calling_code;
+			$param['timezone']     = !empty($data->timezone) ? sanitize_text_field($data->timezone) : '';
 			$param['platform']     = TAGEMBED_PLUGIN_PLATFORM;
 			/* --End-- Manage Param Data */
 			$response = ___tagembed__wpApiCall(TAGEMBED_PLUGIN_API_URL . 'apiaccount/register', $param, []);
@@ -762,42 +763,33 @@ function ___tagembed__dataAjaxHandler()
 					break;
 				case 10:
 					if (in_array($__tagembed__feed_filter_id, [1, 16, 17])) :
-						if (!preg_match('/\b(?:(?:https?|ftp) :\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i', $data->feed)) :
+						if (!preg_match('/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i', $data->feed)) :
 							return ___tagembed__exitWithDanger('Validation Error', ['feed' => 'Enter Valid URL']);
 						endif;
 					endif;
 					switch ($__tagembed__feed_filter_id):
 						case 16:
-							$postUrl = parse_url($data->feed);
-							if (!strstr($postUrl['host'], 'linkedin')) :
+							$__tagembed__postHostUrl = wp_parse_url($data->feed, PHP_URL_HOST);
+							$__tagembed__postHostUrl = is_string($__tagembed__postHostUrl) ? strtolower($__tagembed__postHostUrl) : '';
+							if ($__tagembed__postHostUrl === 'lnkd.in' || substr($__tagembed__postHostUrl, -8) === '.lnkd.in') :
+								$__tagembed__expandedPostUrl = ___tagembed__expandLinkedinShortUrl($data->feed);
+								if (!empty($__tagembed__expandedPostUrl)) :
+									$data->feed     = $__tagembed__expandedPostUrl;
+									$__tagembed__postHostUrl = wp_parse_url($data->feed, PHP_URL_HOST);
+									$__tagembed__postHostUrl = is_string($__tagembed__postHostUrl) ? strtolower($__tagembed__postHostUrl) : '';
+								endif;
+							endif;
+							if (!strstr($__tagembed__postHostUrl, 'linkedin')) :
 								return ___tagembed__exitWithDanger('Validation Error', ['feed' => 'Enter Linkedin Post Url']);
 							endif;
-							$postUrl = $data->feed;
-							$postUrl = rtrim($postUrl, '/');
-							preg_match('/[^\/]+$/', $postUrl, $postId);
-							$postId = $postId[0];
-							$postId = (explode('?', $postId)[0]);
-							$value1 = 'LinkedIn';
-							if (stripos($postId, 'activity') !== false) :
-								$postId = (explode('activity', $postId)[1]);
-								$value2 = 'activity';
-							elseif (stripos($postId, 'ugcPost') !== false) :
-								$postId = (explode('ugcPost', $postId)[1]);
-								$value2 = 'ugcPost';
-							else :
+							$__tagembed__parsedPost = ___tagembed__parseLinkedinPostUrl($data->feed);
+							if (empty($__tagembed__parsedPost['value2']) || empty($__tagembed__parsedPost['value3'])) :
 								return ___tagembed__exitWithDanger('Validation Error', ['feed' => 'Enter Linkedin Post Url']);
 							endif;
-							preg_match_all('!\d+!', $postId, $postId);
-							if (isset($postId[0][0]) && empty($postId[0][0])) :
-								return ___tagembed__exitWithDanger('Validation Error', ['feed' => 'Enter Linkedin Post Url']);
-							endif;
-							$value3 = $postId[0][0];
-							if (empty($value1) || empty($value2) || empty($value3)) :
-								return ___tagembed__exitWithDanger('Validation Error', ['feed' => 'Enter Linkedin Post Url']);
-							endif;
-							$__tagembed__feed_input_data['value1'] = $value1;
-							$__tagembed__feed_input_data['value2'] = $value2;
-							$__tagembed__feed_input_data['value3'] = $value3;
+							$__tagembed__feed_input_data['feed']   = sanitize_text_field($data->feed);
+							$__tagembed__feed_input_data['value1'] = 'LinkedIn';
+							$__tagembed__feed_input_data['value2'] = $__tagembed__parsedPost['value2'];
+							$__tagembed__feed_input_data['value3'] = $__tagembed__parsedPost['value3'];
 							break;
 						case 1:
 						case 17:

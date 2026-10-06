@@ -63,6 +63,65 @@ endif;
 		display: block;
 		margin-right: 10px;
 	}
+
+	.__tagembed__password_wrap {
+		position: relative;
+	}
+
+	.__tagembed__password_wrap input {
+		padding-right: 38px !important;
+	}
+
+	.__tagembed__password_wrap input::-ms-reveal,
+	.__tagembed__password_wrap input::-ms-clear {
+		display: none;
+	}
+
+	.__tagembed__password_toggle {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		padding: 0;
+		margin: 0;
+		background: transparent;
+		border: 0;
+		color: #8c8f94;
+		cursor: pointer;
+	}
+
+	.__tagembed__password_toggle:hover,
+	.__tagembed__password_toggle:focus {
+		color: #2271b1;
+	}
+
+	.__tagembed__password_toggle:focus {
+		outline: none;
+		box-shadow: none;
+	}
+
+	.__tagembed__password_toggle:focus-visible {
+		outline: 1px solid #2271b1;
+	}
+
+	.__tagembed__password_toggle svg {
+		width: 18px;
+		height: 18px;
+		display: block;
+	}
+
+	.__tagembed__password_toggle .__tagembed__eye_off,
+	.__tagembed__password_toggle.__tagembed__visible .__tagembed__eye {
+		display: none;
+	}
+
+	.__tagembed__password_toggle.__tagembed__visible .__tagembed__eye_off {
+		display: block;
+	}
 </style>
 <div id="__tagembed__other_plugin_popup" class="__tagembed__other_plugin_popup"></div>
 <!--End-- Other Plugin Popup-->
@@ -90,7 +149,21 @@ endif;
 					<span id="__tagembed__login_email_id_error"></span>
 				</div>
 				<div class="__tagembed__form_row">
-					<input type="password" name="password" value="" placeholder="Password" required>
+					<div class="__tagembed__password_wrap">
+						<input type="password" name="password" value="" placeholder="Password" required>
+						<button type="button" class="__tagembed__password_toggle" aria-label="Show password" aria-pressed="false" title="Show password">
+							<svg class="__tagembed__eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+								<circle cx="12" cy="12" r="3" />
+							</svg>
+							<svg class="__tagembed__eye_off" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+								<path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+								<path d="M14.12 14.12a3 3 0 1 1-4.24-4.24" />
+								<line x1="1" y1="1" x2="23" y2="23" />
+							</svg>
+						</button>
+					</div>
 					<span id="__tagembed__login_password_error"></span>
 				</div>
 				<div class="__tagembed__submit_sec">
@@ -127,7 +200,9 @@ endif;
 					<span id="__tagembed__register_email_id_error"></span>
 				</div>
 				<div class="__tagembed__form_row">
-					<select id="__tagembed__callingCode" name="calling_code" style="padding: 0 8px;line-height: 2; min-height: 30px;width: 100%;border-radius: 0; border: 1px solid #999;background-color: #fff;color: #2c3338;"></select>
+					<select id="__tagembed__callingCode" name="calling_code" style="padding: 0 8px;line-height: 2; min-height: 30px;width: 100%;border-radius: 0; border: 1px solid #999;background-color: #fff;color: #2c3338;">
+						<option value="" selected>Select Country Code</option>
+					</select>
 					<span id="__tagembed__register_calling_code_error"></span>
 				</div>
 				<div class="__tagembed__form_row">
@@ -135,7 +210,21 @@ endif;
 					<span id="__tagembed__register_contact_no_error"></span>
 				</div>
 				<div class="__tagembed__form_row">
-					<input type="password" name="password" value="" placeholder="Password" required>
+					<div class="__tagembed__password_wrap">
+						<input type="password" name="password" value="" placeholder="Password" required>
+						<button type="button" class="__tagembed__password_toggle" aria-label="Show password" aria-pressed="false" title="Show password">
+							<svg class="__tagembed__eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+								<circle cx="12" cy="12" r="3" />
+							</svg>
+							<svg class="__tagembed__eye_off" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+								<path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+								<path d="M14.12 14.12a3 3 0 1 1-4.24-4.24" />
+								<line x1="1" y1="1" x2="23" y2="23" />
+							</svg>
+						</button>
+					</div>
 					<span id="__tagembed__register_password_error"></span>
 					<p style="font-size: 12px;color: #b5b5c3;font-weight: 400;max-width: 300px;margin-top: 10px;line-height: normal;">By clicking Create Account, you agree to our <a href="https://tagembed.com/terms-of-service/" target="_blank" style="cursor: pointer;">Terms of Service</a> and <a href="https://tagembed.com/privacy-policy/" target="_blank" style="cursor: pointer;">Privacy Policy</a></p>
 				</div>

@@ -5,7 +5,7 @@ Tags: social media feed, Instagram feed, LinkedIn, google reviews, social media 
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 5.6
-Stable tag: 8.0
+Stable tag: 8.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -257,6 +257,10 @@ Email: support@tagembed.com
 
 == Changelog ==
 
+= 8.1 =
+* Performance improvements.
+* Minor bug fixes.
+
 = 8.0 =
 * Plan upgrades, downgrades and cancellations now take effect at the end of your billing cycle, with a confirmation before you switch.
 * Added a Restart Subscription option for cancelled plans.
@@ -315,5 +319,5 @@ Email: support@tagembed.com
 
 == Upgrade Notice ==
 
-= 8.0 =
-Improved billing: plan upgrades, downgrades and cancellations now apply at the end of your billing cycle, with invoice PDF downloads in Billing History.
+= 8.1 =
+Performance improvements and minor bug fixes.
