@@ -5,7 +5,7 @@ Tags: social media feed, Instagram feed, LinkedIn, google reviews, social media 
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 5.6
-Stable tag: 8.1
+Stable tag: 8.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -257,6 +257,10 @@ Email: support@tagembed.com
 
 == Changelog ==
 
+= 8.2 =
+* Performance improvements.
+* Minor bug fixes.
+
 = 8.1 =
 * Performance improvements.
 * Minor bug fixes.
@@ -319,5 +323,5 @@ Email: support@tagembed.com
 
 == Upgrade Notice ==
 
-= 8.1 =
+= 8.2 =
 Performance improvements and minor bug fixes.

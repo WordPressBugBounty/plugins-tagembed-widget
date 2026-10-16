@@ -4,7 +4,7 @@
  * Plugin Name:       Tagembed: Social Media Feeds and Customer Reviews Widget
  * Plugin URI:        https://tagembed.com/
  * Description:       Display social media feeds and user-generated content in an interactive widget.
- * Version:           8.1
+ * Version:           8.2
  * Author:            Tagembed
  * Author URI:        https://tagembed.com/
  * License:           GPLv3
@@ -16,7 +16,7 @@ if (!defined('WPINC')) :
 endif;
 
 /* --Start-- Create Constant */
-!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '8.1');
+!defined('TAGEMBED_PLUGIN_VERSION')          && define('TAGEMBED_PLUGIN_VERSION', '8.2');
 !defined('TAGEMBED_PLUGIN_DIR_PATH')         && define('TAGEMBED_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 !defined('TAGEMBED_PLUGIN_URL')              && define('TAGEMBED_PLUGIN_URL', plugin_dir_url(__FILE__));
 !defined('TAGEMBED_PLUGIN_REDIRECT_URL')     && define('TAGEMBED_PLUGIN_REDIRECT_URL', get_admin_url(null, 'admin.php?page='));
@@ -678,6 +678,10 @@ function ___tagembed__dataAjaxHandler()
 				case 3:
 					$__tagembed__feed_input_data['auth'] = 1;
 					switch ($__tagembed__feed_filter_id):
+						case 1:/* Without Auth : Facebook Profile Url (Validated In Api) */
+							$__tagembed__feed_input_data['auth']   = 0;
+							$__tagembed__feed_input_data['authId'] = 0;
+							break;
 						case 65:
 							$__tagembed__feed_input_data['accountAlbumType'] = sanitize_key(isset($data->accountAlbumType) ? $data->accountAlbumType : '');
 							$__tagembed__feed_input_data['accountAlbumData'] = sanitize_text_field(isset($data->accountAlbumData) ? $data->accountAlbumData : '');
@@ -942,6 +946,12 @@ function ___tagembed__dataAjaxHandler()
 			$byApiCall = 0;
 			if (empty($__tagembed__feed_input_data['authId'])) :
 				switch ($__tagembed__feed_input_data['networkId']):
+					case 3:
+						if (1 == $__tagembed__feed_filter_id) :
+							$byApiCall = 1;
+							$__tagembed__feed_input_data['byApiCall'] = 1;
+						endif;
+						break;
 					case 4:
 						if (33 == $__tagembed__feed_filter_id) :
 							$byApiCall = 1;
